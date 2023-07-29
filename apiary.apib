@@ -1,0 +1,217 @@
+FORMAT: 1A
+HOST: https://api.yaqeen.org/
+
+# Yaqeen
+
+Yaqeen APIs allow clients to interact with user profiles, questions and article entities
+
+# Group Questions
+
+## Datastructures
+
+### Question (object)
++ id: "q_12345" (string, required)
++ content: "Hello World" (string)
++ author (User) - Author of the question.
++ attachments: [{"uri":"https://something"}] ([Attachment])
+
+### User (object)
++ id: "u_abcde" (string, required)
++ name: Boba Fett
++ email: fett@intergalactic.com
+
+### Attachment (object)
++ uri: "https://something" (string, required)
++ title: "description" (string)
+
+## Questions Collection [/questions]
+
+### List All Questions [GET /questions/?start="{start}"&count="{count}"&filters="{filter}"]
+
+You can list questions w/ filters
+
++ Response 200 (application/json)
+
+        {
+            "questions": [
+                {
+                    "id": "q_abcude13234",
+                    "title": "What does this MRI tell me?",
+                    "published_at": "2015-08-05T08:40:51.620Z",
+                    "content": "I've recently done an MRI on my brain to help isolate what's going on. Please fine the MRI Scan attached",
+                    "attachments": [
+                        {
+                            "uri": "https://something.com/image",
+                            "title": "scan"
+                        }
+                    ]
+                }
+            ],
+            "pagination": {
+                "next_page": "https://api.yaqeen.org/questions/?start=2&count=10&filters=...",
+                "next_token": 2
+            }
+        }
+        
++ Parameters
+    + start: 1 (string)
+    + count: 10 (int)
+    + filter: %28cat%2Cin%2C%5B%27some_cat%27%2C%27or_another%27%5D%29 (string)
+
+### Create a New Question [POST]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of attachments.
+
++ Request (application/json)
+
+        {
+            "idempotency_token": "<Hash>",
+            "title": "What does this MRI tell me?",
+            "published_at": "2015-08-05T08:40:51.620Z",
+            "content": "I've recently done an MRI on my brain to help isolate what's going on. Please fine the MRI Scan attached",
+            "attachments": [
+                {
+                    "uri": "https://something.com/image",
+                    "title": "scan"
+                }
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/q_abcude13234
+
+    + Body
+
+            {
+                "id": "q_abcude13234",
+                "title": "What does this MRI tell me?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "content": "I've recently done an MRI on my brain to help isolate what's going on. Please fine the MRI Scan attached",
+                "attachments": [
+                    {
+                        "uri": "https://something.com/image",
+                        "title": "scan"
+                    }
+                ]
+            }
+            
+### Get a question [GET /question/{id}]
+
+Retrieves details about a single question
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": "{id}",
+                "title": "What does this MRI tell me?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "content": "I've recently done an MRI on my brain to help isolate what's going on. Please fine the MRI Scan attached",
+                "attachments": [
+                    {
+                        "uri": "https://something.com/image",
+                        "title": "scan"
+                    }
+                ]
+            }
+            
+
++ Parameters
+    + id: q_abcude13234 (string, required)
+    
+## Comments Collection [/comments]
+
+### List All Comments [GET /question/{id}/comments/filters="{filter}"]
+
+You can list comments w/ filters
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": "q_abcude13234",
+                "title": "What does this MRI tell me?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "content": "I've recently done an MRI on my brain to help isolate what's going on. Please fine the MRI Scan attached",
+                "attachments": [
+                    {
+                        "uri": "https://something.com/image",
+                        "title": "scan"
+                    }
+                ]
+            }
+        ]
+        
++ Parameters
+    + filter: %28cat%2Cin%2C%5B%27some_cat%27%2C%27or_another%27%5D%29 (string)
+
+### Create a New Question [POST]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of attachments.
+
++ Request (application/json)
+
+        {
+            "idempotency_token": "<Hash>",
+            "title": "What does this MRI tell me?",
+            "published_at": "2015-08-05T08:40:51.620Z",
+            "content": "I've recently done an MRI on my brain to help isolate what's going on. Please fine the MRI Scan attached",
+            "attachments": [
+                {
+                    "uri": "https://something.com/image",
+                    "title": "scan"
+                }
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/q_abcude13234
+
+    + Body
+
+            {
+                "id": "q_abcude13234",
+                "title": "What does this MRI tell me?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "content": "I've recently done an MRI on my brain to help isolate what's going on. Please fine the MRI Scan attached",
+                "attachments": [
+                    {
+                        "uri": "https://something.com/image",
+                        "title": "scan"
+                    }
+                ]
+            }
+            
+### Get a question [GET /questions/{id}]
+
+Retrieves details about a single question
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": "{id}",
+                "title": "What does this MRI tell me?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "content": "I've recently done an MRI on my brain to help isolate what's going on. Please fine the MRI Scan attached",
+                "attachments": [
+                    {
+                        "uri": "https://something.com/image",
+                        "title": "scan"
+                    }
+                ]
+            }
+            
+
++ Parameters
+    + id: q_abcude13234 (string, required)
