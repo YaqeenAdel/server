@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaqeenApi", "YaqeenApi\YaqeenApi.csproj", "{29993187-8934-4BE4-8AD5-998EE3065206}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YaqeenApi", "YaqeenApi\YaqeenApi.csproj", "{29993187-8934-4BE4-8AD5-998EE3065206}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YaqeenDAL", "YaqeenDAL\YaqeenDAL.csproj", "{9435B620-462B-4D46-B6E9-6E33FDF90E6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaqeenInfrastructure", "YaqeenInfrastructure\YaqeenInfrastructure.csproj", "{1AA0204F-2A75-4534-83A3-691C24F036B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YaqeenServices", "YaqeenServices\YaqeenServices.csproj", "{CC7CA698-AECE-4922-B781-3F39881D05B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{29993187-8934-4BE4-8AD5-998EE3065206}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29993187-8934-4BE4-8AD5-998EE3065206}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29993187-8934-4BE4-8AD5-998EE3065206}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9435B620-462B-4D46-B6E9-6E33FDF90E6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9435B620-462B-4D46-B6E9-6E33FDF90E6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9435B620-462B-4D46-B6E9-6E33FDF90E6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9435B620-462B-4D46-B6E9-6E33FDF90E6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AA0204F-2A75-4534-83A3-691C24F036B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AA0204F-2A75-4534-83A3-691C24F036B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AA0204F-2A75-4534-83A3-691C24F036B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AA0204F-2A75-4534-83A3-691C24F036B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC7CA698-AECE-4922-B781-3F39881D05B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC7CA698-AECE-4922-B781-3F39881D05B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC7CA698-AECE-4922-B781-3F39881D05B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC7CA698-AECE-4922-B781-3F39881D05B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
