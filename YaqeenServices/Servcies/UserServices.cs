@@ -24,7 +24,7 @@ namespace YaqeenServices.Servcies
             _validator = validator;
         }
 
-        public async Task<SingleResult<bool>> CreateUser(UserCreateDto userCreateDto)
+        public async Task<SingleResult<bool>> CreateUser(UserCreateDto userCreateDto, string idpUserIdentifier)
         {
             try
             {
@@ -35,6 +35,7 @@ namespace YaqeenServices.Servcies
                 }
 
                 var user = _mapper.Map<User>(userCreateDto);
+                user.IdpUserIdentifier = idpUserIdentifier;
                 return (await _userRepository.CreateAsync(user))?
                     new SingleResult<bool>(true) : new SingleResult<bool>(ErrorCodes.UserErrorCodes.FailedToStoreUserToDb);
             }

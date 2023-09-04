@@ -10,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             // Add Entity Framework DbContext with the connection string
             serviceCollection.AddDbContext<YaqeenDbContext>(options =>
-            options.UseNpgsql(connectionString, b=>b.MigrationsAssembly("YaqeenApi")));
+            options.UseNpgsql(connectionString, b=>b.MigrationsAssembly("YaqeenDAL")));
 
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
             return serviceCollection;

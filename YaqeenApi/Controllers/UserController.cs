@@ -6,7 +6,7 @@ namespace YaqeenApi.Controllers;
 
 [Route("api/users")]
 [ApiController]
-public class UserController : ControllerBase
+public class UserController : BaseYaqeenController
 {
     private readonly ILogger<UserController> _logger;
     private readonly IUserServices _userServices;
@@ -20,13 +20,5 @@ public class UserController : ControllerBase
     public IActionResult Index() => Ok("Some data");
 
     [HttpPost]
-    public async Task<IActionResult> Create(UserCreateDto userCreateDto)
-    {
-        var result = await _userServices.CreateUser(userCreateDto);
-        return (result.Success) ? 
-            Ok(result) : 
-            result.IsValidationError ? 
-                BadRequest(result) :
-                StatusCode(StatusCodes.Status500InternalServerError, result);
-    }
+    public async Task<IActionResult> Create(UserCreateDto userCreateDto) => GetResponse(await _userServices.CreateUser(userCreateDto, "To be implemented"));
 }
