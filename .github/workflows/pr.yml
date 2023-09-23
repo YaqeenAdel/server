@@ -25,4 +25,5 @@ jobs:
           dotnet ef
           dotnet add package Microsoft.EntityFrameworkCore.Design
           dotnet add package Microsoft.EntityFrameworkCore.Tools
-          Get-Help Add-Migration
+          dotnet ef migrations add Migration
+          git status
