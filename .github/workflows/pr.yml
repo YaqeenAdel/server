@@ -1,0 +1,22 @@
+name: Run PR Checks
+on: pull_request
+
+jobs:
+  publish-database:
+    name: Pester test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Setup PowerShell module cache
+        id: cacher
+        uses: actions/cache@v3
+        with:
+          path: "~/.local/share/powershell/Modules"
+          key: ${{ runner.os }}-SqlServer-PSScriptAnalyzer
+      - name: Install required PowerShell modules
+        if: steps.cacher.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Package Microsoft.EntityFrameworkCore.Tools -Scope CurrentUser -Force -Verbose
