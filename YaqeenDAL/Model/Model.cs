@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Core;
+using System.ComponentModel.DataAnnotations;
 
 namespace YaqeenDAL.Model
 {
