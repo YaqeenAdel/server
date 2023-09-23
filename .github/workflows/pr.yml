@@ -26,4 +26,4 @@ jobs:
           dotnet add package Microsoft.EntityFrameworkCore.Design
           dotnet add package Microsoft.EntityFrameworkCore.Tools
           Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Package Microsoft.EntityFrameworkCore.Tools -Scope CurrentUser -Force -Verbose
+          Install-Package Microsoft.EntityFrameworkCore.Design -Scope CurrentUser -Force -Verbose
