@@ -3,11 +3,14 @@ on: pull_request
 
 jobs:
   publish-database:
-    name: Pester test
+    name: Publish Database
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '3.1.x'
       - name: Setup PowerShell module cache
         id: cacher
         uses: actions/cache@v3
@@ -18,5 +21,8 @@ jobs:
         if: steps.cacher.outputs.cache-hit != 'true'
         shell: pwsh
         run: |
+          dotnet tool install --global dotnet-ef
+          dotnet ef
+          dotnet add package Microsoft.EntityFrameworkCore.Design
           Set-PSRepository PSGallery -InstallationPolicy Trusted
           Install-Package Microsoft.EntityFrameworkCore.Tools -Scope CurrentUser -Force -Verbose
