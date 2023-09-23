@@ -25,5 +25,9 @@ jobs:
           dotnet ef
           dotnet add package Microsoft.EntityFrameworkCore.Design
           dotnet add package Microsoft.EntityFrameworkCore.Tools
+      - name: Generation Migrations
+        shell: pwsh
+        run: |
+          cd YaqeenDAL
           dotnet ef migrations add Migration
           git status
