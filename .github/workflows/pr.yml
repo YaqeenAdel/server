@@ -21,6 +21,7 @@ jobs:
         # if: steps.cacher.outputs.cache-hit != 'true'
         shell: pwsh
         run: |
+          cd YaqeenDAL
           dotnet tool install --global dotnet-ef
           dotnet ef
           dotnet add package Microsoft.EntityFrameworkCore.Design
