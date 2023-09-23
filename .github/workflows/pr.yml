@@ -26,10 +26,10 @@ jobs:
           cd YaqeenDAL
           dotnet tool install --global dotnet-ef
           dotnet ef
-          dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection -Version 12.0.1
-          dotnet add package Microsoft.EntityFrameworkCore -Version 7.0.9
-          dotnet add package Microsoft.EntityFrameworkCore.Tools -Version 7.0.9
-          dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL -Version 7.0.4
+          dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection --Version 12.0.1
+          dotnet add package Microsoft.EntityFrameworkCore --Version 7.0.9
+          dotnet add package Microsoft.EntityFrameworkCore.Tools --Version 7.0.9
+          dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --Version 7.0.4
       - name: Generate Migrations
         shell: pwsh
         run: |
