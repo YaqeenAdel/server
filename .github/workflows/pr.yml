@@ -24,5 +24,6 @@ jobs:
           dotnet tool install --global dotnet-ef
           dotnet ef
           dotnet add package Microsoft.EntityFrameworkCore.Design
+          dotnet add package Microsoft.EntityFrameworkCore.Tools
           Set-PSRepository PSGallery -InstallationPolicy Trusted
           Install-Package Microsoft.EntityFrameworkCore.Tools -Scope CurrentUser -Force -Verbose
