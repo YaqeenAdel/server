@@ -2,10 +2,9 @@ name: Run PR Checks
 on: pull_request
 
 jobs:
-  publish-database:
-    name: Publish Database
+  Generate-Migrations:
+    name: Generate Migrations
     runs-on: ubuntu-latest
-    environment: "Neon.tech Staging"
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -51,8 +50,8 @@ jobs:
         with:
           fail-if-not-clean: false # optional
           push-if-not-clean: true # optional
-          push-token: ${{ secrets.REPO_ACCESS_TOKEN }} # optional
-          request-changes-token: ${{ secrets.REPO_ACCESS_TOKEN }} # optional
+          push-token: ${{ secrets.GITHUB_TOKEN }} # optional
+          request-changes-token: ${{ secrets.GITHUB_TOKEN }} # optional
           commit-message: "Migration Changes" # optional
           targets: "." #optional
       # - name: Commit report
@@ -62,3 +61,29 @@ jobs:
       #     git add -A
       #     git commit -am "Automated report"
       #     git push
+  Run-Migrations:
+    name: Run Migrations
+    runs-on: ubuntu-latest
+    environment: "Neon.tech Staging"
+    needs: [Generate-Migrations]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.x.x'
+          dotnet-quality: 'preview'
+      - name: Install required PowerShell modules
+        # if: steps.cacher.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          cd YaqeenDAL
+          dotnet tool install --global dotnet-ef
+          dotnet add package Microsoft.EntityFrameworkCore --version 7.0.11
+          dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
+          dotnet add package Microsoft.EntityFrameworkCore.Tools --version 7.0.11
+          dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 7.0.11
+      - name: Run Database Migrations
+        shell: pwsh
+        run: |
+          dotnet ef database update
