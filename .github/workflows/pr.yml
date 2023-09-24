@@ -50,4 +50,4 @@ jobs:
           git config --global user.email 'haytham@afutuh.com'
           git add -A
           git commit -am "Automated report"
-          git push origin origin/${{ steps.extract_branch.outputs.branch }}
+          git push origin remote/${{ steps.extract_branch.outputs.branch }}
