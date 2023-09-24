@@ -88,6 +88,7 @@ jobs:
         run: |
           cd YaqeenDAL
           dotnet ef migrations add --no-build ${{ steps.extract_branch.outputs.branch }} -v
+          git add -A
           git status
       - name: Check Generated Migrations
         id: check_generated
