@@ -90,29 +90,36 @@ jobs:
           # Get the output of `git status --porcelain`
           $gitStatus = git status --porcelain
 
-          # Check if the output contains only rename entries (R)
+          # Check if the output contains any rename entries (R)
           if ($gitStatus -match '^(R .+ -> .+)$') {
-              # Extract the renamed files
-              $renamedFiles = $matches[0] -split "`n" | Where-Object { $_ -match '^(R .+ -> .+)$' }
+              # Extract and process the rename entries
+              $renamedFiles = $matches | ForEach-Object { $_ -split "`n" | Where-Object { $_ -match '^(R .+ -> .+)$' } }
 
-              # Revert the renamed files to their original names
-              foreach ($rename in $renamedFiles) {
-                  $originalName, $newName = $rename -split ' -> '
-                  Rename-Item -Path $newName.Trim() -NewName $originalName.Trim() -Force
-              }
+              if ($renamedFiles.Count -gt 0) {
+                  # Revert the renamed files to their original names
+                  foreach ($rename in $renamedFiles) {
+                      $originalName, $newName = $rename -split ' -> '
+                      $originalName = $originalName.Trim()
+                      $newName = $newName.Trim()
+                      Rename-Item -Path $newName -NewName $originalName -Force
+                  }
 
-              # Check if Git still detects changes
-              $gitStatusAfterRevert = git status --porcelain
+                  # Check if Git still detects changes
+                  $gitStatusAfterRevert = git status --porcelain
 
-              if ($gitStatusAfterRevert -eq '') {
-                  Write-Host "Files were successfully reverted, and Git no longer detects changes."
+                  if ($gitStatusAfterRevert -eq '') {
+                      Write-Host "Files were successfully reverted, and Git no longer detects changes."
+                  } else {
+                      Write-Host "Files were reverted, but Git still detects changes:"
+                      Write-Host $gitStatusAfterRevert
+                  }
               } else {
-                  Write-Host "Files were reverted, but Git still detects changes:"
-                  Write-Host $gitStatusAfterRevert
+                  Write-Host "No valid rename entries found in Git status output."
               }
           } else {
               Write-Host "No rename entries found in Git status output."
           }
+
 
 
       - name: Check Generated Migrations
