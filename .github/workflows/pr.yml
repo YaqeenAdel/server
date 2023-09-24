@@ -37,13 +37,47 @@ jobs:
         shell: bash
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
         id: extract_branch
-      - name: Generate Migrations
+      - name: Build
         shell: pwsh
         run: |
           cd YaqeenDAL
           dotnet build
-          echo "built!"
-          echo "Branch: ${{ steps.extract_branch.outputs.branch }}"
+          echo "Success!"
+      - name: Remove Conflicting Migration
+        shell: pwsh
+        run: |
+          # Run dotnet ef migrations list and capture the output
+          $migrationsList = dotnet ef migrations list
+          
+          # Define the keyword to search for
+          $keyword = "_${{ secrets.GITHUB_TOKEN }}"
+          
+          # Check if the output contains the keyword
+          if ($migrationsList -match $keyword) {
+              # Extract the name of the migration containing the keyword
+              $migrationName = ($migrationsList | Select-String $keyword).Matches.Groups[1].Value
+          
+              # Define the path to the Migrations directory
+              $migrationsDirectory = "Migrations"
+          
+              # Generate the full path to the file to be removed
+              $fileToRemove = Join-Path -Path $migrationsDirectory -ChildPath "$migrationName.cs"
+          
+              # Check if the file exists before attempting to remove it
+              if (Test-Path $fileToRemove) {
+                  # Remove the file
+                  Remove-Item $fileToRemove -Force
+                  Write-Host "File $fileToRemove removed."
+              } else {
+                  Write-Host "File $fileToRemove does not exist."
+              }
+          } else {
+              Write-Host "Keyword '$keyword' not found in migrations list."
+          }
+      - name: Generate Migrations
+        shell: pwsh
+        run: |
+          cd YaqeenDAL
           dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
           git status
       - name: Check Generated Migrations
