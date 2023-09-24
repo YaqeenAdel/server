@@ -57,7 +57,7 @@ jobs:
           # Check if the output contains the keyword
           if ($migrationsList -match $keyword) {
               # Extract the name of the migration containing the keyword
-              $migrationName = ($migrationsList | Select-String $keyword).Matches.Groups[1].Value
+              $migrationName = $migrationsList -match $keyword
           
               # Define the path to the Migrations directory
               $migrationsDirectory = "Migrations"
