@@ -47,12 +47,18 @@ jobs:
           echo "Branch: ${{ steps.extract_branch.outputs.branch }}"
           dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
           git status
-      - name: Commit report
-        run: |
-          git config --global user.name 'Haytham Abuelfutuh'
-          git config --global user.email 'haytham@afutuh.com'
-          # git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          # git push --set-upstream origin ${{ steps.extract_branch.outputs.branch }}
-          git add -A
-          git commit -am "Automated report"
-          git push
+      - uses: CatChen/check-git-status-action@v1
+        with:
+          fail-if-not-clean: false # optional
+          push-if-not-clean: true # optional
+          push-token: ${{ secrets.REPO_ACCESS_TOKEN }} # optional
+          request-changes-token: ${{ secrets.REPO_ACCESS_TOKEN }} # optional
+          commit-message: "Migration Changes" # optional
+          targets: "." #optional
+      # - name: Commit report
+      #   run: |
+      #     git config --global user.name 'Haytham Abuelfutuh'
+      #     git config --global user.email 'haytham@afutuh.com'
+      #     git add -A
+      #     git commit -am "Automated report"
+      #     git push
