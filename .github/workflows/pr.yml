@@ -93,12 +93,12 @@ jobs:
           # Check if the output contains only rename entries (R)
           if ($gitStatus -match '^(R .+ -> .+)$') {
               # Extract the renamed files
-              $renamedFiles = $matches[1] -split ' -> '
+              $renamedFiles = $matches[0] -split "`n" | Where-Object { $_ -match '^(R .+ -> .+)$' }
 
               # Revert the renamed files to their original names
               foreach ($rename in $renamedFiles) {
                   $originalName, $newName = $rename -split ' -> '
-                  Rename-Item -Path $newName -NewName $originalName -Force
+                  Rename-Item -Path $newName.Trim() -NewName $originalName.Trim() -Force
               }
 
               # Check if Git still detects changes
@@ -113,6 +113,7 @@ jobs:
           } else {
               Write-Host "No rename entries found in Git status output."
           }
+
 
       - name: Check Generated Migrations
         id: check_generated
