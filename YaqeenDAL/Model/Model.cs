@@ -1,21 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.Core;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace YaqeenDAL.Model
 {
+    [Index(nameof(Email), IsUnique = true)]
+    [Index(nameof(MobileNumber), IsUnique = true)]
     public class User : Entity
     {
         [Key]
         public int UserId { get; set; } // This attribute will contains required informations came from Auth0  
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        
-        [Index(IsUnique = true)]
+
         public string? MobileNumber { get; set; }
 
         [Required]
-        [Index(IsUnique = true)]
         public string Email { get; set; }
         public bool AgreedTerms { get; set; }
         public string? Gender { get; set; }
@@ -23,12 +23,12 @@ namespace YaqeenDAL.Model
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
 
-        // Navigation Properties
-        [ForeignKey("UserId")]
-        public virtual Patient Patient { get; set; }
-        [ForeignKey("UserId")]
-        public virtual Doctor Doctor { get; set; }
-        public virtual ICollection<AreaofInterest> AreaofInterests { get; set; }
+        // // Navigation Properties
+        // [ForeignKey("UserId")]
+        // public virtual Patient Patient { get; set; }
+        // [ForeignKey("UserId")]
+        // public virtual Doctor Doctor { get; set; }
+        public virtual ICollection<Interest> Interests { get; set; }
     }
 
     public class Patient : Entity
@@ -42,16 +42,16 @@ namespace YaqeenDAL.Model
         [ForeignKey("CancerStage")]
         public int CancerStageId { get; set; }
 
-        public ICollection<PatientAreaofInterest> AreaofInterests { get; set; }
+        public ICollection<Interest> Interests { get; set; }
         public ICollection<Question> Questions { get; set; }
         public ICollection<Bookmark> Bookmarks { get; set; }
 
         // Navigation Property
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
-        [ForeignKey("CancerId")]
+        [ForeignKey("CancerTypeId")]
         public virtual CancerType? CancerType { get; set; }
-        [ForeignKey("StageId")]
+        [ForeignKey("CancerStageId")]
         public virtual CancerStage? CancerStage { get; set; }
     }
 
@@ -88,12 +88,12 @@ namespace YaqeenDAL.Model
         public string StageName { get; set; }
     }
 
-    public class AreaofInterest : AuditableEntity
+    public class Interest : AuditableEntity
     {
         [Key]
-        public int AreaId { get; set; }
-        public string AreaName { get; set; }
-        public string Logo { get; set; }
+        public int InterestId { get; set; }
+        public string Name { get; set; }
+        public string LogoURL { get; set; }
 
         [ForeignKey("UserId")]
         public virtual ICollection<User> Users { get; set; }

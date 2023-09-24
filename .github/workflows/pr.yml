@@ -5,12 +5,14 @@ jobs:
   publish-database:
     name: Publish Database
     runs-on: ubuntu-latest
+    environment: "Neon.tech Staging"
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.x.x'
+          dotnet-version: '8.x.x'
+          dotnet-quality: 'preview'
           # cache: true
       # - run: dotnet restore --locked-mode
       # - name: Setup PowerShell module cache
@@ -26,10 +28,10 @@ jobs:
           cd YaqeenDAL
           dotnet tool install --global dotnet-ef
           dotnet ef
-          dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection --version 12.0.1
-          dotnet add package Microsoft.EntityFrameworkCore --version 7.0.9
-          dotnet add package Microsoft.EntityFrameworkCore.Tools --version 7.0.9
-          dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 7.0.4
+          dotnet add package Microsoft.EntityFrameworkCore --version 7.0.11
+          dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
+          dotnet add package Microsoft.EntityFrameworkCore.Tools --version 7.0.11
+          dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 7.0.11
       - name: Generate Migrations
         shell: pwsh
         run: |
