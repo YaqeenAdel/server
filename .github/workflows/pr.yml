@@ -48,6 +48,7 @@ jobs:
         run: |
           git config --global user.name 'Haytham Abuelfutuh'
           git config --global user.email 'haytham@afutuh.com'
+          git push --set-upstream origin ${{ steps.extract_branch.outputs.branch }}
           git add -A
           git commit -am "Automated report"
-          git push origin remote/${{ steps.extract_branch.outputs.branch }}
+          git push
