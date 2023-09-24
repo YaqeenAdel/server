@@ -47,6 +47,7 @@ jobs:
       - name: Remove Conflicting Migration
         shell: pwsh
         run: |
+          cd YaqeenDAL
           # Run dotnet ef migrations list and capture the output
           $migrationsList = dotnet ef migrations list
           
@@ -59,7 +60,7 @@ jobs:
               $migrationName = ($migrationsList | Select-String $keyword).Matches.Groups[1].Value
           
               # Define the path to the Migrations directory
-              $migrationsDirectory = "YaqeenDAL/Migrations"
+              $migrationsDirectory = "Migrations"
           
               # Generate the full path to the file to be removed
               $fileToRemove = Join-Path -Path $migrationsDirectory -ChildPath "$migrationName.cs"
