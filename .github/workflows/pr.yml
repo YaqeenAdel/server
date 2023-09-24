@@ -6,6 +6,8 @@ jobs:
     name: Publish Database
     runs-on: ubuntu-latest
     environment: "Neon.tech Staging"
+    permissions:
+      contents: write
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
