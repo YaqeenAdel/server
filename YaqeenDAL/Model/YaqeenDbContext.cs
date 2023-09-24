@@ -1,7 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace YaqeenDAL.Model
 {
+    public class YaqeenDbContextFactory : IDesignTimeDbContextFactory<YaqeenDbContext>
+    {
+        public YaqeenDbContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<YaqeenDbContext>();
+            string connectionString = Environment.GetEnvironmentVariable("NEON_CONNECTION_STRING");
+            optionsBuilder.UseNpgsql(connectionString);
+            return new YaqeenDbContext(optionsBuilder.Options);
+        }
+    }
+
     public class YaqeenDbContext : DbContext
     {
         public YaqeenDbContext(DbContextOptions<YaqeenDbContext> options) : base(options)
@@ -14,9 +27,7 @@ namespace YaqeenDAL.Model
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<CancerType> CancerTypes { get; set; }
         public DbSet<CancerStage> CancerStages { get; set; }
-        public DbSet<AreaofInterest> AreaofInterests { get; set; }
-        public DbSet<PatientAreaofInterest> PatientAreaofInterests { get; set; }
-        public DbSet<DoctorAreaofInterest> DoctorAreaofInterests { get; set; }
+        public DbSet<Interest> Interests { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Article> Articles { get; set; }
