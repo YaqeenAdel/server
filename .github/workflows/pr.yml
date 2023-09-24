@@ -6,11 +6,12 @@ jobs:
     name: Publish Database
     runs-on: ubuntu-latest
     environment: "Neon.tech Staging"
-    # permissions:
-    #   contents: write
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          ref: ${{ github.head_ref }}
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.x.x'
@@ -50,8 +51,8 @@ jobs:
         run: |
           git config --global user.name 'Haytham Abuelfutuh'
           git config --global user.email 'haytham@afutuh.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git push --set-upstream origin ${{ steps.extract_branch.outputs.branch }}
+          # git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          # git push --set-upstream origin ${{ steps.extract_branch.outputs.branch }}
           git add -A
           git commit -am "Automated report"
-          git push -u
+          git push
