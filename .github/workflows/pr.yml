@@ -93,35 +93,25 @@ jobs:
           # Check if the output contains any rename entries (R)
           if ($gitStatus -match '^(R .+ -> .+)$') {
               # Extract and process the rename entries
-              $renamedFiles = $matches | ForEach-Object { $_ -split "`n" | Where-Object { $_ -match '^(R .+ -> .+)$' } }
+              $renamedFiles = $gitStatus.Split(" -> ").Split("R  ")
+              for ($i = 1; $i -lt $array.Length; $i+=3) {
+                $originalName = $renamedFiles[$i]
+                $newName = $renamedFiles[$i + 1]
+                Rename-Item -Path $newName -NewName $originalName -Force
+              }
 
-              if ($renamedFiles.Count -gt 0) {
-                  # Revert the renamed files to their original names
-                  foreach ($rename in $renamedFiles) {
-                      $originalName, $newName = $rename -split ' -> '
-                      $originalName = $originalName.Trim()
-                      $newName = $newName.Trim()
-                      Rename-Item -Path $newName -NewName $originalName -Force
-                  }
+              # Check if Git still detects changes
+              $gitStatusAfterRevert = git status --porcelain
 
-                  # Check if Git still detects changes
-                  $gitStatusAfterRevert = git status --porcelain
-
-                  if ($gitStatusAfterRevert -eq '') {
-                      Write-Host "Files were successfully reverted, and Git no longer detects changes."
-                  } else {
-                      Write-Host "Files were reverted, but Git still detects changes:"
-                      Write-Host $gitStatusAfterRevert
-                  }
+              if ($gitStatusAfterRevert -eq '') {
+                  Write-Host "Files were successfully reverted, and Git no longer detects changes."
               } else {
-                  Write-Host "No valid rename entries found in Git status output."
+                  Write-Host "Files were reverted, but Git still detects changes:"
+                  Write-Host $gitStatusAfterRevert
               }
           } else {
               Write-Host "No rename entries found in Git status output."
           }
-
-
-
       - name: Check Generated Migrations
         id: check_generated
         run: echo "changed=git status --porcelain" >> "$GITHUB_OUTPUT"
