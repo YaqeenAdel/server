@@ -44,7 +44,7 @@ jobs:
           dotnet build
           dotnet ef migrations list
           echo "Success!"
-      - name: Remove Conflicting Migration
+      - name: Generate Migrations
         shell: pwsh
         run: |
           cd YaqeenDAL
@@ -82,11 +82,7 @@ jobs:
               Write-Host "Keyword '$keyword' not found in migrations list."
           }
 
-          exit 0
-      - name: Generate Migrations
-        shell: pwsh
-        run: |
-          cd YaqeenDAL
+          git status
           dotnet ef migrations add --no-build ${{ steps.extract_branch.outputs.branch }} -v
           git add -A
           git status
