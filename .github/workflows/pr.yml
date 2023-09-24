@@ -50,7 +50,7 @@ jobs:
           $migrationsList = dotnet ef migrations list
           
           # Define the keyword to search for
-          $keyword = "_${{ secrets.GITHUB_TOKEN }}"
+          $keyword = "_${{ steps.extract_branch.outputs.branch }}"
           
           # Check if the output contains the keyword
           if ($migrationsList -match $keyword) {
@@ -74,11 +74,13 @@ jobs:
           } else {
               Write-Host "Keyword '$keyword' not found in migrations list."
           }
+
+          exit 0
       - name: Generate Migrations
         shell: pwsh
         run: |
           cd YaqeenDAL
-          dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
+          dotnet ef migrations add --no-build ${{ steps.extract_branch.outputs.branch }} -v
           git status
       - name: Check Generated Migrations
         id: check_generated
