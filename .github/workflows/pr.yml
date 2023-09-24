@@ -59,7 +59,7 @@ jobs:
               $migrationName = ($migrationsList | Select-String $keyword).Matches.Groups[1].Value
           
               # Define the path to the Migrations directory
-              $migrationsDirectory = "Migrations"
+              $migrationsDirectory = "YaqeenDAL/Migrations"
           
               # Generate the full path to the file to be removed
               $fileToRemove = Join-Path -Path $migrationsDirectory -ChildPath "$migrationName.cs"
