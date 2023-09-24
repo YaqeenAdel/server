@@ -46,14 +46,20 @@ jobs:
           echo "Branch: ${{ steps.extract_branch.outputs.branch }}"
           dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
           git status
+      - name: Check Generated Migrations
+        id: check_generated
+        shell: shell
+        run: echo "changed=git status --porcelain" >> "$GITHUB_OUTPUT"
       - uses: CatChen/check-git-status-action@v1
         with:
           fail-if-not-clean: false # optional
           push-if-not-clean: true # optional
-          push-token: ${{ secrets.GITHUB_TOKEN }} # optional
-          request-changes-token: ${{ secrets.GITHUB_TOKEN }} # optional
+          # push-token: ${{ secrets.GITHUB_TOKEN }} # optional
+          # request-changes-token: ${{ secrets.GITHUB_TOKEN }} # optional
           commit-message: "Migration Changes" # optional
           targets: "." #optional
+    outputs:
+      changed: ${{ steps.check_generated.outputs.changed }}
       # - name: Commit report
       #   run: |
       #     git config --global user.name 'Haytham Abuelfutuh'
@@ -66,6 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: "Neon.tech Staging"
     needs: [Generate-Migrations]
+    if: needs.Generate-Migrations.outputs.changed == 2
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
