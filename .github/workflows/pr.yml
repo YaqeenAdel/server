@@ -40,5 +40,6 @@ jobs:
           cd YaqeenDAL
           dotnet build
           echo "built!"
+          echo "Branch: ${GIT_BRANCH_NAME}"
           dotnet ef migrations add ${GIT_BRANCH_NAME} -v
           git status
