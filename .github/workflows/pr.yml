@@ -86,6 +86,34 @@ jobs:
           dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
           git add -A
           git status
+
+          # Get the output of `git status --porcelain`
+          $gitStatus = git status --porcelain
+
+          # Check if the output contains only rename entries (R)
+          if ($gitStatus -match '^(R .+ -> .+)$') {
+              # Extract the renamed files
+              $renamedFiles = $matches[1] -split ' -> '
+
+              # Revert the renamed files to their original names
+              foreach ($rename in $renamedFiles) {
+                  $originalName, $newName = $rename -split ' -> '
+                  Rename-Item -Path $newName -NewName $originalName -Force
+              }
+
+              # Check if Git still detects changes
+              $gitStatusAfterRevert = git status --porcelain
+
+              if ($gitStatusAfterRevert -eq '') {
+                  Write-Host "Files were successfully reverted, and Git no longer detects changes."
+              } else {
+                  Write-Host "Files were reverted, but Git still detects changes:"
+                  Write-Host $gitStatusAfterRevert
+              }
+          } else {
+              Write-Host "No rename entries found in Git status output."
+          }
+
       - name: Check Generated Migrations
         id: check_generated
         run: echo "changed=git status --porcelain" >> "$GITHUB_OUTPUT"
