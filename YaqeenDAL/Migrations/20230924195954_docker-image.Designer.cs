@@ -12,7 +12,7 @@ using YaqeenDAL.Model;
 namespace YaqeenApi.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20230924195830_docker-image")]
+    [Migration("20230924195954_docker-image")]
     partial class dockerimage
     {
         /// <inheritdoc />
