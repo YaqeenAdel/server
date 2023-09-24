@@ -84,7 +84,6 @@ jobs:
           git status
       - name: Check Generated Migrations
         id: check_generated
-        shell: shell
         run: echo "changed=git status --porcelain" >> "$GITHUB_OUTPUT"
       - uses: CatChen/check-git-status-action@v1
         with:
