@@ -70,6 +70,11 @@ jobs:
                   # Remove the file
                   Remove-Item $fileToRemove -Force
                   Write-Host "File $fileToRemove removed."
+
+                  $fileToRemove = Join-Path -Path $migrationsDirectory -ChildPath "$migrationName.Designer.cs"
+                  # Remove the file
+                  Remove-Item $fileToRemove -Force
+                  Write-Host "File $fileToRemove removed."
               } else {
                   Write-Host "File $fileToRemove does not exist."
               }
