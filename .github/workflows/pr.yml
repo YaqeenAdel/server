@@ -83,7 +83,7 @@ jobs:
           }
 
           git status
-          dotnet ef migrations add --no-build ${{ steps.extract_branch.outputs.branch }} -v
+          dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
           git add -A
           git status
       - name: Check Generated Migrations
