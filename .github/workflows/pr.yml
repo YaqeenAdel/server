@@ -44,3 +44,10 @@ jobs:
           echo "Branch: ${{ steps.extract_branch.outputs.branch }}"
           dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
           git status
+          - name: Commit report
+          run: |
+            git config --global user.name 'Haytham Abuelfutuh'
+            git config --global user.email 'haytham@afutuh.com'
+            git add -A
+            git commit -am "Automated report"
+            git push
