@@ -31,15 +31,16 @@ jobs:
           dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
           dotnet add package Microsoft.EntityFrameworkCore.Tools --version 7.0.11
           dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 7.0.11
-      - name: Git branch name
-        id: git-branch-name
-        uses: EthanSK/git-branch-name-action@v1
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
       - name: Generate Migrations
         shell: pwsh
         run: |
           cd YaqeenDAL
           dotnet build
           echo "built!"
-          echo "Branch: ${GIT_BRANCH_NAME}"
-          dotnet ef migrations add ${GIT_BRANCH_NAME} -v
+          echo "Branch: ${{ steps.extract_branch.outputs.branch }}"
+          dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
           git status
