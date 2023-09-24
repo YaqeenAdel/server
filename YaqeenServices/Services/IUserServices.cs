@@ -1,7 +1,6 @@
-﻿using Amazon.Runtime.Internal.Settings;
-using YaqeenServices.DTOs;
+﻿using YaqeenServices.DTOs;
 
-namespace YaqeenServices.Servcies
+namespace YaqeenServices.Services
 {
     public interface IUserServices
     {

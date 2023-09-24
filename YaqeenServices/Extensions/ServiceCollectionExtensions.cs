@@ -2,7 +2,7 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using YaqeenServices.DTOs;
-using YaqeenServices.Servcies;
+using YaqeenServices.Services;
 using YaqeenServices.Validations;
 
 namespace Microsoft.Extensions.DependencyInjection

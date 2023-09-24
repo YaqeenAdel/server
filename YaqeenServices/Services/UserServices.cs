@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 using YaqeenDAL.Model;
 using YaqeenDAL.Repositories;
 using YaqeenInfrastructure;
 using YaqeenServices.DTOs;
 
-namespace YaqeenServices.Servcies
+namespace YaqeenServices.Services
 {
     internal class UserServices : IUserServices
     {

@@ -28,7 +28,8 @@ namespace YaqeenDAL.Model
         // public virtual Patient Patient { get; set; }
         // [ForeignKey("UserId")]
         // public virtual Doctor Doctor { get; set; }
-        public virtual ICollection<Interest> Interests { get; set; }
+        public virtual ICollection<Interest>? Interests { get; set; }
+        public string? IdpUserIdentifier { get; set; }
     }
 
     public class Patient : Entity

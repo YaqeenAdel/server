@@ -1,6 +1,6 @@
 ﻿using System;
 using YaqeenServices.DTOs;
-using YaqeenServices.Servcies;
+using YaqeenServices.Services;
 
 namespace YaqeenApi.Controllers;
 
