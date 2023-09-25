@@ -105,12 +105,14 @@ jobs:
                 Rename-Item -Path $newName -NewName $originalName -Force
 
                 # Define the string to find and the replacement string
+                $newMigrationName = [System.IO.Path]::GetFileNameWithoutExtension($newName)
                 $replaceString = [System.IO.Path]::GetFileNameWithoutExtension($renamedFiles[$i])
                 # Define the suffix you want to remove
                 $suffixToRemove = ".Designer"
 
                 # Trim the suffix from the string
                 $trimmedString = $replaceString -replace [regex]::Escape($suffixToRemove), ""
+                $newMigrationName = $newMigrationName -replace [regex]::Escape($suffixToRemove), ""
 
                 Write-Host "Finding $migrationName and replacing with $trimmedString"
   
@@ -118,7 +120,7 @@ jobs:
                 $fileContent = Get-Content -Path $renamedFiles[$i]
   
                 # Perform the string replacement
-                $newFileContent = $fileContent -replace $migrationName, $trimmedString
+                $newFileContent = $fileContent -replace $newMigrationName, $trimmedString
   
                 # Write the modified content back to the file
                 Set-Content -Path $renamedFiles[$i] -Value $newFileContent
