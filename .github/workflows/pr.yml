@@ -139,7 +139,7 @@ jobs:
                   Write-Host $gitStatusAfterRevert
                   Write-Host "##[set-output name=changed]2"
               }
-          } else if ($gitStatus -eq '') {
+          } elseif ($gitStatus -eq '') {
               Write-Host "No diff"
               Write-Host "##[set-output name=changed]1"
           } else {
