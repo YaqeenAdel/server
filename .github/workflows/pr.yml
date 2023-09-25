@@ -82,16 +82,16 @@ jobs:
               Write-Host "Keyword '$keyword' not found in migrations list."
           }
 
-          git status
+          git status --poreclain
           dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
           git add -A
-          git status
+          git status --poreclain
 
           # Get the output of `git status --porcelain`
           $gitStatus = git status --porcelain
 
           # Check if the output contains any rename entries (R)
-          if ($gitStatus -match '^(R .+ -> .+)$') {
+          if ($gitStatus -match '^(R\s+.+\s+->\s+.+)$') {
               # Extract and process the rename entries
               $renamedFiles = $gitStatus.Split(" -> ").Split("R  ")
               for ($i = 1; $i -lt $array.Length; $i+=3) {
