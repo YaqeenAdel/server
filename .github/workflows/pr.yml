@@ -105,6 +105,7 @@ jobs:
               }
 
               # Check if Git still detects changes
+              git add -A
               $gitStatusAfterRevert = git status --porcelain
 
               if ($gitStatusAfterRevert -eq '') {
