@@ -102,6 +102,19 @@ jobs:
                 $newName = $renamedFiles[$i + 1]
                 Write-Host "Renaming $newName to $originalName"
                 Rename-Item -Path $newName -NewName $originalName -Force
+
+                # Define the string to find and the replacement string
+                $findString = [System.IO.Path]::GetFileNameWithoutExtension($newName)
+                $replaceString = [System.IO.Path]::GetFileNameWithoutExtension($renamedFiles[$i])
+  
+                # Read the content of the file
+                $fileContent = Get-Content -Path $renamedFiles[$i]
+  
+                # Perform the string replacement
+                $newFileContent = $fileContent -replace $findString, $replaceString
+  
+                # Write the modified content back to the file
+                Set-Content -Path $renamedFiles[$i] -Value $newFileContent
               }
 
               # Check if Git still detects changes
