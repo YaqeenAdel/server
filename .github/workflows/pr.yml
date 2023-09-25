@@ -98,7 +98,7 @@ jobs:
               Write-Host "Split into $renamedFiles.Length items"
               for ($i = 1; $i -lt $renamedFiles.Length; $i+=3) {
                 $originalName = $renamedFiles[$i]
-                $originalName = (Get-Item $originalName).BaseName
+                $originalName = [System.IO.Path]::GetFileName($originalName)
                 $newName = $renamedFiles[$i + 1]
                 Write-Host "Renaming $newName to $originalName"
                 Rename-Item -Path $newName -NewName $originalName -Force
