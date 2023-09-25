@@ -92,6 +92,7 @@ jobs:
 
           # Check if the output contains any rename entries (R)
           if ($gitStatus -match '^(R\s+.+\s+->\s+.+)$') {
+              cd ..
               # Extract and process the rename entries
               $renamedFiles = $gitStatus.Split(" -> ").Split("R  ")
               Write-Host "Split into $renamedFiles.Length items"
