@@ -131,7 +131,7 @@ jobs:
               git add -A
               $gitStatusAfterRevert = git diff --ignore-all-space --ignore-space-at-eol
 
-              if ($gitStatusAfterRevert.Trim() -eq '') {
+              if ($gitStatusAfterRevert -eq $null || $gitStatusAfterRevert.Trim() -eq '') {
                   Write-Host "Files were successfully reverted, and Git no longer detects changes."
                   Write-Host "##[set-output name=changed]1"
               } else {
@@ -139,7 +139,7 @@ jobs:
                   Write-Host $gitStatusAfterRevert.Trim()
                   Write-Host "##[set-output name=changed]2"
               }
-          } elseif ($gitStatus -eq '') {
+          } elseif ($gitStatus -eq $null || $gitStatus -eq '') {
               Write-Host "No diff"
               Write-Host "##[set-output name=changed]1"
           } else {
