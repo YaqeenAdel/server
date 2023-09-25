@@ -126,13 +126,16 @@ jobs:
               } else {
                   Write-Host "Files were reverted, but Git still detects changes:"
                   Write-Host $gitStatusAfterRevert
+                  git diff
               }
           } else {
               Write-Host "No rename entries found in Git status output."
           }
       - name: Check Generated Migrations
         id: check_generated
-        run: echo "changed=git status --porcelain" >> "$GITHUB_OUTPUT"
+        run: |
+          git status --porcelain
+          echo "changed=git status --porcelain" >> "$GITHUB_OUTPUT"
       - uses: CatChen/check-git-status-action@v1
         with:
           fail-if-not-clean: false # optional
