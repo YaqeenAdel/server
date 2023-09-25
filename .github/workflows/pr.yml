@@ -53,6 +53,7 @@ jobs:
           
           # Define the keyword to search for
           $keyword = "_${{ steps.extract_branch.outputs.branch }}"
+          $migrationName = ""
           
           # Check if the output contains the keyword
           if ($migrationsList -match $keyword) {
@@ -104,16 +105,20 @@ jobs:
                 Rename-Item -Path $newName -NewName $originalName -Force
 
                 # Define the string to find and the replacement string
-                $findString = [System.IO.Path]::GetFileNameWithoutExtension($newName)
                 $replaceString = [System.IO.Path]::GetFileNameWithoutExtension($renamedFiles[$i])
+                # Define the suffix you want to remove
+                $suffixToRemove = ".Designer"
 
-                Write-Host "Finding $findString and replacing with $replaceString"
+                # Trim the suffix from the string
+                $trimmedString = $myString -replace [regex]::Escape($suffixToRemove), ""
+
+                Write-Host "Finding $findString and replacing with $trimmedString"
   
                 # Read the content of the file
                 $fileContent = Get-Content -Path $renamedFiles[$i]
   
                 # Perform the string replacement
-                $newFileContent = $fileContent -replace $findString, $replaceString
+                $newFileContent = $fileContent -replace $migrationName, $trimmedString
   
                 # Write the modified content back to the file
                 Set-Content -Path $renamedFiles[$i] -Value $newFileContent
