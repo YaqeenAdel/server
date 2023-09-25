@@ -177,7 +177,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: "Neon.tech Staging"
     concurrency:
-      group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+      group: ${{ github.workflow }}-Apply-${{ github.head_ref || github.run_id }}
       cancel-in-progress: true
     needs: [Generate-Migrations]
     if: needs.Generate-Migrations.outputs.changed == 2
@@ -196,7 +196,7 @@ jobs:
           foreach ($envVar in [System.Environment]::GetEnvironmentVariables([System.EnvironmentVariableTarget]::Machine).GetEnumerator()) {
             Write-Host "$($envVar.Name): $($envVar.Value)"
           }
-          
+
           dotnet tool install --global dotnet-ef
           dotnet add package Microsoft.EntityFrameworkCore --version 7.0.11
           dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
