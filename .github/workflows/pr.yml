@@ -128,7 +128,7 @@ jobs:
               } else {
                   Write-Host "Files were reverted, but Git still detects changes:"
                   Write-Host $gitStatusAfterRevert
-                  git diff
+                  Write-Host git diff
               }
           } else {
               Write-Host "No rename entries found in Git status output."
