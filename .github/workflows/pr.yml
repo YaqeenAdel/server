@@ -195,4 +195,5 @@ jobs:
       - name: Run Database Migrations
         shell: pwsh
         run: |
+          cd YaqeenDAL
           dotnet ef database update
