@@ -106,6 +106,8 @@ jobs:
                 # Define the string to find and the replacement string
                 $findString = [System.IO.Path]::GetFileNameWithoutExtension($newName)
                 $replaceString = [System.IO.Path]::GetFileNameWithoutExtension($renamedFiles[$i])
+
+                Write-Host "Finding $findString and replacing with $replaceString"
   
                 # Read the content of the file
                 $fileContent = Get-Content -Path $renamedFiles[$i]
