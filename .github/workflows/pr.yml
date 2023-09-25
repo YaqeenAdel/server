@@ -110,9 +110,9 @@ jobs:
                 $suffixToRemove = ".Designer"
 
                 # Trim the suffix from the string
-                $trimmedString = $myString -replace [regex]::Escape($suffixToRemove), ""
+                $trimmedString = $replaceString -replace [regex]::Escape($suffixToRemove), ""
 
-                Write-Host "Finding $findString and replacing with $trimmedString"
+                Write-Host "Finding $migrationName and replacing with $trimmedString"
   
                 # Read the content of the file
                 $fileContent = Get-Content -Path $renamedFiles[$i]
