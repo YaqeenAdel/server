@@ -193,17 +193,19 @@ jobs:
         shell: pwsh
         run: |
           cd YaqeenDAL
-          foreach ($envVar in [System.Environment]::GetEnvironmentVariables([System.EnvironmentVariableTarget]::Machine).GetEnumerator()) {
-            Write-Host "$($envVar.Name): $($envVar.Value)"
-          }
-
           dotnet tool install --global dotnet-ef
           dotnet add package Microsoft.EntityFrameworkCore --version 7.0.11
           dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
           dotnet add package Microsoft.EntityFrameworkCore.Tools --version 7.0.11
           dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 7.0.11
       - name: Run Database Migrations
+        env: # Or as an environment variable
+          NEON_CONNECTION_STRING: ${{ secrets.NEON_CONNECTION_STRING }}
         shell: pwsh
         run: |
           cd YaqeenDAL
+          foreach ($envVar in [System.Environment]::GetEnvironmentVariables([System.EnvironmentVariableTarget]::Machine).GetEnumerator()) {
+            Write-Host "$($envVar.Name): $($envVar.Value)"
+          }
+
           dotnet ef database update
