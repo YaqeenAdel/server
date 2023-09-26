@@ -241,12 +241,8 @@ jobs:
           cd YaqeenDAL
           dotnet ef database update
     outputs:
-      branch_id:
-        description: "Newly created branch Id"
-        value: ${{ steps.output-branch-id.outputs.branch_id }}
-      project_id:
-        description: "Project Id"
-        value: ${{ steps.output-project-id.outputs.project_id }}
+      branch_id: ${{ steps.output-branch-id.outputs.branch_id }}
+      project_id: ${{ steps.output-project-id.outputs.project_id }}
   delete-neon-branch:
     name: Delete Neon Branch
     runs-on: ubuntu-latest
