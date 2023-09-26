@@ -188,7 +188,7 @@ jobs:
         id: create-branch
         uses: neondatabase/create-branch-action@v4
         with:
-          project_id: weathered-bread-35416000
+          project_id: ${{ vars.NEON_PROJECT_ID }}
           parent_id: br-little-term-52724615 # main
           branch_name: ${{ github.head_ref }}
           api_key: ${{ secrets.NEON_API_KEY }}
@@ -206,8 +206,8 @@ jobs:
             const connectionString = await neonctlClient.cs.get({
               extended: true,
               outputFormat: 'json',
-              projectId: '${{ steps.create-branch.outputs.project_id }}',
-              branchNameId: '${{ steps.create-branch.outputs.branch_id }}'
+              projectId: '${{ vars.NEON_PROJECT_ID }}',
+              branchNameId: '${{ steps.create-branch.outputs.branch_id }}',
             });
 
             const efConnectionString = connectionString.extended;
