@@ -22,7 +22,7 @@ namespace YaqeenDAL.Model
             var efString = new StringBuilder();
 
             // Add the host component to the EF string.
-            efString.Append($"Host={postgresConnectionStringComponents[2]};");
+            efString.Append($"Host={postgresConnectionStringComponents[5]};");
 
             // Add the username component to the EF string.
             efString.Append($"Username={postgresConnectionStringComponents[3]};");
@@ -31,11 +31,11 @@ namespace YaqeenDAL.Model
             efString.Append($"Password={postgresConnectionStringComponents[4]};");
 
             // Add the database component to the EF string.
-            efString.Append($"Database={postgresConnectionStringComponents[5]};");
+            efString.Append($"Database={postgresConnectionStringComponents[6]};");
 
             return efString.ToString();
         }
-
+        
         public YaqeenDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<YaqeenDbContext>();
