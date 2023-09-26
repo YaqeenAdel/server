@@ -12,9 +12,9 @@ namespace YaqeenDAL.Model
         public static string ConvertToEfString(string postgresConnectionString)
         {
             if (postgresConnectionString == null) {
-                return ""
+                return "";
             }
-            
+
             // Split the PostgreSQL connection string into its individual components.
             var postgresConnectionStringComponents = postgresConnectionString.Split(':', '/', '@');
 
