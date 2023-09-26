@@ -206,8 +206,8 @@ jobs:
             const connectionString = await neonctlClient.cs.get({
               extended: true,
               outputFormat: 'json',
-              projectId: ${{ steps.output-project-id.outputs.project_id }},
-              branchNameId: ${{ steps.output-branch-id.outputs.branch_id }}
+              projectId: '${{ steps.create-branch.outputs.project_id }}',
+              branchNameId: '${{ steps.create-branch.outputs.branch_id }}'
             });
 
             const efConnectionString = connectionString.extended;
@@ -241,8 +241,8 @@ jobs:
           cd YaqeenDAL
           dotnet ef database update
     outputs:
-      branch_id: ${{ steps.output-branch-id.outputs.branch_id }}
-      project_id: ${{ steps.output-project-id.outputs.project_id }}
+      branch_id: ${{ steps.create-branch.outputs.branch_id }}
+      project_id: ${{ steps.create-branch.outputs.project_id }}
   delete-neon-branch:
     name: Delete Neon Branch
     runs-on: ubuntu-latest
