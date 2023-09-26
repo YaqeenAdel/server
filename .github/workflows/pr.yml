@@ -200,15 +200,15 @@ jobs:
           script: |
             // Get the connection string for the current branch
             const neonctlClient = new neonctl.NeonctlClient(
-              apiKey: process.env.NEON_API_KEY
-            );
+                apiKey: process.env.NEON_API_KEY
+              );
 
             const connectionString = await neonctlClient.cs.get({
-              extended: true,
-              outputFormat: 'json',
-              projectId: '${{ vars.NEON_PROJECT_ID }}',
-              branchNameId: '${{ steps.create-branch.outputs.branch_id }}',
-            });
+                extended: true,
+                outputFormat: 'json',
+                projectId: '${{ vars.NEON_PROJECT_ID }}',
+                branchNameId: '${{ steps.create-branch.outputs.branch_id }}',
+              });
 
             const efConnectionString = connectionString.extended;
             const npgsqlConnectionString = `Host=${efConnectionString.host};Username=${efConnectionString.user};Password=${efConnectionString.password};Database=${efConnectionString.database};`;
