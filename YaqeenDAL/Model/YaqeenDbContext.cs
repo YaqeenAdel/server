@@ -6,11 +6,34 @@ namespace YaqeenDAL.Model
 {
     public class YaqeenDbContextFactory : IDesignTimeDbContextFactory<YaqeenDbContext>
     {
+        public static string ConvertToEfString(string postgresConnectionString)
+        {
+            // Split the PostgreSQL connection string into its individual components.
+            var postgresConnectionStringComponents = postgresConnectionString.Split(':', '/', '@');
+
+            // Create a new EF string.
+            var efString = new StringBuilder();
+
+            // Add the host component to the EF string.
+            efString.Append($"Host={postgresConnectionStringComponents[2]};");
+
+            // Add the username component to the EF string.
+            efString.Append($"Username={postgresConnectionStringComponents[3]};");
+
+            // Add the password component to the EF string.
+            efString.Append($"Password={postgresConnectionStringComponents[4]};");
+
+            // Add the database component to the EF string.
+            efString.Append($"Database={postgresConnectionStringComponents[5]};");
+
+            return efString.ToString();
+        }
+
         public YaqeenDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<YaqeenDbContext>();
             string connectionString = Environment.GetEnvironmentVariable("NEON_CONNECTION_STRING");
-            optionsBuilder.UseNpgsql(connectionString);
+            optionsBuilder.UseNpgsql(ConvertToEfString(connectionString));
             return new YaqeenDbContext(optionsBuilder.Options);
         }
     }

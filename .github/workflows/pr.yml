@@ -192,28 +192,10 @@ jobs:
           parent_id: br-little-term-52724615 # main
           branch_name: ${{ github.head_ref }}
           api_key: ${{ secrets.NEON_API_KEY }}
-      - uses: actions/github-script@v5
-        id: get-connection-string
-        env:
-          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
-        with:
-          script: |
-            npm install neonctl
-
-            // Get the connection string for the current branch
-            const neonctlClient = new neonctl.NeonctlClient({apiKey: process.env.NEON_API_KEY});
-
-            const connectionString = await neonctlClient.cs.get({extended: true,outputFormat: 'json',projectId: '${{ vars.NEON_PROJECT_ID }}',branchNameId: '${{ steps.create-branch.outputs.branch_id }}'});
-
-            const efConnectionString = connectionString.extended;
-            const npgsqlConnectionString = `Host=${efConnectionString.host};Username=${efConnectionString.user};Password=${efConnectionString.password};Database=${efConnectionString.database};`;
-
-            // Set the Npgsql connection string output
-            github.actions.setOutput('npgsql_connection_string', npgsqlConnectionString);
       - run: |
           echo project_id ${{ steps.create-branch.outputs.project_id}}
           echo branch_id ${{ steps.create-branch.outputs.branch_id}}
-          echo connection_string ${{ steps.get-connection-string.outputs.npgsql_connection_string }}
+          echo connection_string ${{ steps.create-branch.outputs.db_url }}
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.x.x'
@@ -230,7 +212,7 @@ jobs:
           dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 7.0.11
       - name: Run Database Migrations
         env: # Or as an environment variable
-          NEON_CONNECTION_STRING: ${{ steps.get-connection-string.outputs.npgsql_connection_string }}
+          NEON_CONNECTION_STRING: ${{ steps.create-branch.outputs.db_url }}
         shell: pwsh
         run: |
           cd YaqeenDAL
