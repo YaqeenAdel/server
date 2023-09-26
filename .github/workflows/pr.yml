@@ -198,8 +198,10 @@ jobs:
           NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
         with:
           script: |
+            npm install neonctl
+
             // Get the connection string for the current branch
-            const neonctlClient = new neonctl.NeonctlClient(apiKey: process.env.NEON_API_KEY);
+            const neonctlClient = new neonctl.NeonctlClient({apiKey: process.env.NEON_API_KEY});
 
             const connectionString = await neonctlClient.cs.get({extended: true,outputFormat: 'json',projectId: '${{ vars.NEON_PROJECT_ID }}',branchNameId: '${{ steps.create-branch.outputs.branch_id }}'});
 
