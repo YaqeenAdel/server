@@ -44,9 +44,11 @@ jobs:
         shell: pwsh
         run: |
           cd YaqeenDAL
+          git add -A
           git status --porcelain
           dotnet build
           dotnet ef migrations list
+          git add -A
           git status --porcelain
           echo "Success!"
       - name: Generate Migrations
