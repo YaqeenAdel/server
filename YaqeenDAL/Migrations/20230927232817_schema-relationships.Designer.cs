@@ -12,7 +12,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20230927232632_schema-relationships")]
+    [Migration("20230927232817_schema-relationships")]
     partial class schemarelationships
     {
         /// <inheritdoc />
