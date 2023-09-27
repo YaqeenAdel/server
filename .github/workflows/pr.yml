@@ -61,7 +61,8 @@ jobs:
           
           # Check if the output contains the keyword
           if ($migrationsList -match $keyword) {
-            dotnet ef migrations remove
+            Write-Host "Removing the last migration."
+            dotnet ef migrations remove -f
             dotnet ef migrations list
           } else {
               Write-Host "Keyword '$keyword' not found in migrations list."
