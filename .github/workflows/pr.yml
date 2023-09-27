@@ -44,12 +44,8 @@ jobs:
         shell: pwsh
         run: |
           cd YaqeenDAL
-          git add -A
-          git status --porcelain
           dotnet build
           dotnet ef migrations list
-          git add -A
-          git status --porcelain
           echo "Success!"
       - name: Generate Migrations
         id: generate_migrations
@@ -65,92 +61,29 @@ jobs:
           
           # Check if the output contains the keyword
           if ($migrationsList -match $keyword) {
-              # Extract the name of the migration containing the keyword
-              $migrationName = $migrationsList -match $keyword
-          
-              # Define the path to the Migrations directory
-              $migrationsDirectory = "Migrations"
-          
-              # Generate the full path to the file to be removed
-              $fileToRemove = Join-Path -Path $migrationsDirectory -ChildPath "$migrationName.cs"
-          
-              # Check if the file exists before attempting to remove it
-              if (Test-Path $fileToRemove) {
-                  # Remove the file
-                  Remove-Item $fileToRemove -Force
-                  Write-Host "File $fileToRemove removed."
-
-                  $fileToRemove = Join-Path -Path $migrationsDirectory -ChildPath "$migrationName.Designer.cs"
-                  # Remove the file
-                  Remove-Item $fileToRemove -Force
-                  Write-Host "File $fileToRemove removed."
-              } else {
-                  Write-Host "File $fileToRemove does not exist."
-              }
+            dotnet ef migrations remove
+            dotnet ef migrations list
           } else {
               Write-Host "Keyword '$keyword' not found in migrations list."
           }
 
+          # Attempt to add a migration and regenerate sql script to check if any changes are needed
           git status --porcelain
           dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
+          dotnet ef migrations script > migrations.sql
           git add -A
           git status --porcelain
 
           # Get the output of `git status --porcelain`
           $gitStatus = git status --porcelain
 
-          # Check if the output contains any rename entries (R)
-          if ($gitStatus -match '^(R\s+.+\s+->\s+.+)$') {
-              cd ..
-              # Extract and process the rename entries
-              $renamedFiles = $gitStatus.Split(" -> ").Split("R  ")
-              Write-Host "Split into $renamedFiles.Length items"
-              for ($i = 1; $i -lt $renamedFiles.Length; $i+=3) {
-                $originalName = $renamedFiles[$i]
-                $originalName = [System.IO.Path]::GetFileName($originalName)
-                $newName = $renamedFiles[$i + 1]
-                Write-Host "Renaming $newName to $originalName"
-                Rename-Item -Path $newName -NewName $originalName -Force
-
-                # Define the string to find and the replacement string
-                $newMigrationName = [System.IO.Path]::GetFileNameWithoutExtension($newName)
-                $replaceString = [System.IO.Path]::GetFileNameWithoutExtension($renamedFiles[$i])
-                # Define the suffix you want to remove
-                $suffixToRemove = ".Designer"
-
-                # Trim the suffix from the string
-                $trimmedString = $replaceString -replace [regex]::Escape($suffixToRemove), ""
-                $newMigrationName = $newMigrationName -replace [regex]::Escape($suffixToRemove), ""
-
-                Write-Host "Finding $newMigrationName and replacing with $trimmedString"
-  
-                # Read the content of the file
-                $fileContent = Get-Content -Path $renamedFiles[$i]
-  
-                # Perform the string replacement
-                $newFileContent = $fileContent -replace $newMigrationName, $trimmedString
-  
-                # Write the modified content back to the file
-                Set-Content -Path $renamedFiles[$i] -Value $newFileContent
-              }
-
-              # Check if Git still detects changes
+          # Check if the output contains any changes to the migrations.sql script
+          if ($gitStatus -match 'migrations.sql') {
               git add -A
-              $gitStatusAfterRevert = git diff --ignore-all-space --ignore-space-at-eol
-
-              if ($gitStatusAfterRevert -eq $null || $gitStatusAfterRevert.Trim() -eq '') {
-                  Write-Host "Files were successfully reverted, and Git no longer detects changes."
-                  Write-Host "##[set-output name=changed]1"
-              } else {
-                  Write-Host "Files were reverted, but Git still detects changes:"
-                  Write-Host $gitStatusAfterRevert.Trim()
-                  Write-Host "##[set-output name=changed]2"
-              }
-          } elseif ($gitStatus -eq $null || $gitStatus -eq '') {
-              Write-Host "No diff"
               Write-Host "##[set-output name=changed]1"
           } else {
-              Write-Host "No rename entries found in Git status output."
+              git stash
+              Write-Host "No material changes to the generated sql script."
               Write-Host "##[set-output name=changed]2"
           }
       # - name: Check Generated Migrations
@@ -159,7 +92,7 @@ jobs:
       #     git status --porcelain
       #     echo "changed=git status --porcelain" >> "$GITHUB_OUTPUT"
       - uses: CatChen/check-git-status-action@v1
-        if: ${{ steps.generate_migrations.outputs.changed == 2 }}
+        if: ${{ steps.generate_migrations.outputs.changed == 1 }}
         with:
           fail-if-not-clean: false # optional
           push-if-not-clean: true # optional
@@ -184,7 +117,7 @@ jobs:
       group: ${{ github.workflow }}-Apply-${{ github.head_ref || github.run_id }}
       cancel-in-progress: true
     needs: [Generate-Migrations]
-    if: needs.Generate-Migrations.outputs.changed == 1
+    if: needs.Generate-Migrations.outputs.changed == 2
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
