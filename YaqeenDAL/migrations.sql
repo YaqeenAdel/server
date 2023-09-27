@@ -181,7 +181,7 @@ CREATE UNIQUE INDEX "IX_Users_Email" ON "Users" ("Email");
 CREATE UNIQUE INDEX "IX_Users_MobileNumber" ON "Users" ("MobileNumber");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20230927231808_schema-relationships', '7.0.11');
+VALUES ('20230927232002_schema-relationships', '7.0.11');
 
 COMMIT;
 
