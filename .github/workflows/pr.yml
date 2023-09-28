@@ -73,7 +73,7 @@ jobs:
           dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
           dotnet ef migrations script > migrations2.sql
           $hasChanges = diff -I '[0-9]{14}' migrations.sql migrations2.sql
-          if ($hasChanges -eq '') {
+          if ($hasChanges -eq $null || $hasChanges.Trim() -eq '') {
             # No changes detected
             Write-Host "No changes detected"
             git add -A
