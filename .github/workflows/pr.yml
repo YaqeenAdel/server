@@ -71,21 +71,19 @@ jobs:
           # Attempt to add a migration and regenerate sql script to check if any changes are needed
           git status --porcelain
           dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
-          dotnet ef migrations script > migrations.sql
-          git add -A
-          git status --porcelain
-
-          # Get the output of `git status --porcelain`
-          $gitStatus = git status --porcelain
-
-          # Check if the output contains any changes to the migrations.sql script
-          if ($gitStatus -match 'migrations.sql') {
-              git add -A
-              Write-Host "##[set-output name=changed]1"
+          dotnet ef migrations script > migrations2.sql
+          $hasChanges = diff -I '[0-9]{14}' migrations.sql migrations2.sql
+          if ($hasChanges -eq '') {
+            # No changes detected
+            Write-Host "No changes detected"
+            git add -A
+            git stash
+            Write-Host "##[set-output name=changed]2"
           } else {
-              git stash
-              Write-Host "No material changes to the generated sql script."
-              Write-Host "##[set-output name=changed]2"
+            Write-Host "Changes detected"
+            mv migrations2.sql migrations.sql
+            git add -A
+            Write-Host "##[set-output name=changed]1"
           }
       # - name: Check Generated Migrations
       #   id: check_generated
