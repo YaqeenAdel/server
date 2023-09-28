@@ -76,6 +76,7 @@ jobs:
           if ($hasChanges -eq $null || $hasChanges.Trim() -eq '') {
             # No changes detected
             Write-Host "No changes detected"
+            git status --porcelain
             git diff
             git add -A
             git stash
