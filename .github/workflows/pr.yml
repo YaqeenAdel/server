@@ -83,6 +83,7 @@ jobs:
             Write-Host "Changes detected"
             mv migrations2.sql migrations.sql
             git add -A
+            git diff --raw
             Write-Host "##[set-output name=changed]1"
           }
       # - name: Check Generated Migrations
