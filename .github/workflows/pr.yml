@@ -80,7 +80,7 @@ jobs:
             git stash
             Write-Host "##[set-output name=changed]2"
           } else {
-            Write-Host "Changes detected"
+            Write-Host "Changes detected: $hasChanges"
             mv migrations2.sql migrations.sql
             git add -A
             git diff --raw
