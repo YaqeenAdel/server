@@ -71,8 +71,8 @@ jobs:
           # Attempt to add a migration and regenerate sql script to check if any changes are needed
           git status --porcelain
           dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
-          dotnet ef migrations script > migrations2.sql
-          $hasChanges = diff -I '[0-9]{14}' migrations.sql migrations2.sql
+          dotnet ef migrations script > migrations.sql
+          $hasChanges = git diff migrations.sql | grep -v '[0-9]\{14\}'
           if ($hasChanges -eq $null || $hasChanges.Trim() -eq '') {
             # No changes detected
             Write-Host "No changes detected"
@@ -81,7 +81,6 @@ jobs:
             Write-Host "##[set-output name=changed]2"
           } else {
             Write-Host "Changes detected: $hasChanges"
-            mv migrations2.sql migrations.sql
             git add -A
             git diff --raw
             Write-Host "##[set-output name=changed]1"
