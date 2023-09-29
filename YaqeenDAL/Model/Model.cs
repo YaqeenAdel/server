@@ -34,6 +34,7 @@ namespace YaqeenDAL.Model
     public class Patient : Entity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public int AgeGroup { get; set; }
 
