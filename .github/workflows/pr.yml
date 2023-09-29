@@ -71,27 +71,22 @@ jobs:
           # Attempt to add a migration and regenerate sql script to check if any changes are needed
           git status --porcelain
           dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
+          $existingLen = (Get-Content -Path migrations.sql).Length
           dotnet ef migrations script > migrations.sql
-          $hasChanges = git diff -U0 -I '[0-9]\{14\}.*' migrations.sql
-          if ($hasChanges -eq $null || $hasChanges.Trim() -eq '') {
+          $newLen = (Get-Content -Path migrations.sql).Length
+          $hasChanges = $newLen -eq $existingLen
+          if ($hasChanges) {
             # No changes detected
             Write-Host "No changes detected"
-            git diff
             git add -A
-            git status --porcelain
             git stash
             Write-Host "##[set-output name=changed]2"
           } else {
-            Write-Host "Changes detected: $hasChanges"
+            Write-Host "Changes detected"
             git add -A
             git diff --raw
             Write-Host "##[set-output name=changed]1"
           }
-      # - name: Check Generated Migrations
-      #   id: check_generated
-      #   run: |
-      #     git status --porcelain
-      #     echo "changed=git status --porcelain" >> "$GITHUB_OUTPUT"
       - uses: CatChen/check-git-status-action@v1
         if: ${{ steps.generate_migrations.outputs.changed == 1 }}
         with:
