@@ -116,6 +116,7 @@ jobs:
     if: needs.Generate-Migrations.outputs.changed == 2
     steps:
       - uses: neondatabase/delete-branch-action@v3
+        continue-on-error: true
         with:
           project_id: ${{ vars.NEON_PROJECT_ID }}
           branch: ${{ github.head_ref }}
