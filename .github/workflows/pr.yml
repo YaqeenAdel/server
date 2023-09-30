@@ -16,8 +16,8 @@ jobs:
           ref: ${{ github.head_ref }}
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.x.x'
-          dotnet-quality: 'preview'
+          dotnet-version: "8.x.x"
+          dotnet-quality: "preview"
           # cache: true
       # - run: dotnet restore --locked-mode
       # - name: Setup PowerShell module cache
@@ -54,11 +54,11 @@ jobs:
           cd YaqeenDAL
           # Run dotnet ef migrations list and capture the output
           $migrationsList = dotnet ef migrations list
-          
+
           # Define the keyword to search for
           $keyword = "_${{ steps.extract_branch.outputs.branch }}"
           $migrationName = ""
-          
+
           # Check if the output contains the keyword
           if ($migrationsList -match $keyword) {
             Write-Host "Removing the last migration."
@@ -115,6 +115,11 @@ jobs:
     needs: [Generate-Migrations]
     if: needs.Generate-Migrations.outputs.changed == 2
     steps:
+      - uses: neondatabase/delete-branch-action@v3
+        with:
+          project_id: ${{ vars.NEON_PROJECT_ID }}
+          branch: ${{ github.head_ref }}
+          api_key: ${{ secrets.NEON_API_KEY }}
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Create Neon DB Branch
@@ -131,8 +136,8 @@ jobs:
           echo connection_string ${{ steps.create-branch.outputs.db_url }}
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.x.x'
-          dotnet-quality: 'preview'
+          dotnet-version: "8.x.x"
+          dotnet-quality: "preview"
       - name: Install required PowerShell modules
         # if: steps.cacher.outputs.cache-hit != 'true'
         shell: pwsh
@@ -162,8 +167,8 @@ jobs:
       group: ${{ github.workflow }}-Delete-${{ github.head_ref || github.run_id }}
       cancel-in-progress: true
     steps:
-    - uses: neondatabase/delete-branch-action@v3
-      with:
-        project_id: ${{ needs.Run-Migrations.outputs.project_id }}
-        branch: ${{ needs.Run-Migrations.outputs.branch_id }}
-        api_key: ${{ secrets.NEON_API_KEY }}
+      - uses: neondatabase/delete-branch-action@v3
+        with:
+          project_id: ${{ needs.Run-Migrations.outputs.project_id }}
+          branch: ${{ needs.Run-Migrations.outputs.branch_id }}
+          api_key: ${{ secrets.NEON_API_KEY }}
