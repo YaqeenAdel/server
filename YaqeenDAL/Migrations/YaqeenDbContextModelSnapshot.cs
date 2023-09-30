@@ -281,6 +281,7 @@ namespace YaqeenDAL.Migrations
             modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
                 {
                     b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
                     b.Property<bool>("Active")
