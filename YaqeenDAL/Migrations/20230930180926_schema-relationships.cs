@@ -78,7 +78,7 @@ namespace YaqeenDAL.Migrations
                     AgreedTerms = table.Column<bool>(type: "boolean", nullable: false),
                     Gender = table.Column<string>(type: "text", nullable: true),
                     IsEmailVerified = table.Column<bool>(type: "boolean", nullable: false),
-                    DeletedAt = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
+                    DeletedAt = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: true),
                     Id = table.Column<int>(type: "integer", nullable: false),
                     Active = table.Column<bool>(type: "boolean", nullable: false)
                 },

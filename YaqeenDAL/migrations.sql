@@ -49,7 +49,7 @@ CREATE TABLE "Users" (
     "AgreedTerms" boolean NOT NULL,
     "Gender" text NULL,
     "IsEmailVerified" boolean NOT NULL,
-    "DeletedAt" bytea NOT NULL,
+    "DeletedAt" bytea NULL,
     "Id" integer NOT NULL,
     "Active" boolean NOT NULL,
     CONSTRAINT "PK_Users" PRIMARY KEY ("UserId")
@@ -180,7 +180,7 @@ CREATE UNIQUE INDEX "IX_Users_Email" ON "Users" ("Email");
 CREATE UNIQUE INDEX "IX_Users_MobileNumber" ON "Users" ("MobileNumber");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20230930174047_schema-relationships', '7.0.11');
+VALUES ('20230930180926_schema-relationships', '7.0.11');
 
 COMMIT;
 

@@ -371,7 +371,6 @@ namespace YaqeenDAL.Migrations
 
                     b.Property<byte[]>("DeletedAt")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
 

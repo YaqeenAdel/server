@@ -12,7 +12,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20230930174047_schema-relationships")]
+    [Migration("20230930180926_schema-relationships")]
     partial class schemarelationships
     {
         /// <inheritdoc />
@@ -374,7 +374,6 @@ namespace YaqeenDAL.Migrations
 
                     b.Property<byte[]>("DeletedAt")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
 
