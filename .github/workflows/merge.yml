@@ -1,0 +1,38 @@
+name: Run PR Checks
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Run-Migrations:
+    name: Run Migrations
+    runs-on: ubuntu-latest
+    environment: "Neon.tech Prod"
+    concurrency:
+      group: ${{ github.workflow }}-Apply-${{ github.head_ref || github.run_id }}
+      cancel-in-progress: true
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.x.x"
+          dotnet-quality: "preview"
+      - name: Install required PowerShell modules
+        # if: steps.cacher.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          cd YaqeenDAL
+          dotnet tool install --global dotnet-ef
+          dotnet add package Microsoft.EntityFrameworkCore --version 7.0.11
+          dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
+          dotnet add package Microsoft.EntityFrameworkCore.Tools --version 7.0.11
+          dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 7.0.11
+      - name: Run Database Migrations
+        env: # Or as an environment variable
+          NEON_CONNECTION_STRING: ${{ secrets.NEON_CONNECTION_STRING }}
+        shell: pwsh
+        run: |
+          cd YaqeenDAL
+          dotnet ef database update

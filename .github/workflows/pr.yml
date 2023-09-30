@@ -1,0 +1,175 @@
+name: Run PR Checks
+on: pull_request
+
+jobs:
+  Generate-Migrations:
+    name: Generate Migrations
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+      cancel-in-progress: true
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.x.x"
+          dotnet-quality: "preview"
+          # cache: true
+      # - run: dotnet restore --locked-mode
+      # - name: Setup PowerShell module cache
+      #   id: cacher
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: "~/.local/share/powershell/Modules"
+      #     key: ${{ runner.os }}-SqlServer-PSScriptAnalyzer
+      - name: Install required PowerShell modules
+        # if: steps.cacher.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          cd YaqeenDAL
+          dotnet tool install --global dotnet-ef
+          dotnet add package Microsoft.EntityFrameworkCore --version 7.0.11
+          dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
+          dotnet add package Microsoft.EntityFrameworkCore.Tools --version 7.0.11
+          dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 7.0.11
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+      - name: Build
+        shell: pwsh
+        run: |
+          cd YaqeenDAL
+          dotnet build
+          dotnet ef migrations list
+          echo "Success!"
+      - name: Generate Migrations
+        id: generate_migrations
+        shell: pwsh
+        run: |
+          cd YaqeenDAL
+          # Run dotnet ef migrations list and capture the output
+          $migrationsList = dotnet ef migrations list
+
+          # Define the keyword to search for
+          $keyword = "_${{ steps.extract_branch.outputs.branch }}"
+          $migrationName = ""
+
+          # Check if the output contains the keyword
+          if ($migrationsList -match $keyword) {
+            Write-Host "Removing the last migration."
+            dotnet ef migrations remove -f
+            dotnet ef migrations list
+          } else {
+              Write-Host "Keyword '$keyword' not found in migrations list."
+          }
+
+          # Attempt to add a migration and regenerate sql script to check if any changes are needed
+          git status --porcelain
+          dotnet ef migrations add ${{ steps.extract_branch.outputs.branch }} -v
+          $existingLen = (Get-Content -Path migrations.sql).Length
+          dotnet ef migrations script > migrations.sql
+          $newLen = (Get-Content -Path migrations.sql).Length
+          $hasChanges = $newLen -eq $existingLen
+          if ($hasChanges) {
+            # No changes detected
+            Write-Host "No changes detected"
+            git add -A
+            git stash
+            Write-Host "##[set-output name=changed]2"
+          } else {
+            Write-Host "Changes detected"
+            git add -A
+            git diff --raw
+            Write-Host "##[set-output name=changed]1"
+          }
+      - uses: CatChen/check-git-status-action@v1
+        if: ${{ steps.generate_migrations.outputs.changed == 1 }}
+        with:
+          fail-if-not-clean: false # optional
+          push-if-not-clean: true # optional
+          # push-token: ${{ secrets.GITHUB_TOKEN }} # optional
+          # request-changes-token: ${{ secrets.GITHUB_TOKEN }} # optional
+          commit-message: "Migration Changes" # optional
+          targets: "." #optional
+    outputs:
+      changed: ${{ steps.generate_migrations.outputs.changed }}
+      # - name: Commit report
+      #   run: |
+      #     git config --global user.name 'Haytham Abuelfutuh'
+      #     git config --global user.email 'haytham@afutuh.com'
+      #     git add -A
+      #     git commit -am "Automated report"
+      #     git push
+  Run-Migrations:
+    name: Run Migrations
+    runs-on: ubuntu-latest
+    environment: "Neon.tech Staging"
+    concurrency:
+      group: ${{ github.workflow }}-Apply-${{ github.head_ref || github.run_id }}
+      cancel-in-progress: true
+    needs: [Generate-Migrations]
+    if: needs.Generate-Migrations.outputs.changed == 2
+    steps:
+      - uses: neondatabase/delete-branch-action@v3
+        continue-on-error: true
+        with:
+          project_id: ${{ vars.NEON_PROJECT_ID }}
+          branch: ${{ github.head_ref }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Create Neon DB Branch
+        id: create-branch
+        uses: neondatabase/create-branch-action@v4
+        with:
+          project_id: ${{ vars.NEON_PROJECT_ID }}
+          parent_id: br-little-term-52724615 # main
+          branch_name: ${{ github.head_ref }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+      - run: |
+          echo project_id ${{ steps.create-branch.outputs.project_id}}
+          echo branch_id ${{ steps.create-branch.outputs.branch_id}}
+          echo connection_string ${{ steps.create-branch.outputs.db_url }}
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.x.x"
+          dotnet-quality: "preview"
+      - name: Install required PowerShell modules
+        # if: steps.cacher.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          cd YaqeenDAL
+          dotnet tool install --global dotnet-ef
+          dotnet add package Microsoft.EntityFrameworkCore --version 7.0.11
+          dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.11
+          dotnet add package Microsoft.EntityFrameworkCore.Tools --version 7.0.11
+          dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 7.0.11
+      - name: Run Database Migrations
+        env: # Or as an environment variable
+          NEON_CONNECTION_STRING: ${{ steps.create-branch.outputs.db_url }}
+        shell: pwsh
+        run: |
+          cd YaqeenDAL
+          dotnet ef database update
+    outputs:
+      branch_id: ${{ steps.create-branch.outputs.branch_id }}
+      project_id: ${{ steps.create-branch.outputs.project_id }}
+  delete-neon-branch:
+    name: Delete Neon Branch
+    runs-on: ubuntu-latest
+    needs: [Run-Migrations]
+    environment: "Neon.tech Staging"
+    concurrency:
+      group: ${{ github.workflow }}-Delete-${{ github.head_ref || github.run_id }}
+      cancel-in-progress: true
+    steps:
+      - uses: neondatabase/delete-branch-action@v3
+        with:
+          project_id: ${{ needs.Run-Migrations.outputs.project_id }}
+          branch: ${{ needs.Run-Migrations.outputs.branch_id }}
+          api_key: ${{ secrets.NEON_API_KEY }}
