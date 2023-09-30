@@ -9,29 +9,41 @@ using YaqeenDAL.Model;
 
 #nullable disable
 
-namespace YaqeenApi.Migrations
+namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20230904191649_final-model")]
-    partial class finalmodel
+    [Migration("20230930180926_schema-relationships")]
+    partial class schemarelationships
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("InterestUser", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UsersUserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserId", "UsersUserId");
+
+                    b.HasIndex("UsersUserId");
+
+                    b.ToTable("InterestUser");
+                });
+
             modelBuilder.Entity("YaqeenDAL.Model.Answer", b =>
                 {
                     b.Property<int>("AnswerId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AnswerId"));
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -62,49 +74,6 @@ namespace YaqeenApi.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("Answers");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.AreaofInterest", b =>
-                {
-                    b.Property<int>("AreaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AreaId"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("AreaName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("LastModifiedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Logo")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("PatientId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AreaId");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("AreaofInterests");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Article", b =>
@@ -147,16 +116,12 @@ namespace YaqeenApi.Migrations
             modelBuilder.Entity("YaqeenDAL.Model.Bookmark", b =>
                 {
                     b.Property<int>("BookmarkId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BookmarkId"));
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
                     b.Property<int?>("ArticleId")
-                        .IsRequired()
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedDate")
@@ -187,7 +152,10 @@ namespace YaqeenApi.Migrations
             modelBuilder.Entity("YaqeenDAL.Model.CancerStage", b =>
                 {
                     b.Property<int>("StageId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("StageId"));
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -213,7 +181,10 @@ namespace YaqeenApi.Migrations
             modelBuilder.Entity("YaqeenDAL.Model.CancerType", b =>
                 {
                     b.Property<int>("CancerId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CancerId"));
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -238,21 +209,26 @@ namespace YaqeenApi.Migrations
 
             modelBuilder.Entity("YaqeenDAL.Model.Doctor", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("AnswerId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("BookmarkId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Degree")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsVerified")
-                        .HasColumnType("boolean");
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
 
                     b.Property<string>("MedicalField")
                         .IsRequired()
@@ -262,47 +238,54 @@ namespace YaqeenApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasKey("UserId");
 
                     b.ToTable("Doctors");
                 });
 
-            modelBuilder.Entity("YaqeenDAL.Model.DoctorAreaofInterest", b =>
+            modelBuilder.Entity("YaqeenDAL.Model.Interest", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("InterestId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    b.Property<int>("AreaId")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("InterestId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Id")
                         .HasColumnType("integer");
 
-                    b.Property<int>("AreaofInterestAreaId")
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LogoURL")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("PatientUserId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("integer");
+                    b.HasKey("InterestId");
 
-                    b.HasKey("UserId", "AreaId");
+                    b.HasIndex("PatientUserId");
 
-                    b.HasIndex("AreaofInterestAreaId");
-
-                    b.HasIndex("DoctorId");
-
-                    b.ToTable("DoctorAreaofInterests");
+                    b.ToTable("Interests");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -310,47 +293,31 @@ namespace YaqeenApi.Migrations
                     b.Property<int>("AgeGroup")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("CancerStageId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.Property<int>("CancerTypeId")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("CancerStageId");
+
+                    b.HasIndex("CancerTypeId");
 
                     b.ToTable("Patients");
                 });
 
-            modelBuilder.Entity("YaqeenDAL.Model.PatientAreaofInterest", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("AreaId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("AreaofInterestAreaId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PatientId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("UserId", "AreaId");
-
-                    b.HasIndex("AreaofInterestAreaId");
-
-                    b.HasIndex("PatientId");
-
-                    b.ToTable("PatientAreaofInterests");
-                });
-
             modelBuilder.Entity("YaqeenDAL.Model.Question", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("QuestionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("QuestionId"));
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -366,36 +333,49 @@ namespace YaqeenApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("PatientId")
+                    b.Property<int?>("PatientUserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("PatientId");
+                    b.HasKey("QuestionId");
+
+                    b.HasIndex("PatientUserId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("AgreedTerms")
                         .HasColumnType("boolean");
+
+                    b.Property<byte[]>("DeletedAt")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bytea");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -405,18 +385,11 @@ namespace YaqeenApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool?>("Gender")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("IdpUserIdentifier")
-                        .IsRequired()
+                    b.Property<string>("Gender")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsEmailVerified")
                         .HasColumnType("boolean");
@@ -426,46 +399,44 @@ namespace YaqeenApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("MobileNumber")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("MobileNumber")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("YaqeenDAL.Model.VerificationCode", b =>
+            modelBuilder.Entity("InterestUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                    b.HasOne("YaqeenDAL.Model.Interest", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("VerificationCodes");
+                    b.HasOne("YaqeenDAL.Model.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Answer", b =>
                 {
-                    b.HasOne("YaqeenDAL.Model.Doctor", "Doctor")
+                    b.HasOne("YaqeenDAL.Model.Doctor", null)
                         .WithMany("Answers")
+                        .HasForeignKey("AnswerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YaqeenDAL.Model.Doctor", "Doctor")
+                        .WithMany()
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -481,35 +452,20 @@ namespace YaqeenApi.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("YaqeenDAL.Model.AreaofInterest", b =>
-                {
-                    b.HasOne("YaqeenDAL.Model.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YaqeenDAL.Model.Patient", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
-                });
-
             modelBuilder.Entity("YaqeenDAL.Model.Bookmark", b =>
                 {
                     b.HasOne("YaqeenDAL.Model.Article", "Article")
                         .WithMany("Bookmarks")
-                        .HasForeignKey("ArticleId")
+                        .HasForeignKey("ArticleId");
+
+                    b.HasOne("YaqeenDAL.Model.Doctor", null)
+                        .WithMany("Bookmarks")
+                        .HasForeignKey("BookmarkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("YaqeenDAL.Model.Doctor", "Doctor")
-                        .WithMany("Bookmarks")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -527,101 +483,98 @@ namespace YaqeenApi.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("YaqeenDAL.Model.CancerStage", b =>
-                {
-                    b.HasOne("YaqeenDAL.Model.Patient", "Patient")
-                        .WithOne("CancerStage")
-                        .HasForeignKey("YaqeenDAL.Model.CancerStage", "StageId");
-
-                    b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.CancerType", b =>
-                {
-                    b.HasOne("YaqeenDAL.Model.Patient", "Patient")
-                        .WithOne("CancerType")
-                        .HasForeignKey("YaqeenDAL.Model.CancerType", "CancerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Patient");
-                });
-
             modelBuilder.Entity("YaqeenDAL.Model.Doctor", b =>
                 {
                     b.HasOne("YaqeenDAL.Model.User", "User")
-                        .WithOne("Doctor")
-                        .HasForeignKey("YaqeenDAL.Model.Doctor", "UserId")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.OwnsOne("YaqeenDAL.Model.VerificationStatus", "VerificationStatus", b1 =>
+                        {
+                            b1.Property<int>("DoctorUserId")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("Notes")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<byte[]>("RowVersion")
+                                .IsConcurrencyToken()
+                                .IsRequired()
+                                .ValueGeneratedOnAddOrUpdate()
+                                .HasColumnType("bytea");
+
+                            b1.Property<int>("VerifierUserId")
+                                .HasColumnType("integer");
+
+                            b1.HasKey("DoctorUserId");
+
+                            b1.HasIndex("VerifierUserId");
+
+                            b1.ToTable("Doctors");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DoctorUserId");
+
+                            b1.HasOne("YaqeenDAL.Model.User", "Verifier")
+                                .WithMany()
+                                .HasForeignKey("VerifierUserId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+
+                            b1.Navigation("Verifier");
+                        });
 
                     b.Navigation("User");
+
+                    b.Navigation("VerificationStatus")
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("YaqeenDAL.Model.DoctorAreaofInterest", b =>
+            modelBuilder.Entity("YaqeenDAL.Model.Interest", b =>
                 {
-                    b.HasOne("YaqeenDAL.Model.AreaofInterest", "AreaofInterest")
-                        .WithMany()
-                        .HasForeignKey("AreaofInterestAreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YaqeenDAL.Model.Doctor", "Doctor")
-                        .WithMany("AreaofInterests")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AreaofInterest");
-
-                    b.Navigation("Doctor");
+                    b.HasOne("YaqeenDAL.Model.Patient", null)
+                        .WithMany("Interests")
+                        .HasForeignKey("PatientUserId");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
                 {
-                    b.HasOne("YaqeenDAL.Model.User", "User")
-                        .WithOne("Patient")
-                        .HasForeignKey("YaqeenDAL.Model.Patient", "UserId")
+                    b.HasOne("YaqeenDAL.Model.CancerStage", "CancerStage")
+                        .WithMany()
+                        .HasForeignKey("CancerStageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("YaqeenDAL.Model.CancerType", "CancerType")
+                        .WithMany()
+                        .HasForeignKey("CancerTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YaqeenDAL.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CancerStage");
+
+                    b.Navigation("CancerType");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("YaqeenDAL.Model.PatientAreaofInterest", b =>
-                {
-                    b.HasOne("YaqeenDAL.Model.AreaofInterest", "AreaofInterest")
-                        .WithMany()
-                        .HasForeignKey("AreaofInterestAreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YaqeenDAL.Model.Patient", "Patient")
-                        .WithMany("AreaofInterests")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AreaofInterest");
-
-                    b.Navigation("Patient");
-                });
-
             modelBuilder.Entity("YaqeenDAL.Model.Question", b =>
                 {
-                    b.HasOne("YaqeenDAL.Model.Patient", "Patient")
+                    b.HasOne("YaqeenDAL.Model.Patient", null)
                         .WithMany("Questions")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PatientUserId");
 
-                    b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.VerificationCode", b =>
-                {
                     b.HasOne("YaqeenDAL.Model.User", "User")
-                        .WithMany("VerificationCodes")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -638,21 +591,14 @@ namespace YaqeenApi.Migrations
                 {
                     b.Navigation("Answers");
 
-                    b.Navigation("AreaofInterests");
-
                     b.Navigation("Bookmarks");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
                 {
-                    b.Navigation("AreaofInterests");
-
                     b.Navigation("Bookmarks");
 
-                    b.Navigation("CancerStage");
-
-                    b.Navigation("CancerType")
-                        .IsRequired();
+                    b.Navigation("Interests");
 
                     b.Navigation("Questions");
                 });
@@ -660,17 +606,6 @@ namespace YaqeenApi.Migrations
             modelBuilder.Entity("YaqeenDAL.Model.Question", b =>
                 {
                     b.Navigation("Answers");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.User", b =>
-                {
-                    b.Navigation("Doctor")
-                        .IsRequired();
-
-                    b.Navigation("Patient")
-                        .IsRequired();
-
-                    b.Navigation("VerificationCodes");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,168 +1,170 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace YaqeenDAL.Model
 {
+    [Index(nameof(Email), IsUnique = true)]
+    [Index(nameof(MobileNumber), IsUnique = true)]
     public class User : Entity
     {
+        [Key]
+        public int UserId { get; set; } // This attribute will contains required informations came from Auth0  
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string MobileNumber { get; set; }
+
+        public string? MobileNumber { get; set; }
+
+        [Required]
         public string Email { get; set; }
         public bool AgreedTerms { get; set; }
-        public bool? Gender { get; set; }
-        public string IdpUserIdentifier { get; set; }  // This attribute will contains required informations came from Auth0  
+        public string? Gender { get; set; }
         public bool IsEmailVerified { get; set; }
-        public bool IsDeleted { get; set; }
-        public bool IsActive { get; set; }
+        [Timestamp]
+        public byte[]? DeletedAt { get; set; }
 
-
-        public ICollection<VerificationCode> VerificationCodes { get; set; }
-
-        // Navigation Properties
-        public Patient Patient { get; set; }
-        public Doctor Doctor { get; set; }
+        // // Navigation Properties
+        // [ForeignKey("UserId")]
+        // public virtual Patient Patient { get; set; }
+        // [ForeignKey("UserId")]
+        // public virtual Doctor Doctor { get; set; }
+        public virtual ICollection<Interest> Interests { get; set; }
     }
 
     public class Patient : Entity
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public int AgeGroup { get; set; }
 
-        public ICollection<PatientAreaofInterest> AreaofInterests { get; set; }
+        public int CancerTypeId { get; set; }
+
+        [ForeignKey("CancerStage")]
+        public int CancerStageId { get; set; }
+
+        public ICollection<Interest> Interests { get; set; }
         public ICollection<Question> Questions { get; set; }
         public ICollection<Bookmark> Bookmarks { get; set; }
 
         // Navigation Property
-        public User User { get; set; }
-        public CancerType CancerType { get; set; }
-        public CancerStage? CancerStage { get; set; }
-
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
+        [ForeignKey("CancerTypeId")]
+        public virtual CancerType? CancerType { get; set; }
+        [ForeignKey("CancerStageId")]
+        public virtual CancerStage? CancerStage { get; set; }
     }
 
     public class Doctor : Entity
     {
+        [Key]
         public int UserId { get; set; }
         public string University { get; set; }
         public string Degree { get; set; }
         public string MedicalField { get; set; }
-        public bool IsVerified { get; set; }  //verfication as adoctor from his certifications 
-        public ICollection<DoctorAreaofInterest> AreaofInterests { get; set; }
-        public ICollection<Answer> Answers { get; set; }
-        public ICollection<Bookmark> Bookmarks { get; set; }
-
+        public VerificationStatus VerificationStatus { get; set; }
+        public string AnswerId { get; set; }
+        public string BookmarkId { get; set; }
+        
         // Navigation Property
-        public User User { get; set; }
+        [ForeignKey("AnswerId")]
+        public virtual ICollection<Answer> Answers { get; set; }
+        [ForeignKey("BookmarkId")]
+        public virtual ICollection<Bookmark> Bookmarks { get; set; }
+
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
     }
 
     public class CancerType : AuditableEntity
     {
-        [ForeignKey("Patient")]
-
+        [Key]
         public int CancerId { get; set; }
-
         public string CancerTypeName { get; set; }
-
-        // Navigation Property
-        public Patient Patient { get; set; }
-
     }
+
     public class CancerStage : AuditableEntity
     {
-
+        [Key]
         public int StageId { get; set; }
-
         public string StageName { get; set; }
-
-        // Navigation Property
-        public Patient? Patient { get; set; }
     }
 
-    public class AreaofInterest : AuditableEntity
+    public class Interest : AuditableEntity
     {
-        public int AreaId { get; set; }
-        public string AreaName { get; set; }
-        public string Logo { get; set; }
+        [Key]
+        public int InterestId { get; set; }
+        public string Name { get; set; }
+        public string LogoURL { get; set; }
 
-        // Navigation Properties
-        public Patient Patient { get; set; }
-        public Doctor Doctor { get; set; }
-
-    }
-    public class PatientAreaofInterest
-    {
-        public int UserId { get; set; }
-        public Patient Patient { get; set; }
-
-        public int AreaId { get; set; }
-
-        // Navigation Property
-
-        public AreaofInterest AreaofInterest { get; set; }
-    }
-
-    public class DoctorAreaofInterest
-    {
-        public int UserId { get; set; }
-        public Doctor Doctor { get; set; }
-
-        public int AreaId { get; set; }
-        public AreaofInterest AreaofInterest { get; set; }
+        [ForeignKey("UserId")]
+        public virtual ICollection<User> Users { get; set; }
     }
 
     public class Question : AuditableEntity
     {
-        public int PatientId { get; set; }
+        [Key]
+        public int QuestionId { get; set; }
+        public int UserId { get; set; }
         public string Title { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
-        public ICollection<Answer> Answers { get; set; }
-
+        
         // Navigation Property
-        public Patient Patient { get; set; }
+        public virtual ICollection<Answer> Answers { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
     }
 
     public class Answer : AuditableEntity
     {
+        [Key]
         public int AnswerId { get; set; }
         public int DoctorId { get; set; }
         public int QuestionId { get; set; }
         public string Content { get; set; }
 
         // Navigation Properties
-        public Doctor Doctor { get; set; }
-        public Question Question { get; set; }
+        [ForeignKey("DoctorId")]
+        public virtual Doctor Doctor { get; set; }
+        public virtual Question Question { get; set; }
     }
 
     public class Article : AuditableEntity
     {
+        [Key]
         public int ArticleId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public string Category { get; set; }
-        public ICollection<Bookmark> Bookmarks { get; set; }
+        public virtual ICollection<Bookmark> Bookmarks { get; set; }
     }
 
     public class Bookmark : AuditableEntity
     {
+        [Key]
         public int BookmarkId { get; set; }
         public int UserId { get; set; }
         public int? ArticleId { get; set; }
         public string Type { get; set; } // Can be "Question" or "Article"
 
         // Navigation Properties
-        public Patient Patient { get; set; }
-        public Doctor Doctor { get; set; }
-        public Article Article { get; set; }
+        [ForeignKey("UserId")]
+        public virtual Patient Patient { get; set; }
+        [ForeignKey("UserId")]
+        public virtual Doctor Doctor { get; set; }
+        public virtual Article Article { get; set; }
     }
 
-    public class VerificationCode : Entity
+    public class VerificationStatus 
     {
-        public int UserId { get; set; }
-        public string Code { get; set; }
-        public DateTime ExpirationDate { get; set; }
+        public int VerifierUserId { get; set; }
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+        public string Notes { get; set; }
 
-        // Navigation Property
-        public User User { get; set; }
+        [ForeignKey("VerifierUserId")]
+        public virtual User Verifier { get; set; }
     }
-
 }
