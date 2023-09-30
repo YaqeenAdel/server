@@ -20,8 +20,8 @@ namespace YaqeenDAL.Model
         public bool AgreedTerms { get; set; }
         public string? Gender { get; set; }
         public bool IsEmailVerified { get; set; }
-        public bool IsDeleted { get; set; }
-        public bool IsActive { get; set; }
+        [Timestamp]
+        public byte[]? DeletedAt { get; set; }
 
         // // Navigation Properties
         // [ForeignKey("UserId")]

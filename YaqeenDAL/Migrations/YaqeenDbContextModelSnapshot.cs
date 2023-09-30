@@ -369,6 +369,12 @@ namespace YaqeenDAL.Migrations
                     b.Property<bool>("AgreedTerms")
                         .HasColumnType("boolean");
 
+                    b.Property<byte[]>("DeletedAt")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bytea");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -382,12 +388,6 @@ namespace YaqeenDAL.Migrations
 
                     b.Property<int>("Id")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsEmailVerified")
                         .HasColumnType("boolean");

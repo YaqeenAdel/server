@@ -12,7 +12,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20230930145445_schema-relationships")]
+    [Migration("20230930174047_schema-relationships")]
     partial class schemarelationships
     {
         /// <inheritdoc />
@@ -372,6 +372,12 @@ namespace YaqeenDAL.Migrations
                     b.Property<bool>("AgreedTerms")
                         .HasColumnType("boolean");
 
+                    b.Property<byte[]>("DeletedAt")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bytea");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -385,12 +391,6 @@ namespace YaqeenDAL.Migrations
 
                     b.Property<int>("Id")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsEmailVerified")
                         .HasColumnType("boolean");
