@@ -168,7 +168,7 @@ namespace YaqeenDAL.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int VerificationId { get; set; }
 
-        public string TargetUserId { get; set; }
+        public string TargetDoctorUserId { get; set; }
         public string VerifierUserId { get; set; }
         [Timestamp]
         public byte[] RowVersion { get; set; }
@@ -176,7 +176,7 @@ namespace YaqeenDAL.Model
 
         [ForeignKey("VerifierUserId")]
         public virtual User Verifier { get; set; }
-        [ForeignKey("TargetUserId")]
-        public virtual User TargetUser { get; set; }
+        [ForeignKey("TargetDoctorUserId")]
+        public virtual Doctor TargetDoctor { get; set; }
     }
 }
