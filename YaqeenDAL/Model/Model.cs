@@ -65,11 +65,11 @@ namespace YaqeenDAL.Model
         public int? VerificationStatusId { get; set; }
         
         [ForeignKey("VerificationStatusId")]
-        public virtual VerificationStatus VerificationStatus { get; set; }
+        public virtual VerificationStatus? VerificationStatus { get; set; }
         
         // Navigation Property
-        public virtual ICollection<Answer> Answers { get; set; }
-        public virtual ICollection<Bookmark> Bookmarks { get; set; }
+        public virtual ICollection<Answer>? Answers { get; set; }
+        public virtual ICollection<Bookmark>? Bookmarks { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User User { get; set; }

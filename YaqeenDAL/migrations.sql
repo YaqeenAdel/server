@@ -203,4 +203,17 @@ VALUES ('20231001174541_optional-verification-status', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Doctors" DROP CONSTRAINT "FK_Doctors_VerificationStatus_VerificationStatusId";
+
+ALTER TABLE "Doctors" ALTER COLUMN "VerificationStatusId" DROP NOT NULL;
+
+ALTER TABLE "Doctors" ADD CONSTRAINT "FK_Doctors_VerificationStatus_VerificationStatusId" FOREIGN KEY ("VerificationStatusId") REFERENCES "VerificationStatus" ("VerificationId");
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231001183129_Optional-VerificationStatus-Id', '7.0.11');
+
+COMMIT;
+
 
