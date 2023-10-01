@@ -49,7 +49,7 @@ namespace YaqeenDAL.Model
         public ICollection<Bookmark> Bookmarks { get; set; }
 
         // Navigation Property
-        [ForeignKey("UserId")]
+        [ForeignKey("UserIdStr")]
         public virtual User User { get; set; }
         [ForeignKey("CancerTypeId")]
         public virtual CancerType? CancerType { get; set; }
@@ -73,7 +73,7 @@ namespace YaqeenDAL.Model
         public virtual ICollection<Answer> Answers { get; set; }
         public virtual ICollection<Bookmark> Bookmarks { get; set; }
 
-        [ForeignKey("UserId")]
+        [ForeignKey("UserIdStr")]
         public virtual User User { get; set; }
     }
 
@@ -101,7 +101,6 @@ namespace YaqeenDAL.Model
         public string Name { get; set; }
         public string LogoURL { get; set; }
 
-        [ForeignKey("UserId")]
         public virtual ICollection<User> Users { get; set; }
     }
 
