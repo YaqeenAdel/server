@@ -9,7 +9,7 @@ namespace YaqeenDAL.Model
     public class User : Entity
     {
         [Key]
-        public string UserId { get; set; } // This attribute will contains required informations came from Auth0  
+        public int UserId { get; set; } // This attribute will contains required informations came from Auth0  
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
@@ -34,7 +34,7 @@ namespace YaqeenDAL.Model
     public class Patient : Entity
     {
         [Key]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public int AgeGroup { get; set; }
 
         public int CancerTypeId { get; set; }
@@ -58,7 +58,7 @@ namespace YaqeenDAL.Model
     public class Doctor : Entity
     {
         [Key]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public string University { get; set; }
         public string Degree { get; set; }
         public string MedicalField { get; set; }
@@ -105,7 +105,7 @@ namespace YaqeenDAL.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int QuestionId { get; set; }
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public string Title { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
@@ -121,7 +121,7 @@ namespace YaqeenDAL.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AnswerId { get; set; }
-        public string DoctorId { get; set; }
+        public int DoctorId { get; set; }
         public int QuestionId { get; set; }
         public string Content { get; set; }
 
@@ -146,7 +146,7 @@ namespace YaqeenDAL.Model
     {
         [Key]
         public int BookmarkId { get; set; }
-        public string UserId { get; set; }
+        public int UserId { get; set; }
         public int? ArticleId { get; set; }
         public string Type { get; set; } // Can be "Question" or "Article"
 
@@ -160,7 +160,7 @@ namespace YaqeenDAL.Model
 
     public class VerificationStatus 
     {
-        public string VerifierUserId { get; set; }
+        public int VerifierUserId { get; set; }
         [Timestamp]
         public byte[] RowVersion { get; set; }
         public string Notes { get; set; }

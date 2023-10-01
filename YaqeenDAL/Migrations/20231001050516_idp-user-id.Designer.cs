@@ -12,8 +12,8 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231001043630_IdpUserId")]
-    partial class IdpUserId
+    [Migration("20231001050516_idp-user-id")]
+    partial class idpuserid
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,8 +30,8 @@ namespace YaqeenDAL.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("UsersUserId")
-                        .HasColumnType("text");
+                    b.Property<int>("UsersUserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("UserId", "UsersUserId");
 
@@ -58,9 +58,8 @@ namespace YaqeenDAL.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("DoctorId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -144,9 +143,8 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("BookmarkId");
 
@@ -217,8 +215,8 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("YaqeenDAL.Model.Doctor", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -271,8 +269,8 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PatientUserId")
-                        .HasColumnType("text");
+                    b.Property<int?>("PatientUserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("InterestId");
 
@@ -283,8 +281,8 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -338,16 +336,15 @@ namespace YaqeenDAL.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("PatientUserId")
-                        .HasColumnType("text");
+                    b.Property<int?>("PatientUserId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("QuestionId");
 
@@ -360,8 +357,11 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("YaqeenDAL.Model.User", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -478,8 +478,8 @@ namespace YaqeenDAL.Migrations
 
                     b.OwnsOne("YaqeenDAL.Model.VerificationStatus", "VerificationStatus", b1 =>
                         {
-                            b1.Property<string>("DoctorUserId")
-                                .HasColumnType("text");
+                            b1.Property<int>("DoctorUserId")
+                                .HasColumnType("integer");
 
                             b1.Property<string>("Notes")
                                 .IsRequired()
@@ -491,9 +491,8 @@ namespace YaqeenDAL.Migrations
                                 .ValueGeneratedOnAddOrUpdate()
                                 .HasColumnType("bytea");
 
-                            b1.Property<string>("VerifierUserId")
-                                .IsRequired()
-                                .HasColumnType("text");
+                            b1.Property<int>("VerifierUserId")
+                                .HasColumnType("integer");
 
                             b1.HasKey("DoctorUserId");
 
