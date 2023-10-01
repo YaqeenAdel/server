@@ -62,7 +62,7 @@ namespace YaqeenDAL.Model
         public string University { get; set; }
         public string Degree { get; set; }
         public string MedicalField { get; set; }
-        public int VerificationStatusId { get; set; }
+        public int? VerificationStatusId { get; set; }
         
         [ForeignKey("VerificationStatusId")]
         public virtual VerificationStatus VerificationStatus { get; set; }
