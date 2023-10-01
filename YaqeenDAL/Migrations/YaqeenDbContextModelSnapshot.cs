@@ -34,7 +34,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("UsersUserId");
 
-                    b.ToTable("InterestUser");
+                    b.ToTable("InterestUser", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Answer", b =>
@@ -73,7 +73,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answers");
+                    b.ToTable("Answers", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Article", b =>
@@ -110,7 +110,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("ArticleId");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Articles", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Bookmark", b =>
@@ -149,7 +149,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookmarks");
+                    b.ToTable("Bookmarks", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.CancerStage", b =>
@@ -178,7 +178,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("StageId");
 
-                    b.ToTable("CancerStages");
+                    b.ToTable("CancerStages", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.CancerType", b =>
@@ -207,7 +207,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("CancerId");
 
-                    b.ToTable("CancerTypes");
+                    b.ToTable("CancerTypes", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Doctor", b =>
@@ -235,7 +235,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Doctors");
+                    b.ToTable("Doctors", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Interest", b =>
@@ -273,7 +273,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("PatientUserId");
 
-                    b.ToTable("Interests");
+                    b.ToTable("Interests", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
@@ -302,7 +302,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("CancerTypeId");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Question", b =>
@@ -349,7 +349,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.User", b =>
@@ -403,7 +403,7 @@ namespace YaqeenDAL.Migrations
                     b.HasIndex("MobileNumber")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("InterestUser", b =>
@@ -473,7 +473,7 @@ namespace YaqeenDAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("YaqeenDAL.Model.VerificationStatus", "VerificationStatus", b1 =>
+                    b.OwnsOne("YaqeenDAL.Model.Doctor.VerificationStatus#YaqeenDAL.Model.VerificationStatus", "VerificationStatus", b1 =>
                         {
                             b1.Property<int>("DoctorUserId")
                                 .HasColumnType("integer");
@@ -495,7 +495,7 @@ namespace YaqeenDAL.Migrations
 
                             b1.HasIndex("VerifierUserId");
 
-                            b1.ToTable("Doctors");
+                            b1.ToTable("Doctors", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("DoctorUserId");
