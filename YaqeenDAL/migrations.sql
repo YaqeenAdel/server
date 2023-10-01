@@ -196,4 +196,11 @@ VALUES ('20231001155547_make-UserId-string', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231001174541_optional-verification-status', '7.0.11');
+
+COMMIT;
+
 
