@@ -63,13 +63,9 @@ namespace YaqeenDAL.Model
         public string Degree { get; set; }
         public string MedicalField { get; set; }
         public VerificationStatus VerificationStatus { get; set; }
-        public int AnswerId { get; set; }
-        public int BookmarkId { get; set; }
         
         // Navigation Property
-        [ForeignKey("AnswerId")]
         public virtual ICollection<Answer> Answers { get; set; }
-        [ForeignKey("BookmarkId")]
         public virtual ICollection<Bookmark> Bookmarks { get; set; }
 
         [ForeignKey("UserId")]
