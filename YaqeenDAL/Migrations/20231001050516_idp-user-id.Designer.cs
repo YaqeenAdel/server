@@ -12,7 +12,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231001050341_idp-user-id")]
+    [Migration("20231001050516_idp-user-id")]
     partial class idpuserid
     {
         /// <inheritdoc />
