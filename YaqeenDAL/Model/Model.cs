@@ -8,8 +8,10 @@ namespace YaqeenDAL.Model
     [Index(nameof(MobileNumber), IsUnique = true)]
     public class User : Entity
     {
+        public int UserId { get; set; }
+
         [Key]
-        public string UserId { get; set; } // This attribute will contains required informations came from Auth0  
+        public string UserIdStr { get; set; } // This attribute will contains required informations came from Auth0  
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
@@ -34,7 +36,7 @@ namespace YaqeenDAL.Model
     public class Patient : Entity
     {
         [Key]
-        public string UserId { get; set; }
+        public string UserIdStr { get; set; }
         public int AgeGroup { get; set; }
 
         public int CancerTypeId { get; set; }
@@ -58,7 +60,7 @@ namespace YaqeenDAL.Model
     public class Doctor : Entity
     {
         [Key]
-        public string UserId { get; set; }
+        public string UserIdStr { get; set; }
         public string University { get; set; }
         public string Degree { get; set; }
         public string MedicalField { get; set; }
