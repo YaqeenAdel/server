@@ -121,7 +121,7 @@ namespace YaqeenDAL.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AnswerId { get; set; }
-        public string DoctorId { get; set; }
+        public int DoctorId { get; set; }
         public int QuestionId { get; set; }
         public string Content { get; set; }
 
@@ -160,7 +160,7 @@ namespace YaqeenDAL.Model
 
     public class VerificationStatus 
     {
-        public string VerifierUserId { get; set; }
+        public int VerifierUserId { get; set; }
         [Timestamp]
         public byte[] RowVersion { get; set; }
         public string Notes { get; set; }
