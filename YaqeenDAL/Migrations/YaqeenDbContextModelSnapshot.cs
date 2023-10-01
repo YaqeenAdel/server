@@ -24,15 +24,15 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("InterestUser", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("InterestsInterestId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("UsersUserId")
+                    b.Property<string>("UsersUserIdStr")
                         .HasColumnType("text");
 
-                    b.HasKey("UserId", "UsersUserId");
+                    b.HasKey("InterestsInterestId", "UsersUserIdStr");
 
-                    b.HasIndex("UsersUserId");
+                    b.HasIndex("UsersUserIdStr");
 
                     b.ToTable("InterestUser");
                 });
@@ -214,7 +214,7 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("YaqeenDAL.Model.Doctor", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserIdStr")
                         .HasColumnType("text");
 
                     b.Property<bool>("Active")
@@ -238,7 +238,7 @@ namespace YaqeenDAL.Migrations
                     b.Property<int>("VerificationStatusId")
                         .HasColumnType("integer");
 
-                    b.HasKey("UserId");
+                    b.HasKey("UserIdStr");
 
                     b.HasIndex("VerificationStatusId");
 
@@ -273,19 +273,19 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PatientUserId")
+                    b.Property<string>("PatientUserIdStr")
                         .HasColumnType("text");
 
                     b.HasKey("InterestId");
 
-                    b.HasIndex("PatientUserId");
+                    b.HasIndex("PatientUserIdStr");
 
                     b.ToTable("Interests");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserIdStr")
                         .HasColumnType("text");
 
                     b.Property<bool>("Active")
@@ -303,7 +303,7 @@ namespace YaqeenDAL.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("integer");
 
-                    b.HasKey("UserId");
+                    b.HasKey("UserIdStr");
 
                     b.HasIndex("CancerStageId");
 
@@ -340,7 +340,7 @@ namespace YaqeenDAL.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("PatientUserId")
+                    b.Property<string>("PatientUserIdStr")
                         .HasColumnType("text");
 
                     b.Property<string>("Title")
@@ -353,7 +353,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("QuestionId");
 
-                    b.HasIndex("PatientUserId");
+                    b.HasIndex("PatientUserIdStr");
 
                     b.HasIndex("UserId");
 
@@ -362,7 +362,7 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("YaqeenDAL.Model.User", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserIdStr")
                         .HasColumnType("text");
 
                     b.Property<bool>("Active")
@@ -400,7 +400,10 @@ namespace YaqeenDAL.Migrations
                     b.Property<string>("MobileNumber")
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserIdStr");
 
                     b.HasIndex("Email")
                         .IsUnique();
@@ -439,7 +442,8 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("VerificationId");
 
-                    b.HasIndex("TargetDoctorUserId");
+                    b.HasIndex("TargetDoctorUserId")
+                        .IsUnique();
 
                     b.HasIndex("VerifierUserId");
 
@@ -450,13 +454,13 @@ namespace YaqeenDAL.Migrations
                 {
                     b.HasOne("YaqeenDAL.Model.Interest", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("InterestsInterestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("YaqeenDAL.Model.User", null)
                         .WithMany()
-                        .HasForeignKey("UsersUserId")
+                        .HasForeignKey("UsersUserIdStr")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -509,7 +513,7 @@ namespace YaqeenDAL.Migrations
                 {
                     b.HasOne("YaqeenDAL.Model.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserIdStr")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -528,7 +532,7 @@ namespace YaqeenDAL.Migrations
                 {
                     b.HasOne("YaqeenDAL.Model.Patient", null)
                         .WithMany("Interests")
-                        .HasForeignKey("PatientUserId");
+                        .HasForeignKey("PatientUserIdStr");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
@@ -547,7 +551,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasOne("YaqeenDAL.Model.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserIdStr")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -562,7 +566,7 @@ namespace YaqeenDAL.Migrations
                 {
                     b.HasOne("YaqeenDAL.Model.Patient", null)
                         .WithMany("Questions")
-                        .HasForeignKey("PatientUserId");
+                        .HasForeignKey("PatientUserIdStr");
 
                     b.HasOne("YaqeenDAL.Model.User", "User")
                         .WithMany()
@@ -576,8 +580,8 @@ namespace YaqeenDAL.Migrations
             modelBuilder.Entity("YaqeenDAL.Model.VerificationStatus", b =>
                 {
                     b.HasOne("YaqeenDAL.Model.Doctor", "TargetDoctor")
-                        .WithMany()
-                        .HasForeignKey("TargetDoctorUserId")
+                        .WithOne()
+                        .HasForeignKey("YaqeenDAL.Model.VerificationStatus", "TargetDoctorUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
