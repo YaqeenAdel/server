@@ -8,10 +8,8 @@ namespace YaqeenDAL.Model
     [Index(nameof(MobileNumber), IsUnique = true)]
     public class User : Entity
     {
-        public int UserId { get; set; }
-
         [Key]
-        public string UserIdStr { get; set; } // This attribute will contains required informations came from Auth0  
+        public string UserId { get; set; } // This attribute will contains required informations came from Auth0  
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
@@ -36,7 +34,7 @@ namespace YaqeenDAL.Model
     public class Patient : Entity
     {
         [Key]
-        public string UserIdStr { get; set; }
+        public string UserId { get; set; }
         public int AgeGroup { get; set; }
 
         public int CancerTypeId { get; set; }
@@ -49,7 +47,7 @@ namespace YaqeenDAL.Model
         public ICollection<Bookmark> Bookmarks { get; set; }
 
         // Navigation Property
-        [ForeignKey("UserIdStr")]
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
         [ForeignKey("CancerTypeId")]
         public virtual CancerType? CancerType { get; set; }
@@ -60,7 +58,7 @@ namespace YaqeenDAL.Model
     public class Doctor : Entity
     {
         [Key]
-        public string UserIdStr { get; set; }
+        public string UserId { get; set; }
         public string University { get; set; }
         public string Degree { get; set; }
         public string MedicalField { get; set; }
@@ -73,7 +71,7 @@ namespace YaqeenDAL.Model
         public virtual ICollection<Answer> Answers { get; set; }
         public virtual ICollection<Bookmark> Bookmarks { get; set; }
 
-        [ForeignKey("UserIdStr")]
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
     }
 
