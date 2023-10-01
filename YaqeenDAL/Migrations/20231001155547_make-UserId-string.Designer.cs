@@ -12,8 +12,8 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231001050516_idp-user-id")]
-    partial class idpuserid
+    [Migration("20231001155547_make-UserId-string")]
+    partial class makeUserIdstring
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,13 +27,13 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("InterestUser", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("InterestsInterestId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UsersUserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("UsersUserId")
+                        .HasColumnType("text");
 
-                    b.HasKey("UserId", "UsersUserId");
+                    b.HasKey("InterestsInterestId", "UsersUserId");
 
                     b.HasIndex("UsersUserId");
 
@@ -58,8 +58,9 @@ namespace YaqeenDAL.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("integer");
+                    b.Property<string>("DoctorId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("Id")
                         .HasColumnType("integer");
@@ -143,8 +144,9 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("BookmarkId");
 
@@ -215,8 +217,8 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("YaqeenDAL.Model.Doctor", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -236,7 +238,12 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("VerificationStatusId")
+                        .HasColumnType("integer");
+
                     b.HasKey("UserId");
+
+                    b.HasIndex("VerificationStatusId");
 
                     b.ToTable("Doctors");
                 });
@@ -269,8 +276,8 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("PatientUserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("PatientUserId")
+                        .HasColumnType("text");
 
                     b.HasKey("InterestId");
 
@@ -281,8 +288,8 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -336,15 +343,16 @@ namespace YaqeenDAL.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("PatientUserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("PatientUserId")
+                        .HasColumnType("text");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("QuestionId");
 
@@ -357,11 +365,8 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("YaqeenDAL.Model.User", b =>
                 {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -409,11 +414,46 @@ namespace YaqeenDAL.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("YaqeenDAL.Model.VerificationStatus", b =>
+                {
+                    b.Property<int>("VerificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("VerificationId"));
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("TargetDoctorUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("VerifierUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("VerificationId");
+
+                    b.HasIndex("TargetDoctorUserId");
+
+                    b.HasIndex("VerifierUserId");
+
+                    b.ToTable("VerificationStatus");
+                });
+
             modelBuilder.Entity("InterestUser", b =>
                 {
                     b.HasOne("YaqeenDAL.Model.Interest", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("InterestsInterestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -476,46 +516,15 @@ namespace YaqeenDAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("YaqeenDAL.Model.VerificationStatus", "VerificationStatus", b1 =>
-                        {
-                            b1.Property<int>("DoctorUserId")
-                                .HasColumnType("integer");
-
-                            b1.Property<string>("Notes")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<byte[]>("RowVersion")
-                                .IsConcurrencyToken()
-                                .IsRequired()
-                                .ValueGeneratedOnAddOrUpdate()
-                                .HasColumnType("bytea");
-
-                            b1.Property<int>("VerifierUserId")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("DoctorUserId");
-
-                            b1.HasIndex("VerifierUserId");
-
-                            b1.ToTable("Doctors");
-
-                            b1.WithOwner()
-                                .HasForeignKey("DoctorUserId");
-
-                            b1.HasOne("YaqeenDAL.Model.User", "Verifier")
-                                .WithMany()
-                                .HasForeignKey("VerifierUserId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b1.Navigation("Verifier");
-                        });
+                    b.HasOne("YaqeenDAL.Model.VerificationStatus", "VerificationStatus")
+                        .WithMany()
+                        .HasForeignKey("VerificationStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
 
-                    b.Navigation("VerificationStatus")
-                        .IsRequired();
+                    b.Navigation("VerificationStatus");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Interest", b =>
@@ -565,6 +574,25 @@ namespace YaqeenDAL.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("YaqeenDAL.Model.VerificationStatus", b =>
+                {
+                    b.HasOne("YaqeenDAL.Model.Doctor", "TargetDoctor")
+                        .WithMany()
+                        .HasForeignKey("TargetDoctorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YaqeenDAL.Model.User", "Verifier")
+                        .WithMany()
+                        .HasForeignKey("VerifierUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TargetDoctor");
+
+                    b.Navigation("Verifier");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Article", b =>

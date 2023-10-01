@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace YaqeenDAL.Migrations
 {
     /// <inheritdoc />
-    public partial class schemarelationships : Migration
+    public partial class makeUserIdstring : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -69,8 +69,7 @@ namespace YaqeenDAL.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
                     MobileNumber = table.Column<string>(type: "text", nullable: true),
@@ -88,43 +87,10 @@ namespace YaqeenDAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Doctors",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    University = table.Column<string>(type: "text", nullable: false),
-                    Degree = table.Column<string>(type: "text", nullable: false),
-                    MedicalField = table.Column<string>(type: "text", nullable: false),
-                    VerificationStatus_VerifierUserId = table.Column<int>(type: "integer", nullable: false),
-                    VerificationStatus_RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
-                    VerificationStatus_Notes = table.Column<string>(type: "text", nullable: false),
-                    AnswerId = table.Column<string>(type: "text", nullable: false),
-                    BookmarkId = table.Column<string>(type: "text", nullable: false),
-                    Id = table.Column<int>(type: "integer", nullable: false),
-                    Active = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Doctors", x => x.UserId);
-                    table.ForeignKey(
-                        name: "FK_Doctors_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Doctors_Users_VerificationStatus_VerifierUserId",
-                        column: x => x.VerificationStatus_VerifierUserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Patients",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
                     AgeGroup = table.Column<int>(type: "integer", nullable: false),
                     CancerTypeId = table.Column<int>(type: "integer", nullable: false),
                     CancerStageId = table.Column<int>(type: "integer", nullable: false),
@@ -155,47 +121,6 @@ namespace YaqeenDAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bookmarks",
-                columns: table => new
-                {
-                    BookmarkId = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    ArticleId = table.Column<int>(type: "integer", nullable: true),
-                    Type = table.Column<string>(type: "text", nullable: false),
-                    Id = table.Column<int>(type: "integer", nullable: false),
-                    Active = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bookmarks", x => x.BookmarkId);
-                    table.ForeignKey(
-                        name: "FK_Bookmarks_Articles_ArticleId",
-                        column: x => x.ArticleId,
-                        principalTable: "Articles",
-                        principalColumn: "ArticleId");
-                    table.ForeignKey(
-                        name: "FK_Bookmarks_Doctors_BookmarkId",
-                        column: x => x.BookmarkId,
-                        principalTable: "Doctors",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Bookmarks_Doctors_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Doctors",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Bookmarks_Patients_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Patients",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Interests",
                 columns: table => new
                 {
@@ -203,7 +128,7 @@ namespace YaqeenDAL.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     LogoURL = table.Column<string>(type: "text", nullable: false),
-                    PatientUserId = table.Column<int>(type: "integer", nullable: true),
+                    PatientUserId = table.Column<string>(type: "text", nullable: true),
                     Id = table.Column<int>(type: "integer", nullable: false),
                     Active = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -225,11 +150,11 @@ namespace YaqeenDAL.Migrations
                 {
                     QuestionId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Category = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    PatientUserId = table.Column<int>(type: "integer", nullable: true),
+                    PatientUserId = table.Column<string>(type: "text", nullable: true),
                     Id = table.Column<int>(type: "integer", nullable: false),
                     Active = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -255,15 +180,15 @@ namespace YaqeenDAL.Migrations
                 name: "InterestUser",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    UsersUserId = table.Column<int>(type: "integer", nullable: false)
+                    InterestsInterestId = table.Column<int>(type: "integer", nullable: false),
+                    UsersUserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InterestUser", x => new { x.UserId, x.UsersUserId });
+                    table.PrimaryKey("PK_InterestUser", x => new { x.InterestsInterestId, x.UsersUserId });
                     table.ForeignKey(
-                        name: "FK_InterestUser_Interests_UserId",
-                        column: x => x.UserId,
+                        name: "FK_InterestUser_Interests_InterestsInterestId",
+                        column: x => x.InterestsInterestId,
                         principalTable: "Interests",
                         principalColumn: "InterestId",
                         onDelete: ReferentialAction.Cascade);
@@ -279,8 +204,9 @@ namespace YaqeenDAL.Migrations
                 name: "Answers",
                 columns: table => new
                 {
-                    AnswerId = table.Column<int>(type: "integer", nullable: false),
-                    DoctorId = table.Column<int>(type: "integer", nullable: false),
+                    AnswerId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DoctorId = table.Column<string>(type: "text", nullable: false),
                     QuestionId = table.Column<int>(type: "integer", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     Id = table.Column<int>(type: "integer", nullable: false),
@@ -292,22 +218,91 @@ namespace YaqeenDAL.Migrations
                 {
                     table.PrimaryKey("PK_Answers", x => x.AnswerId);
                     table.ForeignKey(
-                        name: "FK_Answers_Doctors_AnswerId",
-                        column: x => x.AnswerId,
-                        principalTable: "Doctors",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Answers_Doctors_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "Doctors",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Answers_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "QuestionId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bookmarks",
+                columns: table => new
+                {
+                    BookmarkId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    ArticleId = table.Column<int>(type: "integer", nullable: true),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Active = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bookmarks", x => x.BookmarkId);
+                    table.ForeignKey(
+                        name: "FK_Bookmarks_Articles_ArticleId",
+                        column: x => x.ArticleId,
+                        principalTable: "Articles",
+                        principalColumn: "ArticleId");
+                    table.ForeignKey(
+                        name: "FK_Bookmarks_Patients_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Patients",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Doctors",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    University = table.Column<string>(type: "text", nullable: false),
+                    Degree = table.Column<string>(type: "text", nullable: false),
+                    MedicalField = table.Column<string>(type: "text", nullable: false),
+                    VerificationStatusId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Active = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Doctors", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_Doctors_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VerificationStatus",
+                columns: table => new
+                {
+                    VerificationId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TargetDoctorUserId = table.Column<string>(type: "text", nullable: false),
+                    VerifierUserId = table.Column<string>(type: "text", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
+                    Notes = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VerificationStatus", x => x.VerificationId);
+                    table.ForeignKey(
+                        name: "FK_VerificationStatus_Doctors_TargetDoctorUserId",
+                        column: x => x.TargetDoctorUserId,
+                        principalTable: "Doctors",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VerificationStatus_Users_VerifierUserId",
+                        column: x => x.VerifierUserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -332,9 +327,9 @@ namespace YaqeenDAL.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doctors_VerificationStatus_VerifierUserId",
+                name: "IX_Doctors_VerificationStatusId",
                 table: "Doctors",
-                column: "VerificationStatus_VerifierUserId");
+                column: "VerificationStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Interests_PatientUserId",
@@ -377,11 +372,49 @@ namespace YaqeenDAL.Migrations
                 table: "Users",
                 column: "MobileNumber",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VerificationStatus_TargetDoctorUserId",
+                table: "VerificationStatus",
+                column: "TargetDoctorUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VerificationStatus_VerifierUserId",
+                table: "VerificationStatus",
+                column: "VerifierUserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Answers_Doctors_DoctorId",
+                table: "Answers",
+                column: "DoctorId",
+                principalTable: "Doctors",
+                principalColumn: "UserId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Bookmarks_Doctors_UserId",
+                table: "Bookmarks",
+                column: "UserId",
+                principalTable: "Doctors",
+                principalColumn: "UserId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Doctors_VerificationStatus_VerificationStatusId",
+                table: "Doctors",
+                column: "VerificationStatusId",
+                principalTable: "VerificationStatus",
+                principalColumn: "VerificationId",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_VerificationStatus_Doctors_TargetDoctorUserId",
+                table: "VerificationStatus");
+
             migrationBuilder.DropTable(
                 name: "Answers");
 
@@ -398,9 +431,6 @@ namespace YaqeenDAL.Migrations
                 name: "Articles");
 
             migrationBuilder.DropTable(
-                name: "Doctors");
-
-            migrationBuilder.DropTable(
                 name: "Interests");
 
             migrationBuilder.DropTable(
@@ -411,6 +441,12 @@ namespace YaqeenDAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "CancerTypes");
+
+            migrationBuilder.DropTable(
+                name: "Doctors");
+
+            migrationBuilder.DropTable(
+                name: "VerificationStatus");
 
             migrationBuilder.DropTable(
                 name: "Users");

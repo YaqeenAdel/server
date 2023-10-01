@@ -141,8 +141,8 @@ namespace YaqeenDAL.Model
             // modelBuilder.Entity<DoctorAreaofInterest>()
             //     .HasKey(da => new { da.UserId, da.AreaId });
 
-            modelBuilder.Entity<Doctor>()
-               .OwnsOne(r => r.VerificationStatus);
+            // modelBuilder.Entity<Doctor>()
+            //    .OwnsOne(r => r.VerificationStatus);
         }
     }
 }
