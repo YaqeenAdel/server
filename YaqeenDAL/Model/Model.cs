@@ -42,7 +42,6 @@ namespace YaqeenDAL.Model
         [ForeignKey("CancerStage")]
         public int CancerStageId { get; set; }
 
-        public ICollection<Interest> Interests { get; set; }
         public ICollection<Question> Questions { get; set; }
         public ICollection<Bookmark> Bookmarks { get; set; }
 
