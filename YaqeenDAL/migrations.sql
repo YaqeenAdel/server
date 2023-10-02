@@ -216,4 +216,17 @@ VALUES ('20231001183129_Optional-VerificationStatus-Id', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Interests" DROP CONSTRAINT "FK_Interests_Patients_PatientUserId";
+
+DROP INDEX "IX_Interests_PatientUserId";
+
+ALTER TABLE "Interests" DROP COLUMN "PatientUserId";
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231002211535_rm-interests-patients', '7.0.11');
+
+COMMIT;
+
 
