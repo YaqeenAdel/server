@@ -186,7 +186,7 @@ namespace YaqeenDAL.Model
         public string Name { get; set; }
         public string LogoURL { get; set; }
         public UserType TargetUserType { get; set; }
-        
+
         public virtual ICollection<ResourceLocalization> Translations { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
@@ -194,12 +194,10 @@ namespace YaqeenDAL.Model
     public class ResourceLocalization
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TranslationId { get; set; }
         public string TableName { get; set; }
-        public int RowKey { get; set; }
-        public string Column { get; set; }
-        public string Value { get; set; }
         public string Language { get; set; }
+
+        public Dictionary<string, string> Translation { get; set; }
     }
 }
