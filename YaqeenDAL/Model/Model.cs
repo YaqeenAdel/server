@@ -198,6 +198,7 @@ namespace YaqeenDAL.Model
         public string TableName { get; set; }
         public string Language { get; set; }
 
+        [Column(TypeName = "jsonb")]
         public Dictionary<string, string> Translation { get; set; }
     }
 }
