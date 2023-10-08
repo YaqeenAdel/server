@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -25,10 +26,8 @@ namespace YaqeenDAL.Migrations
                     TranslationId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     TableName = table.Column<string>(type: "text", nullable: false),
-                    RowKey = table.Column<int>(type: "integer", nullable: false),
-                    Column = table.Column<string>(type: "text", nullable: false),
-                    Value = table.Column<string>(type: "text", nullable: false),
                     Language = table.Column<string>(type: "text", nullable: false),
+                    Translation = table.Column<Dictionary<string, string>>(type: "jsonb", nullable: false),
                     CancerStageStageId = table.Column<int>(type: "integer", nullable: true),
                     CancerTypeCancerId = table.Column<int>(type: "integer", nullable: true),
                     InterestId = table.Column<int>(type: "integer", nullable: true)
