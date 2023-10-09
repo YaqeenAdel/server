@@ -13,7 +13,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231008133048_translations-interests")]
+    [Migration("20231009215401_translations-interests")]
     partial class translationsinterests
     {
         /// <inheritdoc />
@@ -380,10 +380,6 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Language")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("TableName")
                         .IsRequired()
                         .HasColumnType("text");
 

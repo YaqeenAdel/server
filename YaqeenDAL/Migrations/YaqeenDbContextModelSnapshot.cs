@@ -380,10 +380,6 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("TableName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<Dictionary<string, string>>("Translation")
                         .IsRequired()
                         .HasColumnType("jsonb");

@@ -25,7 +25,6 @@ namespace YaqeenDAL.Migrations
                 {
                     TranslationId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    TableName = table.Column<string>(type: "text", nullable: false),
                     Language = table.Column<string>(type: "text", nullable: false),
                     Translation = table.Column<Dictionary<string, string>>(type: "jsonb", nullable: false),
                     CancerStageStageId = table.Column<int>(type: "integer", nullable: true),
