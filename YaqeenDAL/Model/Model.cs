@@ -74,33 +74,6 @@ namespace YaqeenDAL.Model
         public virtual User User { get; set; }
     }
 
-    public class CancerType : AuditableEntity
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int CancerId { get; set; }
-        public string CancerTypeName { get; set; }
-    }
-
-    public class CancerStage : AuditableEntity
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int StageId { get; set; }
-        public string StageName { get; set; }
-    }
-
-    public class Interest : AuditableEntity
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int InterestId { get; set; }
-        public string Name { get; set; }
-        public string LogoURL { get; set; }
-
-        public virtual ICollection<User> Users { get; set; }
-    }
-
     public class Question : AuditableEntity
     {
         [Key]
@@ -176,5 +149,55 @@ namespace YaqeenDAL.Model
         public virtual User Verifier { get; set; }
         [ForeignKey("TargetDoctorUserId")]
         public virtual Doctor TargetDoctor { get; set; }
+    }
+
+    // Resources:
+
+    public class CancerType : AuditableEntity
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int CancerId { get; set; }
+        public string CancerTypeName { get; set; }
+
+        public virtual ICollection<ResourceLocalization> Translations { get; set; }
+    }
+
+    public class CancerStage : AuditableEntity
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int StageId { get; set; }
+        public string StageName { get; set; }
+
+        public virtual ICollection<ResourceLocalization> Translations { get; set; }
+    }
+
+    public enum UserType {
+        Patient,
+        Doctor
+    }
+
+    public class Interest : AuditableEntity
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int InterestId { get; set; }
+        public string Name { get; set; }
+        public string LogoURL { get; set; }
+        public UserType TargetUserType { get; set; }
+
+        public virtual ICollection<ResourceLocalization> Translations { get; set; }
+        public virtual ICollection<User> Users { get; set; }
+    }
+
+    public class ResourceLocalization
+    {
+        [Key]
+        public int TranslationId { get; set; }
+        public string Language { get; set; }
+
+        [Column(TypeName = "jsonb")]
+        public Dictionary<string, string> Translation { get; set; }
     }
 }
