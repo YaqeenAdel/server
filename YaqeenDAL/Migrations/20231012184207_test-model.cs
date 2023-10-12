@@ -5,7 +5,7 @@
 namespace YaqeenDAL.Migrations
 {
     /// <inheritdoc />
-    public partial class testmodelchange : Migration
+    public partial class testmodel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -13,6 +13,13 @@ namespace YaqeenDAL.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "LogoURL",
                 table: "CancerTypes",
+                type: "text",
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "LogoURL",
+                table: "CancerStages",
                 type: "text",
                 nullable: false,
                 defaultValue: "");
@@ -24,6 +31,10 @@ namespace YaqeenDAL.Migrations
             migrationBuilder.DropColumn(
                 name: "LogoURL",
                 table: "CancerTypes");
+
+            migrationBuilder.DropColumn(
+                name: "LogoURL",
+                table: "CancerStages");
         }
     }
 }

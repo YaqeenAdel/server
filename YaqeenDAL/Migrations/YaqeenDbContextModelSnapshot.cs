@@ -175,6 +175,10 @@ namespace YaqeenDAL.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("LogoURL")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("StageName")
                         .IsRequired()
                         .HasColumnType("text");

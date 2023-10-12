@@ -13,8 +13,8 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231012143125_test-model-change")]
-    partial class testmodelchange
+    [Migration("20231012184207_test-model")]
+    partial class testmodel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -177,6 +177,10 @@ namespace YaqeenDAL.Migrations
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LogoURL")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("StageName")
                         .IsRequired()
