@@ -257,4 +257,13 @@ VALUES ('20231009215401_translations-interests', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "CancerTypes" ADD "LogoURL" text NOT NULL DEFAULT '';
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231012143125_test-model-change', '7.0.11');
+
+COMMIT;
+
 
