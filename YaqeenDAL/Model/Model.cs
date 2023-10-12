@@ -171,6 +171,8 @@ namespace YaqeenDAL.Model
         public int StageId { get; set; }
         public string StageName { get; set; }
 
+        public string LogoURL { get; set; } // add logo url to cancer stage
+
         public virtual ICollection<ResourceLocalization> Translations { get; set; }
     }
 
