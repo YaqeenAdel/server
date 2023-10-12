@@ -266,4 +266,11 @@ VALUES ('20231012143125_test-model-change', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231012185817_MohammedMaher177-patch-1', '7.0.11');
+
+COMMIT;
+
 
