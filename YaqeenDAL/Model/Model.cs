@@ -159,6 +159,7 @@ namespace YaqeenDAL.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CancerId { get; set; }
         public string CancerTypeName { get; set; }
+        public string LogoURL { get; set; }
 
         public virtual ICollection<ResourceLocalization> Translations { get; set; }
     }
