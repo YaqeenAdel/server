@@ -266,4 +266,13 @@ VALUES ('20231012143125_test-model-change', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "CancerStages" ADD "LogoURL" text NOT NULL DEFAULT '';
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231014121947_add-logourl-cancerstage', '7.0.11');
+
+COMMIT;
+
 
