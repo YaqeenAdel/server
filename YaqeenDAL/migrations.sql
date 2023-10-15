@@ -268,10 +268,10 @@ COMMIT;
 
 START TRANSACTION;
 
-ALTER TABLE "CancerStages" ADD "LogoURL" text NOT NULL DEFAULT '';
+ALTER TABLE "CancerStages" ADD "LogoURL" text NULL;
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20231014121947_add-logourl-cancerstage', '7.0.11');
+VALUES ('20231015043744_add-logourl-cancerstage', '7.0.11');
 
 COMMIT;
 
