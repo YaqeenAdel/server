@@ -170,7 +170,7 @@ namespace YaqeenDAL.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int StageId { get; set; }
         public string StageName { get; set; }
-
+        public string? LogoURL { get; set; }
         public virtual ICollection<ResourceLocalization> Translations { get; set; }
     }
 
