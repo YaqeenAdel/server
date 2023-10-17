@@ -275,4 +275,11 @@ VALUES ('20231015043744_add-logourl-cancerstage', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231017025008_welcome-photos', '7.0.11');
+
+COMMIT;
+
 
