@@ -62,6 +62,7 @@ namespace YaqeenDAL.Model
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Bookmark> Bookmarks { get; set; }
+        public DbSet<Photo> Photos { get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
