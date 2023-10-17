@@ -13,7 +13,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231017025008_welcome-photos")]
+    [Migration("20231017030616_welcome-photos")]
     partial class welcomephotos
     {
         /// <inheritdoc />

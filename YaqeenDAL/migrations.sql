@@ -278,7 +278,7 @@ COMMIT;
 START TRANSACTION;
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20231017025008_welcome-photos', '7.0.11');
+VALUES ('20231017030616_welcome-photos', '7.0.11');
 
 COMMIT;
 
