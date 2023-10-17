@@ -153,6 +153,15 @@ namespace YaqeenDAL.Model
 
     // Resources:
 
+    public class Photo : AuditableEntity
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int PhotoId { get; set; }
+        public string PhotoURL { get; set; }
+        public int Usage { get; set; } // 0: Welcome guide
+    }
+
     public class CancerType : AuditableEntity
     {
         [Key]
