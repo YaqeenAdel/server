@@ -210,4 +210,30 @@ namespace YaqeenDAL.Model
         [Column(TypeName = "jsonb")]
         public Dictionary<string, string> Translation { get; set; }
     }
+    
+    public class Country : AuditableEntity
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int CountryId { get; set; }
+        public string Name { get; set; } 
+        public string AlphaCode { get; set; }
+    }
+    
+    //country state
+    public class CountryState: AuditableEntity
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int CountryStateId { get; set; }
+        public string Name { get; set; }
+        public int CountryId { get; set; }
+        public string StateCode { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+               
+        [ForeignKey("CountryId")]
+        public virtual Country Country { get; set; }
+    }
+
 }
