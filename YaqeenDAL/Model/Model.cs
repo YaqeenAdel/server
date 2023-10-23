@@ -218,7 +218,7 @@ namespace YaqeenDAL.Model
         public string AlphaCode { get; set; }
     }
     //country state
-           public class CountryState: AuditableEntity
+        public class CountryState: AuditableEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
