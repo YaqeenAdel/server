@@ -324,7 +324,7 @@ CREATE TABLE "CountryStates" (
 CREATE INDEX "IX_CountryStates_CountryId" ON "CountryStates" ("CountryId");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20231023182745_add-university', '7.0.11');
+VALUES ('20231023184403_add-university', '7.0.11');
 
 COMMIT;
 
