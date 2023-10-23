@@ -293,4 +293,11 @@ VALUES ('20231017031908_welcome-photos', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231023120532_add-university', '7.0.11');
+
+COMMIT;
+
 
