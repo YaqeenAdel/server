@@ -35,7 +35,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("UsersUserId");
 
-                    b.ToTable("InterestUser");
+                    b.ToTable("InterestUser", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Answer", b =>
@@ -75,7 +75,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answers");
+                    b.ToTable("Answers", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Article", b =>
@@ -112,7 +112,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("ArticleId");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Articles", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Bookmark", b =>
@@ -152,7 +152,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookmarks");
+                    b.ToTable("Bookmarks", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.CancerStage", b =>
@@ -184,7 +184,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("StageId");
 
-                    b.ToTable("CancerStages");
+                    b.ToTable("CancerStages", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.CancerType", b =>
@@ -217,86 +217,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("CancerId");
 
-                    b.ToTable("CancerTypes");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.Country", b =>
-                {
-                    b.Property<int>("CountryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CountryId"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("AlphaCode")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("LastModifiedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("CountryId");
-
-                    b.ToTable("Countries");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.CountryState", b =>
-                {
-                    b.Property<int>("CountryStateId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CountryStateId"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("LastModifiedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Latitude")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Longitude")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("StateCode")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("CountryStateId");
-
-                    b.HasIndex("CountryId");
-
-                    b.ToTable("CountryStates");
+                    b.ToTable("CancerTypes", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Doctor", b =>
@@ -329,7 +250,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("VerificationStatusId");
 
-                    b.ToTable("Doctors");
+                    b.ToTable("Doctors", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Interest", b =>
@@ -365,7 +286,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("InterestId");
 
-                    b.ToTable("Interests");
+                    b.ToTable("Interests", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
@@ -394,7 +315,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("CancerTypeId");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Photo", b =>
@@ -426,7 +347,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("PhotoId");
 
-                    b.ToTable("Photos");
+                    b.ToTable("Photos", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Question", b =>
@@ -474,7 +395,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.ResourceLocalization", b =>
@@ -510,7 +431,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("InterestId");
 
-                    b.ToTable("ResourceLocalization");
+                    b.ToTable("ResourceLocalization", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.User", b =>
@@ -561,7 +482,7 @@ namespace YaqeenDAL.Migrations
                     b.HasIndex("MobileNumber")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.VerificationStatus", b =>
@@ -596,7 +517,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("VerifierUserId");
 
-                    b.ToTable("VerificationStatus");
+                    b.ToTable("VerificationStatus", (string)null);
                 });
 
             modelBuilder.Entity("InterestUser", b =>
@@ -656,17 +577,6 @@ namespace YaqeenDAL.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.CountryState", b =>
-                {
-                    b.HasOne("YaqeenDAL.Model.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Doctor", b =>
