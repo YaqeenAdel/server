@@ -243,7 +243,7 @@ namespace YaqeenDAL.Model
         public int UniversityId { get; set; }
         public string Name { get; set; }
         public string AlphaCode { get; set; }
-        public string StateCode { get; set; } 
+        public string? StateCode { get; set; } 
         
         [ForeignKey("AlphaCode")]
         public virtual Country Country { get; set; }
