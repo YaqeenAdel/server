@@ -65,7 +65,8 @@ namespace YaqeenDAL.Model
         public DbSet<Photo> Photos { get; set;}
         public DbSet<Country> Countries { get; set; }
         public DbSet<CountryState> CountryStates { get; set; }
-
+        public DbSet<University> Universities { get; set; }
+     
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure the primary keys
