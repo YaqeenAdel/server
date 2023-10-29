@@ -244,11 +244,7 @@ namespace YaqeenDAL.Model
         public string Name { get; set; }
         public string AlphaCode { get; set; }
         public string? StateCode { get; set; } 
-        
-        [ForeignKey("AlphaCode")]
-        public virtual Country Country { get; set; }
-        [ForeignKey("StateCode")]
-        public virtual CountryState CountryState { get; set; }
+      
     }
 
 }
