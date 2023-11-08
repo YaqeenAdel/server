@@ -236,7 +236,7 @@ namespace YaqeenDAL.Model
         public virtual Country Country { get; set; }
     }
     //university
-    [Index(nameof(CountryCode)]
+    [Index(nameof(CountryCode))]
     [Index(nameof(CountryCode), nameof(StateCode))]
     public class University: AuditableEntity
     {
