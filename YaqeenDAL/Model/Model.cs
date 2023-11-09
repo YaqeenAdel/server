@@ -235,5 +235,19 @@ namespace YaqeenDAL.Model
         [ForeignKey("CountryId")]
         public virtual Country Country { get; set; }
     }
+    //university
+    [Index(nameof(CountryCode))]
+    [Index(nameof(CountryCode), nameof(StateCode))]
+    public class University: AuditableEntity
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UniversityId { get; set; }
+        public string CountryName { get; set; }
+        public string CountryCode { get; set; }
+        public string StateCode { get; set; } 
+        public string StateName { get; set; } 
+        public string UniversityName { get; set; } 
+    }
 
 }

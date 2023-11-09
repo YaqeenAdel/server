@@ -93,7 +93,7 @@ jobs:
         with:
           fail-if-not-clean: false # optional
           push-if-not-clean: true # optional
-          # push-token: ${{ secrets.GITHUB_TOKEN }} # optional
+          push-token: ${{ secrets.REPO_ACCESS_TOKEN }} # optional
           # request-changes-token: ${{ secrets.GITHUB_TOKEN }} # optional
           commit-message: "Migration Changes" # optional
           targets: "." #optional
