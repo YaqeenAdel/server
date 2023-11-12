@@ -66,6 +66,7 @@ namespace YaqeenDAL.Model
         public DbSet<Country> Countries { get; set; }
         public DbSet<CountryState> CountryStates { get; set; }
         public DbSet<University> Universities { get; set; }
+        public DbSet<Content> Contents { get; set; }
      
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
