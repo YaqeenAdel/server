@@ -27,11 +27,11 @@ namespace YaqeenDAL.Model
         public int? ParentContentId { get; set; }
         public ContentType Type { get; set; }
         [Timestamp]
-        public byte[] CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
         [Timestamp]
-        public byte[]? UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         [Timestamp]
-        public byte[]? DeletedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
         [Column(TypeName = "jsonb")]
         public Dictionary<string, string> Raw { get; set; }
         public string AuthorUserId { get; set; }
