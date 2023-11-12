@@ -20,7 +20,7 @@ namespace YaqeenDAL.Model
     [Index(nameof(AssignedTo), IsUnique = false)]
     [Index(nameof(ParentContentId), IsUnique = false)]
     [Index(nameof(Type), IsUnique = false)]
-    public class Content : Entity
+    public class Content
     {
         [Key]
         public int ContentId { get; set; }
