@@ -34,7 +34,7 @@ namespace YaqeenDAL.Model
         public byte[]? DeletedAt { get; set; }
         [Column(TypeName = "jsonb")]
         public Dictionary<string, string> Raw { get; set; }
-        public int AuthorUserId { get; set; }
+        public string AuthorUserId { get; set; }
         public int? AssignedTo { get; set; }
         public Phase Phase { get; set; }
         public string[] Tags { get; set; }
