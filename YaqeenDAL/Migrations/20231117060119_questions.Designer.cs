@@ -13,7 +13,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231117045519_questions")]
+    [Migration("20231117060119_questions")]
     partial class questions
     {
         /// <inheritdoc />
@@ -234,6 +234,10 @@ namespace YaqeenDAL.Migrations
                     b.Property<int?>("AssignedTo")
                         .HasColumnType("integer");
 
+                    b.Property<string[]>("Attachments")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
                     b.Property<string>("AuthorUserId")
                         .IsRequired()
                         .HasColumnType("text");
@@ -375,6 +379,10 @@ namespace YaqeenDAL.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("CertificationPath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Degree")
                         .IsRequired()
                         .HasColumnType("text");
@@ -383,6 +391,10 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("MedicalField")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NationalIDPath")
                         .IsRequired()
                         .HasColumnType("text");
 
