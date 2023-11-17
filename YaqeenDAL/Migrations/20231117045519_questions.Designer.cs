@@ -13,7 +13,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231112201859_questions")]
+    [Migration("20231117045519_questions")]
     partial class questions
     {
         /// <inheritdoc />
@@ -238,16 +238,15 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<byte[]>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .IsConcurrencyToken()
-                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bytea");
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<byte[]>("DeletedAt")
+                    b.Property<DateTime?>("DeletedAt")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bytea");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("ParentContentId")
                         .HasColumnType("integer");
@@ -266,10 +265,13 @@ namespace YaqeenDAL.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
-                    b.Property<byte[]>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bytea");
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Visibility")
+                        .HasColumnType("integer");
 
                     b.HasKey("ContentId");
 

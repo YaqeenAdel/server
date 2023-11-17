@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -20,14 +21,15 @@ namespace YaqeenDAL.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ParentContentId = table.Column<int>(type: "integer", nullable: true),
                     Type = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: false),
-                    UpdatedAt = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: true),
-                    DeletedAt = table.Column<byte[]>(type: "bytea", rowVersion: true, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", rowVersion: true, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", rowVersion: true, nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", rowVersion: true, nullable: true),
                     Raw = table.Column<Dictionary<string, string>>(type: "jsonb", nullable: false),
                     AuthorUserId = table.Column<string>(type: "text", nullable: false),
                     AssignedTo = table.Column<int>(type: "integer", nullable: true),
                     Phase = table.Column<int>(type: "integer", nullable: false),
-                    Tags = table.Column<string[]>(type: "text[]", nullable: false)
+                    Tags = table.Column<string[]>(type: "text[]", nullable: false),
+                    Visibility = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
