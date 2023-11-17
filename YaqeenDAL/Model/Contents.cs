@@ -15,6 +15,11 @@ namespace YaqeenDAL.Model
         Published,
     }
 
+    public enum Visibility {
+        Public,
+        Private,
+    }
+
     [Index(nameof(Tags), IsUnique = false)]
     [Index(nameof(AuthorUserId), IsUnique = false)]
     [Index(nameof(AssignedTo), IsUnique = false)]
@@ -38,6 +43,7 @@ namespace YaqeenDAL.Model
         public int? AssignedTo { get; set; }
         public Phase Phase { get; set; }
         public string[] Tags { get; set; }
+        public Visibility Visibility { get; set; }
 
         [ForeignKey(nameof(AuthorUserId))]
         public virtual User Author { get; set; }
