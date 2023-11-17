@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "8.x.x"
-          dotnet-quality: "stable"
+          dotnet-quality: "ga"
           # cache: true
       # - run: dotnet restore --locked-mode
       # - name: Setup PowerShell module cache
