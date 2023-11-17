@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "8.x.x"
-          dotnet-quality: "preview"
+          dotnet-quality: "ga"
       - name: Install required PowerShell modules
         # if: steps.cacher.outputs.cache-hit != 'true'
         shell: pwsh
