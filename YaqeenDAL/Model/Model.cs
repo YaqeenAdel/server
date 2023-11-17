@@ -62,6 +62,8 @@ namespace YaqeenDAL.Model
         public string Degree { get; set; }
         public string MedicalField { get; set; }
         public int? VerificationStatusId { get; set; }
+        public string NationalIDPath { get; set; }
+        public string CertificationPath { get; set; }
         
         [ForeignKey("VerificationStatusId")]
         public virtual VerificationStatus? VerificationStatus { get; set; }

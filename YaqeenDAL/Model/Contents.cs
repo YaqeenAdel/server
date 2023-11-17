@@ -44,6 +44,7 @@ namespace YaqeenDAL.Model
         public Phase Phase { get; set; }
         public string[] Tags { get; set; }
         public Visibility Visibility { get; set; }
+        public string[] Attachments { get; set; }
 
         [ForeignKey(nameof(AuthorUserId))]
         public virtual User Author { get; set; }
