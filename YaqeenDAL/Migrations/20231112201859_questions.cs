@@ -27,9 +27,7 @@ namespace YaqeenDAL.Migrations
                     AuthorUserId = table.Column<string>(type: "text", nullable: false),
                     AssignedTo = table.Column<int>(type: "integer", nullable: true),
                     Phase = table.Column<int>(type: "integer", nullable: false),
-                    Tags = table.Column<string[]>(type: "text[]", nullable: false),
-                    Id = table.Column<int>(type: "integer", nullable: false),
-                    Active = table.Column<bool>(type: "boolean", nullable: false)
+                    Tags = table.Column<string[]>(type: "text[]", nullable: false)
                 },
                 constraints: table =>
                 {

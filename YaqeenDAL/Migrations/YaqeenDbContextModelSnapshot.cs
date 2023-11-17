@@ -228,9 +228,6 @@ namespace YaqeenDAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ContentId"));
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
                     b.Property<int?>("AssignedTo")
                         .HasColumnType("integer");
 
@@ -248,9 +245,6 @@ namespace YaqeenDAL.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
 
                     b.Property<int?>("ParentContentId")
                         .HasColumnType("integer");

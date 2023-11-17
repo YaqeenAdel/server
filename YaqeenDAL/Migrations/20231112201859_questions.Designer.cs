@@ -13,7 +13,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231112194758_questions")]
+    [Migration("20231112201859_questions")]
     partial class questions
     {
         /// <inheritdoc />
@@ -231,9 +231,6 @@ namespace YaqeenDAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ContentId"));
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
                     b.Property<int?>("AssignedTo")
                         .HasColumnType("integer");
 
@@ -251,9 +248,6 @@ namespace YaqeenDAL.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("bytea");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
 
                     b.Property<int?>("ParentContentId")
                         .HasColumnType("integer");

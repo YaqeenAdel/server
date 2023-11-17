@@ -367,8 +367,6 @@ CREATE TABLE "Contents" (
     "AssignedTo" integer NULL,
     "Phase" integer NOT NULL,
     "Tags" text[] NOT NULL,
-    "Id" integer NOT NULL,
-    "Active" boolean NOT NULL,
     CONSTRAINT "PK_Contents" PRIMARY KEY ("ContentId"),
     CONSTRAINT "FK_Contents_Contents_ParentContentId" FOREIGN KEY ("ParentContentId") REFERENCES "Contents" ("ContentId"),
     CONSTRAINT "FK_Contents_Users_AuthorUserId" FOREIGN KEY ("AuthorUserId") REFERENCES "Users" ("UserId") ON DELETE CASCADE
@@ -385,7 +383,7 @@ CREATE INDEX "IX_Contents_Tags" ON "Contents" ("Tags");
 CREATE INDEX "IX_Contents_Type" ON "Contents" ("Type");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20231112194758_questions', '7.0.11');
+VALUES ('20231112201859_questions', '7.0.11');
 
 COMMIT;
 
