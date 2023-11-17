@@ -13,11 +13,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-<<<<<<<< HEAD:YaqeenDAL/Migrations/20231117065602_questions.Designer.cs
-    [Migration("20231117065602_questions")]
-========
-    [Migration("20231117060119_questions")]
->>>>>>>> 24be712d8bb2fd5b4fd17cc694a3599ccdb9afe2:YaqeenDAL/Migrations/20231117060119_questions.Designer.cs
+    [Migration("20231117065846_questions")]
     partial class questions
     {
         /// <inheritdoc />

@@ -35,7 +35,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("UsersUserId");
 
-                    b.ToTable("InterestUser", (string)null);
+                    b.ToTable("InterestUser");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Answer", b =>
@@ -75,7 +75,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answers", (string)null);
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Article", b =>
@@ -112,7 +112,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("ArticleId");
 
-                    b.ToTable("Articles", (string)null);
+                    b.ToTable("Articles");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Bookmark", b =>
@@ -152,7 +152,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookmarks", (string)null);
+                    b.ToTable("Bookmarks");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.CancerStage", b =>
@@ -184,7 +184,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("StageId");
 
-                    b.ToTable("CancerStages", (string)null);
+                    b.ToTable("CancerStages");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.CancerType", b =>
@@ -217,7 +217,76 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("CancerId");
 
-                    b.ToTable("CancerTypes", (string)null);
+                    b.ToTable("CancerTypes");
+                });
+
+            modelBuilder.Entity("YaqeenDAL.Model.Content", b =>
+                {
+                    b.Property<int>("ContentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ContentId"));
+
+                    b.Property<int?>("AssignedTo")
+                        .HasColumnType("integer");
+
+                    b.Property<string[]>("Attachments")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("AuthorUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("ParentContentId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Phase")
+                        .HasColumnType("integer");
+
+                    b.Property<Dictionary<string, string>>("Raw")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<string[]>("Tags")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Visibility")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ContentId");
+
+                    b.HasIndex("AssignedTo");
+
+                    b.HasIndex("AuthorUserId");
+
+                    b.HasIndex("ParentContentId");
+
+                    b.HasIndex("Tags");
+
+                    b.HasIndex("Type");
+
+                    b.ToTable("Contents");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Country", b =>
@@ -250,7 +319,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("CountryId");
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.CountryState", b =>
@@ -296,7 +365,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("CountryStates", (string)null);
+                    b.ToTable("CountryStates");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Doctor", b =>
@@ -307,6 +376,10 @@ namespace YaqeenDAL.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("CertificationPath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Degree")
                         .IsRequired()
                         .HasColumnType("text");
@@ -315,6 +388,10 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("MedicalField")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NationalIDPath")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -329,7 +406,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("VerificationStatusId");
 
-                    b.ToTable("Doctors", (string)null);
+                    b.ToTable("Doctors");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Interest", b =>
@@ -365,7 +442,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("InterestId");
 
-                    b.ToTable("Interests", (string)null);
+                    b.ToTable("Interests");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
@@ -394,7 +471,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("CancerTypeId");
 
-                    b.ToTable("Patients", (string)null);
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Photo", b =>
@@ -426,7 +503,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("PhotoId");
 
-                    b.ToTable("Photos", (string)null);
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Question", b =>
@@ -474,7 +551,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Questions", (string)null);
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.ResourceLocalization", b =>
@@ -510,7 +587,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("InterestId");
 
-                    b.ToTable("ResourceLocalization", (string)null);
+                    b.ToTable("ResourceLocalization");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.University", b =>
@@ -559,7 +636,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("CountryCode", "StateCode");
 
-                    b.ToTable("Universities", (string)null);
+                    b.ToTable("Universities");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.User", b =>
@@ -610,7 +687,7 @@ namespace YaqeenDAL.Migrations
                     b.HasIndex("MobileNumber")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.VerificationStatus", b =>
@@ -645,7 +722,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("VerifierUserId");
 
-                    b.ToTable("VerificationStatus", (string)null);
+                    b.ToTable("VerificationStatus");
                 });
 
             modelBuilder.Entity("InterestUser", b =>
@@ -705,6 +782,23 @@ namespace YaqeenDAL.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("YaqeenDAL.Model.Content", b =>
+                {
+                    b.HasOne("YaqeenDAL.Model.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YaqeenDAL.Model.Content", "ParentContent")
+                        .WithMany()
+                        .HasForeignKey("ParentContentId");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("ParentContent");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.CountryState", b =>
