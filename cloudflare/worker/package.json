@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "node-cloudflare-r2": "^0.1.5"
+  }
+}
