@@ -13,6 +13,20 @@ namespace YaqeenDAL.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "CertificationPath",
+                table: "Doctors",
+                type: "text",
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "NationalIDPath",
+                table: "Doctors",
+                type: "text",
+                nullable: false,
+                defaultValue: "");
+
             migrationBuilder.CreateTable(
                 name: "Contents",
                 columns: table => new
@@ -29,7 +43,8 @@ namespace YaqeenDAL.Migrations
                     AssignedTo = table.Column<int>(type: "integer", nullable: true),
                     Phase = table.Column<int>(type: "integer", nullable: false),
                     Tags = table.Column<string[]>(type: "text[]", nullable: false),
-                    Visibility = table.Column<int>(type: "integer", nullable: false)
+                    Visibility = table.Column<int>(type: "integer", nullable: false),
+                    Attachments = table.Column<string[]>(type: "text[]", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,6 +93,14 @@ namespace YaqeenDAL.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Contents");
+
+            migrationBuilder.DropColumn(
+                name: "CertificationPath",
+                table: "Doctors");
+
+            migrationBuilder.DropColumn(
+                name: "NationalIDPath",
+                table: "Doctors");
         }
     }
 }

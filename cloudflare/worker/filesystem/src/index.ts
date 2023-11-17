@@ -28,6 +28,10 @@
 // 	fetch: router.handle,
 // };
 
+import { Buffer } from "buffer";
+
+const decode = (str: string):string => Buffer.from(str, 'base64').toString('binary');
+const encode = (str: string):string => Buffer.from(str, 'binary').toString('base64');
 
 interface Env {
 	Yaqeen: R2Bucket
@@ -42,6 +46,8 @@ function objectNotFound(objectName: string): Response {
 	})
 }
 
+import { AwsClient } from "aws4fetch";
+
 // Check requests for a pre-shared secret
 const hasValidHeader = (request, env) => {
 	return request.headers.get('X-Custom-Auth-Key') === env.AUTH_KEY_SECRET;
@@ -49,6 +55,11 @@ const hasValidHeader = (request, env) => {
   
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
+		const r2 = new AwsClient({
+			accessKeyId: env.AWS_ACCESS_KEY_ID,
+			secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+		  });
+		  
 		if (!hasValidHeader(request, env)) {
 			return new Response('Forbidden', { status: 403 });
 		}
@@ -95,9 +106,28 @@ export default {
 					headers.set("content-range", `bytes ${object.range.offset}-${object.range.end ?? object.size - 1}/${object.size}`)
 				}
 
+				const bucketName = "yaqeen";
+				const accountId = "d6bb759ee03e071575964565d63b7c4a";
+			
+				const url = new URL(
+				  `https://${bucketName}.${accountId}.r2.cloudflarestorage.com`
+				);
+
+				url.pathname = objectName;
+
+				const signed = await r2.sign(
+					new Request(url, {
+					  method: "GET",
+					}),
+					{
+					  aws: { signQuery: true },
+					}
+				  );
+
 				const status = object.body ? (request.headers.get("range") !== null ? 206 : 200) : 304
-				return new Response(object.body, {
-					headers,
+				const headers2 = new Headers()
+				return new Response('{ "url": "' + signed.url + '" }', {
+					headers2,
 					status
 				})
 			}
