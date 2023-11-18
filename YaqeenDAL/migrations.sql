@@ -393,4 +393,13 @@ VALUES ('20231117065846_questions', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Users" DROP COLUMN "DeletedAt";
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231118161420_delete-users-deleted-at', '7.0.11');
+
+COMMIT;
+
 
