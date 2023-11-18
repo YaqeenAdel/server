@@ -395,6 +395,15 @@ COMMIT;
 
 START TRANSACTION;
 
+ALTER TABLE "Users" DROP COLUMN "DeletedAt";
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231118161837_deletedAt', '7.0.11');
+
+COMMIT;
+
+START TRANSACTION;
+
 ALTER TABLE "Users" DROP COLUMN "Id";
 
 ALTER TABLE "Universities" DROP COLUMN "Id";
@@ -459,9 +468,9 @@ ALTER TABLE "VerificationStatus" ADD "DeletedAt" timestamp with time zone NULL;
 
 ALTER TABLE "VerificationStatus" ADD "UpdatedAt" timestamp with time zone NULL;
 
-ALTER TABLE "Users" ALTER COLUMN "DeletedAt" TYPE timestamp with time zone;
-
 ALTER TABLE "Users" ADD "CreatedDate" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "Users" ADD "DeletedAt" timestamp with time zone NULL;
 
 ALTER TABLE "Users" ADD "UpdatedAt" timestamp with time zone NULL;
 
@@ -528,7 +537,7 @@ ALTER TABLE "Answers" ADD "DeletedAt" timestamp with time zone NULL;
 ALTER TABLE "Answers" ADD "UpdatedAt" timestamp with time zone NULL;
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20231118160401_filesystem', '7.0.11');
+VALUES ('20231118162100_delete-users-deleted-at-2', '7.0.11');
 
 COMMIT;
 
