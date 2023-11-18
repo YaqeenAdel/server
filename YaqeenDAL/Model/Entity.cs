@@ -1,4 +1,8 @@
-﻿namespace YaqeenDAL.Model
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+namespace YaqeenDAL.Model
 {
     public class Entity
     {
