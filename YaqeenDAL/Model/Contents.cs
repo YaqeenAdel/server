@@ -25,18 +25,12 @@ namespace YaqeenDAL.Model
     [Index(nameof(AssignedTo), IsUnique = false)]
     [Index(nameof(ParentContentId), IsUnique = false)]
     [Index(nameof(Type), IsUnique = false)]
-    public class Content
+    public class Content : Entity
     {
         [Key]
         public int ContentId { get; set; }
         public int? ParentContentId { get; set; }
         public ContentType Type { get; set; }
-        [Timestamp]
-        public DateTime CreatedAt { get; set; }
-        [Timestamp]
-        public DateTime? UpdatedAt { get; set; }
-        [Timestamp]
-        public DateTime? DeletedAt { get; set; }
         [Column(TypeName = "jsonb")]
         public Dictionary<string, string> Raw { get; set; }
         public string AuthorUserId { get; set; }
