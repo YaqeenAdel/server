@@ -2,13 +2,10 @@
 {
     public class Entity
     {
-        public int Id { get; set; }
         public bool Active { get; set; }
-    }
-
-    public class AuditableEntity : Entity
-    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedDate { get; set; }
-        public DateTime LastModifiedDate { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
     }
 }

@@ -20,8 +20,6 @@ namespace YaqeenDAL.Model
         public bool AgreedTerms { get; set; }
         public string? Gender { get; set; }
         public bool IsEmailVerified { get; set; }
-        [Timestamp]
-        public byte[]? DeletedAt { get; set; }
 
         // // Navigation Properties
         // [ForeignKey("UserId")]
@@ -62,8 +60,7 @@ namespace YaqeenDAL.Model
         public string Degree { get; set; }
         public string MedicalField { get; set; }
         public int? VerificationStatusId { get; set; }
-        public string NationalIDPath { get; set; }
-        public string CertificationPath { get; set; }
+        public string[] CredentialsAttachments { get; set; }
         
         [ForeignKey("VerificationStatusId")]
         public virtual VerificationStatus? VerificationStatus { get; set; }
@@ -76,7 +73,7 @@ namespace YaqeenDAL.Model
         public virtual User User { get; set; }
     }
 
-    public class Question : AuditableEntity
+    public class Question : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -92,7 +89,7 @@ namespace YaqeenDAL.Model
         public virtual User User { get; set; }
     }
 
-    public class Answer : AuditableEntity
+    public class Answer : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -107,7 +104,7 @@ namespace YaqeenDAL.Model
         public virtual Question Question { get; set; }
     }
 
-    public class Article : AuditableEntity
+    public class Article : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -118,7 +115,7 @@ namespace YaqeenDAL.Model
         public virtual ICollection<Bookmark> Bookmarks { get; set; }
     }
 
-    public class Bookmark : AuditableEntity
+    public class Bookmark : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -135,7 +132,7 @@ namespace YaqeenDAL.Model
         public virtual Article Article { get; set; }
     }
 
-    public class VerificationStatus 
+    public class VerificationStatus : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -155,7 +152,7 @@ namespace YaqeenDAL.Model
 
     // Resources:
 
-    public class Photo : AuditableEntity
+    public class Photo : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -164,7 +161,7 @@ namespace YaqeenDAL.Model
         public int Usage { get; set; } // 0: Welcome guide
     }
 
-    public class CancerType : AuditableEntity
+    public class CancerType : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -175,7 +172,7 @@ namespace YaqeenDAL.Model
         public virtual ICollection<ResourceLocalization> Translations { get; set; }
     }
 
-    public class CancerStage : AuditableEntity
+    public class CancerStage : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -190,7 +187,7 @@ namespace YaqeenDAL.Model
         Doctor
     }
 
-    public class Interest : AuditableEntity
+    public class Interest : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -213,7 +210,7 @@ namespace YaqeenDAL.Model
         public Dictionary<string, string> Translation { get; set; }
     }
     
-    public class Country : AuditableEntity
+    public class Country : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -223,7 +220,7 @@ namespace YaqeenDAL.Model
     }
     
     //country state
-    public class CountryState: AuditableEntity
+    public class CountryState: Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -240,7 +237,7 @@ namespace YaqeenDAL.Model
     //university
     [Index(nameof(CountryCode))]
     [Index(nameof(CountryCode), nameof(StateCode))]
-    public class University: AuditableEntity
+    public class University: Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
