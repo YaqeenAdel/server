@@ -393,4 +393,152 @@ VALUES ('20231117065846_questions', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Users" DROP COLUMN "DeletedAt";
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231118161837_deletedAt', '7.0.11');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "Users" DROP COLUMN "Id";
+
+ALTER TABLE "Universities" DROP COLUMN "Id";
+
+ALTER TABLE "Universities" DROP COLUMN "LastModifiedDate";
+
+ALTER TABLE "Questions" DROP COLUMN "Id";
+
+ALTER TABLE "Questions" DROP COLUMN "LastModifiedDate";
+
+ALTER TABLE "Photos" DROP COLUMN "Id";
+
+ALTER TABLE "Photos" DROP COLUMN "LastModifiedDate";
+
+ALTER TABLE "Patients" DROP COLUMN "Id";
+
+ALTER TABLE "Interests" DROP COLUMN "Id";
+
+ALTER TABLE "Interests" DROP COLUMN "LastModifiedDate";
+
+ALTER TABLE "Doctors" DROP COLUMN "CertificationPath";
+
+ALTER TABLE "Doctors" DROP COLUMN "Id";
+
+ALTER TABLE "Doctors" DROP COLUMN "NationalIDPath";
+
+ALTER TABLE "CountryStates" DROP COLUMN "Id";
+
+ALTER TABLE "CountryStates" DROP COLUMN "LastModifiedDate";
+
+ALTER TABLE "Countries" DROP COLUMN "Id";
+
+ALTER TABLE "Countries" DROP COLUMN "LastModifiedDate";
+
+ALTER TABLE "Contents" DROP COLUMN "CreatedAt";
+
+ALTER TABLE "CancerTypes" DROP COLUMN "Id";
+
+ALTER TABLE "CancerTypes" DROP COLUMN "LastModifiedDate";
+
+ALTER TABLE "CancerStages" DROP COLUMN "Id";
+
+ALTER TABLE "CancerStages" DROP COLUMN "LastModifiedDate";
+
+ALTER TABLE "Bookmarks" DROP COLUMN "Id";
+
+ALTER TABLE "Bookmarks" DROP COLUMN "LastModifiedDate";
+
+ALTER TABLE "Articles" DROP COLUMN "Id";
+
+ALTER TABLE "Articles" DROP COLUMN "LastModifiedDate";
+
+ALTER TABLE "Answers" DROP COLUMN "Id";
+
+ALTER TABLE "Answers" DROP COLUMN "LastModifiedDate";
+
+ALTER TABLE "VerificationStatus" ADD "Active" boolean NOT NULL DEFAULT FALSE;
+
+ALTER TABLE "VerificationStatus" ADD "CreatedDate" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "VerificationStatus" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "VerificationStatus" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Users" ADD "CreatedDate" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "Users" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Users" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Universities" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Universities" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Questions" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Questions" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Photos" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Photos" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Patients" ADD "CreatedDate" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "Patients" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Patients" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Interests" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Interests" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Doctors" ADD "CreatedDate" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "Doctors" ADD "CredentialsAttachments" text[] NOT NULL DEFAULT ARRAY[]::text[];
+
+ALTER TABLE "Doctors" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Doctors" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "CountryStates" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "CountryStates" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Countries" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Countries" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Contents" ADD "Active" boolean NOT NULL DEFAULT FALSE;
+
+ALTER TABLE "Contents" ADD "CreatedDate" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+ALTER TABLE "CancerTypes" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "CancerTypes" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "CancerStages" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "CancerStages" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Bookmarks" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Bookmarks" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Articles" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Articles" ADD "UpdatedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Answers" ADD "DeletedAt" timestamp with time zone NULL;
+
+ALTER TABLE "Answers" ADD "UpdatedAt" timestamp with time zone NULL;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231118162100_delete-users-deleted-at-2', '7.0.11');
+
+COMMIT;
+
 

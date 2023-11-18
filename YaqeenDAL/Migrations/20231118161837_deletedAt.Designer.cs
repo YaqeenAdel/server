@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using YaqeenDAL.Model;
@@ -12,9 +13,11 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    partial class YaqeenDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231118161837_deletedAt")]
+    partial class deletedAt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,21 +57,20 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DoctorId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("QuestionId")
+                    b.Property<int>("Id")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("UpdatedAt")
+                    b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("integer");
 
                     b.HasKey("AnswerId");
 
@@ -99,18 +101,17 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DeletedAt")
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("ArticleId");
 
@@ -132,18 +133,17 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DeletedAt")
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -170,10 +170,12 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DeletedAt")
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LogoURL")
@@ -182,9 +184,6 @@ namespace YaqeenDAL.Migrations
                     b.Property<string>("StageName")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("StageId");
 
@@ -207,18 +206,17 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DeletedAt")
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LogoURL")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("CancerId");
 
@@ -233,9 +231,6 @@ namespace YaqeenDAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ContentId"));
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
                     b.Property<int?>("AssignedTo")
                         .HasColumnType("integer");
 
@@ -247,11 +242,14 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime>("CreatedAt")
+                        .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("DeletedAt")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("ParentContentId")
@@ -272,6 +270,8 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Visibility")
@@ -308,18 +308,17 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DeletedAt")
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("CountryId");
 
@@ -341,10 +340,12 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DeletedAt")
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Latitude")
@@ -363,9 +364,6 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.HasKey("CountryStateId");
 
                     b.HasIndex("CountryId");
@@ -381,31 +379,28 @@ namespace YaqeenDAL.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string[]>("CredentialsAttachments")
+                    b.Property<string>("CertificationPath")
                         .IsRequired()
-                        .HasColumnType("text[]");
+                        .HasColumnType("text");
 
                     b.Property<string>("Degree")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
 
                     b.Property<string>("MedicalField")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NationalIDPath")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("University")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("VerificationStatusId")
                         .HasColumnType("integer");
@@ -429,10 +424,12 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DeletedAt")
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LogoURL")
@@ -445,9 +442,6 @@ namespace YaqeenDAL.Migrations
 
                     b.Property<int>("TargetUserType")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("InterestId");
 
@@ -471,15 +465,8 @@ namespace YaqeenDAL.Migrations
                     b.Property<int>("CancerTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
 
                     b.HasKey("UserId");
 
@@ -502,18 +489,17 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DeletedAt")
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("PhotoURL")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Usage")
                         .HasColumnType("integer");
@@ -539,15 +525,17 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastModifiedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("PatientUserId")
                         .HasColumnType("text");
@@ -555,9 +543,6 @@ namespace YaqeenDAL.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -628,10 +613,12 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DeletedAt")
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("StateCode")
@@ -645,9 +632,6 @@ namespace YaqeenDAL.Migrations
                     b.Property<string>("UniversityName")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("UniversityId");
 
@@ -669,13 +653,6 @@ namespace YaqeenDAL.Migrations
                     b.Property<bool>("AgreedTerms")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -687,6 +664,9 @@ namespace YaqeenDAL.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("text");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsEmailVerified")
                         .HasColumnType("boolean");
 
@@ -696,9 +676,6 @@ namespace YaqeenDAL.Migrations
 
                     b.Property<string>("MobileNumber")
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("UserId");
 
@@ -719,16 +696,6 @@ namespace YaqeenDAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("VerificationId"));
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Notes")
                         .IsRequired()
                         .HasColumnType("text");
@@ -742,9 +709,6 @@ namespace YaqeenDAL.Migrations
                     b.Property<string>("TargetDoctorUserId")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("VerifierUserId")
                         .IsRequired()
