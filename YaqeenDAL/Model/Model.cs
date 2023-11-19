@@ -52,6 +52,13 @@ namespace YaqeenDAL.Model
         public virtual CancerStage? CancerStage { get; set; }
     }
 
+    public enum VerificationStatus {
+        Pending,
+        Approved,
+        Rejected,
+        MoreInfoNeeded
+    }
+
     public class Doctor : Entity
     {
         [Key]
@@ -59,11 +66,12 @@ namespace YaqeenDAL.Model
         public string University { get; set; }
         public string Degree { get; set; }
         public string MedicalField { get; set; }
-        public int? VerificationStatusId { get; set; }
         public string[] CredentialsAttachments { get; set; }
+        [Column(TypeName = "verification_status")]
+        public VerificationStatus VerificationStatus { get; set; }
         
-        [ForeignKey("VerificationStatusId")]
-        public virtual VerificationStatus? VerificationStatus { get; set; }
+        [ForeignKey("UserId")]
+        public virtual ICollection<VerificationStatusEvent>? VerificationStatusEvents { get; set; }
         
         // Navigation Property
         public virtual ICollection<Answer>? Answers { get; set; }
@@ -132,16 +140,11 @@ namespace YaqeenDAL.Model
         public virtual Article Article { get; set; }
     }
 
-    public class VerificationStatus : Entity
+    public class VerificationStatusEvent : Entity
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int VerificationId { get; set; }
-
         public string TargetDoctorUserId { get; set; }
         public string VerifierUserId { get; set; }
-        [Timestamp]
-        public byte[] RowVersion { get; set; }
         public string Notes { get; set; }
 
         [ForeignKey("VerifierUserId")]

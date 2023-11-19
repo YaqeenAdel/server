@@ -41,6 +41,14 @@ namespace YaqeenDAL.Model
             var optionsBuilder = new DbContextOptionsBuilder<YaqeenDbContext>();
             string connectionString = Environment.GetEnvironmentVariable("NEON_CONNECTION_STRING");
             optionsBuilder.UseNpgsql(ConvertToEfString(connectionString));
+
+            // Call UseNodaTime() when building your data source:
+            // var dataSourceBuilder = new NpgsqlDataSourceBuilder(ConvertToEfString(connectionString));
+            // dataSourceBuilder.MapEnum<VerificationStatus>();
+            // var dataSource = dataSourceBuilder.Build();
+
+            // builder.Services.AddDbContext<YaqeenDbContext>(options => options.UseNpgsql(dataSource));
+
             return new YaqeenDbContext(optionsBuilder.Options);
         }
     }
@@ -148,6 +156,7 @@ namespace YaqeenDAL.Model
 
             // modelBuilder.Entity<Doctor>()
             //    .OwnsOne(r => r.VerificationStatus);
+            modelBuilder.HasPostgresEnum<VerificationStatus>();
         }
     }
 }
