@@ -7,3 +7,4 @@ export const Task = {
 	completed: Boolean,
 	due_date: new DateTime(),
 };
+
