@@ -615,4 +615,14 @@ VALUES ('20231120025658_verification-status-field', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TYPE verification_status ADD VALUE 'more_info_needed' BEFORE 'approved';
+ALTER TYPE verification_status ADD VALUE 'rejected' BEFORE 'more_info_needed';
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231120204839_reorder-verificationstatus', '7.0.11');
+
+COMMIT;
+
 

@@ -54,8 +54,8 @@ namespace YaqeenDAL.Model
 
     public enum VerificationStatus {
         Pending,
-        Approved,
         MoreInfoNeeded,
+        Approved,
         Rejected,
     }
 
