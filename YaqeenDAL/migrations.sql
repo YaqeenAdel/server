@@ -606,4 +606,13 @@ VALUES ('20231120023322_auto-generated-id-events-table', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "VerificationStatusEvent" ADD "Status" verification_status NOT NULL DEFAULT 'pending'::verification_status;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231120025658_verification-status-field', '7.0.11');
+
+COMMIT;
+
 
