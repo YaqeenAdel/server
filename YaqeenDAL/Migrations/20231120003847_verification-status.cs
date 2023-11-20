@@ -29,7 +29,16 @@ namespace YaqeenDAL.Migrations
                 table: "Doctors");
 
             migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:Enum:user_type", "patient,doctor")
                 .Annotation("Npgsql:Enum:verification_status", "pending,approved,more_info_needed,rejected");
+
+            migrationBuilder.AlterColumn<UserType>(
+                name: "TargetUserType",
+                table: "Interests",
+                type: "user_type",
+                nullable: false,
+                oldClrType: typeof(int),
+                oldType: "integer");
 
             migrationBuilder.AddColumn<VerificationStatus>(
                 name: "VerificationStatus",
@@ -95,7 +104,16 @@ namespace YaqeenDAL.Migrations
                 table: "Doctors");
 
             migrationBuilder.AlterDatabase()
+                .OldAnnotation("Npgsql:Enum:user_type", "patient,doctor")
                 .OldAnnotation("Npgsql:Enum:verification_status", "pending,approved,more_info_needed,rejected");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "TargetUserType",
+                table: "Interests",
+                type: "integer",
+                nullable: false,
+                oldClrType: typeof(UserType),
+                oldType: "user_type");
 
             migrationBuilder.AddColumn<int>(
                 name: "VerificationStatusId",

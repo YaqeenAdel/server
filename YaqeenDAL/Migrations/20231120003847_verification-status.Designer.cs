@@ -13,7 +13,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231120003650_verification-status")]
+    [Migration("20231120003847_verification-status")]
     partial class verificationstatus
     {
         /// <inheritdoc />
@@ -24,6 +24,7 @@ namespace YaqeenDAL.Migrations
                 .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "user_type", new[] { "patient", "doctor" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "verification_status", new[] { "pending", "approved", "more_info_needed", "rejected" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -445,8 +446,8 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("TargetUserType")
-                        .HasColumnType("integer");
+                    b.Property<UserType>("TargetUserType")
+                        .HasColumnType("user_type");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");

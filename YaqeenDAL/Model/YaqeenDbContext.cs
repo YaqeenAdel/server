@@ -51,6 +51,7 @@ namespace YaqeenDAL.Model
             // builder.Services.AddDbContext<YaqeenDbContext>(options => options.UseNpgsql(dataSource));
 
             NpgsqlConnection.GlobalTypeMapper.MapEnum<VerificationStatus>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<UserType>();
             return new YaqeenDbContext(optionsBuilder.Options);
         }
     }
@@ -159,6 +160,7 @@ namespace YaqeenDAL.Model
             // modelBuilder.Entity<Doctor>()
             //    .OwnsOne(r => r.VerificationStatus);
             modelBuilder.HasPostgresEnum<VerificationStatus>();
+            modelBuilder.HasPostgresEnum<UserType>();
             // modelBuilder.Entity<Doctor>()  
             //     .Property(b => b.VerificationStatus)
             //     .HasDefaultValue(VerificationStatus.Approved); 
