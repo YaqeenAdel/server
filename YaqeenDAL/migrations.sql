@@ -541,4 +541,54 @@ VALUES ('20231118162100_delete-users-deleted-at-2', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Doctors" DROP CONSTRAINT "FK_Doctors_VerificationStatus_VerificationStatusId";
+
+DROP TABLE "VerificationStatus";
+
+DROP INDEX "IX_Doctors_VerificationStatusId";
+
+ALTER TABLE "Interests" DROP COLUMN "TargetUserType";
+
+ALTER TABLE "Doctors" DROP COLUMN "VerificationStatusId";
+
+CREATE TYPE user_type AS ENUM ('patient', 'doctor');
+CREATE TYPE verification_status AS ENUM ('pending', 'approved', 'more_info_needed', 'rejected');
+
+ALTER TABLE "Doctors" ADD "VerificationStatus" verification_status NOT NULL DEFAULT 'pending'::verification_status;
+
+CREATE TABLE "VerificationStatusEvent" (
+    "TargetDoctorUserId" text NOT NULL,
+    "VerifierUserId" text NOT NULL,
+    "Notes" text NOT NULL,
+    "UserId" text NULL,
+    "Active" boolean NOT NULL,
+    "CreatedDate" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NULL,
+    "DeletedAt" timestamp with time zone NULL,
+    CONSTRAINT "PK_VerificationStatusEvent" PRIMARY KEY ("TargetDoctorUserId"),
+    CONSTRAINT "FK_VerificationStatusEvent_Doctors_TargetDoctorUserId" FOREIGN KEY ("TargetDoctorUserId") REFERENCES "Doctors" ("UserId") ON DELETE CASCADE,
+    CONSTRAINT "FK_VerificationStatusEvent_Doctors_UserId" FOREIGN KEY ("UserId") REFERENCES "Doctors" ("UserId"),
+    CONSTRAINT "FK_VerificationStatusEvent_Users_VerifierUserId" FOREIGN KEY ("VerifierUserId") REFERENCES "Users" ("UserId") ON DELETE CASCADE
+);
+
+CREATE INDEX "IX_VerificationStatusEvent_UserId" ON "VerificationStatusEvent" ("UserId");
+
+CREATE INDEX "IX_VerificationStatusEvent_VerifierUserId" ON "VerificationStatusEvent" ("VerifierUserId");
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231120004545_remove-target-user-type', '7.0.11');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "Interests" ADD "TargetUserType" user_type NOT NULL DEFAULT 'patient'::user_type;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231120004718_verification-status', '7.0.11');
+
+COMMIT;
+
 
