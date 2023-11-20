@@ -149,6 +149,7 @@ namespace YaqeenDAL.Model
         public string TargetDoctorUserId { get; set; }
         public string VerifierUserId { get; set; }
         public string Notes { get; set; }
+        public VerificationStatus Status { get; set; }
 
         [ForeignKey("VerifierUserId")]
         public virtual User Verifier { get; set; }
