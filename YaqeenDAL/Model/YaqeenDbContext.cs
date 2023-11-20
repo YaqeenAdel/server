@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Npgsql;
 
 namespace YaqeenDAL.Model
 {
@@ -49,6 +50,7 @@ namespace YaqeenDAL.Model
 
             // builder.Services.AddDbContext<YaqeenDbContext>(options => options.UseNpgsql(dataSource));
 
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<VerificationStatus>();
             return new YaqeenDbContext(optionsBuilder.Options);
         }
     }
@@ -157,6 +159,9 @@ namespace YaqeenDAL.Model
             // modelBuilder.Entity<Doctor>()
             //    .OwnsOne(r => r.VerificationStatus);
             modelBuilder.HasPostgresEnum<VerificationStatus>();
+            // modelBuilder.Entity<Doctor>()  
+            //     .Property(b => b.VerificationStatus)
+            //     .HasDefaultValue(VerificationStatus.Approved); 
         }
     }
 }

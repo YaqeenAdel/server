@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using YaqeenDAL.Model;
 
 #nullable disable
 
@@ -30,12 +31,12 @@ namespace YaqeenDAL.Migrations
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:verification_status", "pending,approved,rejected,more_info_needed");
 
-            migrationBuilder.AddColumn<int>(
+            migrationBuilder.AddColumn<VerificationStatus>(
                 name: "VerificationStatus",
                 table: "Doctors",
                 type: "verification_status",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: VerificationStatus.Pending);
 
             migrationBuilder.CreateTable(
                 name: "VerificationStatusEvent",

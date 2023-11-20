@@ -408,7 +408,7 @@ namespace YaqeenDAL.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("VerificationStatus")
+                    b.Property<VerificationStatus>("VerificationStatus")
                         .HasColumnType("verification_status");
 
                     b.HasKey("UserId");

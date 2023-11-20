@@ -13,7 +13,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231119233329_verification-status")]
+    [Migration("20231120001048_verification-status")]
     partial class verificationstatus
     {
         /// <inheritdoc />
@@ -411,7 +411,7 @@ namespace YaqeenDAL.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("VerificationStatus")
+                    b.Property<VerificationStatus>("VerificationStatus")
                         .HasColumnType("verification_status");
 
                     b.HasKey("UserId");

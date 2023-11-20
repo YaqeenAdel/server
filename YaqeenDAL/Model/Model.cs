@@ -67,7 +67,6 @@ namespace YaqeenDAL.Model
         public string Degree { get; set; }
         public string MedicalField { get; set; }
         public string[] CredentialsAttachments { get; set; }
-        [Column(TypeName = "verification_status")]
         public VerificationStatus VerificationStatus { get; set; }
         
         [ForeignKey("UserId")]
