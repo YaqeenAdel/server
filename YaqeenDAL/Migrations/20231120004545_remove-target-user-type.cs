@@ -8,7 +8,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     /// <inheritdoc />
-    public partial class verificationstatus : Migration
+    public partial class removetargetusertype : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,20 +25,16 @@ namespace YaqeenDAL.Migrations
                 table: "Doctors");
 
             migrationBuilder.DropColumn(
+                name: "TargetUserType",
+                table: "Interests");
+
+            migrationBuilder.DropColumn(
                 name: "VerificationStatusId",
                 table: "Doctors");
 
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:user_type", "patient,doctor")
                 .Annotation("Npgsql:Enum:verification_status", "pending,approved,more_info_needed,rejected");
-
-            migrationBuilder.AlterColumn<UserType>(
-                name: "TargetUserType",
-                table: "Interests",
-                type: "user_type",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "integer");
 
             migrationBuilder.AddColumn<VerificationStatus>(
                 name: "VerificationStatus",
@@ -107,13 +103,12 @@ namespace YaqeenDAL.Migrations
                 .OldAnnotation("Npgsql:Enum:user_type", "patient,doctor")
                 .OldAnnotation("Npgsql:Enum:verification_status", "pending,approved,more_info_needed,rejected");
 
-            migrationBuilder.AlterColumn<int>(
+            migrationBuilder.AddColumn<int>(
                 name: "TargetUserType",
                 table: "Interests",
                 type: "integer",
                 nullable: false,
-                oldClrType: typeof(UserType),
-                oldType: "user_type");
+                defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "VerificationStatusId",
