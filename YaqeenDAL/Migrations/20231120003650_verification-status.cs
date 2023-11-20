@@ -29,7 +29,7 @@ namespace YaqeenDAL.Migrations
                 table: "Doctors");
 
             migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:verification_status", "pending,approved,rejected,more_info_needed");
+                .Annotation("Npgsql:Enum:verification_status", "pending,approved,more_info_needed,rejected");
 
             migrationBuilder.AddColumn<VerificationStatus>(
                 name: "VerificationStatus",
@@ -95,7 +95,7 @@ namespace YaqeenDAL.Migrations
                 table: "Doctors");
 
             migrationBuilder.AlterDatabase()
-                .OldAnnotation("Npgsql:Enum:verification_status", "pending,approved,rejected,more_info_needed");
+                .OldAnnotation("Npgsql:Enum:verification_status", "pending,approved,more_info_needed,rejected");
 
             migrationBuilder.AddColumn<int>(
                 name: "VerificationStatusId",

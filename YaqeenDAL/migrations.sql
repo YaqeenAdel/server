@@ -551,9 +551,9 @@ DROP INDEX "IX_Doctors_VerificationStatusId";
 
 ALTER TABLE "Doctors" DROP COLUMN "VerificationStatusId";
 
-CREATE TYPE verification_status AS ENUM ('pending', 'approved', 'rejected', 'more_info_needed');
+CREATE TYPE verification_status AS ENUM ('pending', 'approved', 'more_info_needed', 'rejected');
 
-ALTER TABLE "Doctors" ADD "VerificationStatus" verification_status NOT NULL DEFAULT 0;
+ALTER TABLE "Doctors" ADD "VerificationStatus" verification_status NOT NULL DEFAULT 'pending'::verification_status;
 
 CREATE TABLE "VerificationStatusEvent" (
     "TargetDoctorUserId" text NOT NULL,
@@ -575,7 +575,7 @@ CREATE INDEX "IX_VerificationStatusEvent_UserId" ON "VerificationStatusEvent" ("
 CREATE INDEX "IX_VerificationStatusEvent_VerifierUserId" ON "VerificationStatusEvent" ("VerifierUserId");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20231119233329_verification-status', '7.0.11');
+VALUES ('20231120003650_verification-status', '7.0.11');
 
 COMMIT;
 

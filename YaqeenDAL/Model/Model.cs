@@ -55,8 +55,8 @@ namespace YaqeenDAL.Model
     public enum VerificationStatus {
         Pending,
         Approved,
+        MoreInfoNeeded,
         Rejected,
-        MoreInfoNeeded
     }
 
     public class Doctor : Entity

@@ -21,7 +21,7 @@ namespace YaqeenDAL.Migrations
                 .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "verification_status", new[] { "pending", "approved", "rejected", "more_info_needed" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "verification_status", new[] { "pending", "approved", "more_info_needed", "rejected" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("InterestUser", b =>
