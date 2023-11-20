@@ -13,7 +13,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231120004559_verification-status")]
+    [Migration("20231120004718_verification-status")]
     partial class verificationstatus
     {
         /// <inheritdoc />
