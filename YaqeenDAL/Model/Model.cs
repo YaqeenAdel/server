@@ -139,9 +139,13 @@ namespace YaqeenDAL.Model
         public virtual Article Article { get; set; }
     }
 
+    [Index(nameof(TargetDoctorUserId))]
+    [Index(nameof(VerifierUserId))]
     public class VerificationStatusEvent : Entity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int EventId { get; set; }
         public string TargetDoctorUserId { get; set; }
         public string VerifierUserId { get; set; }
         public string Notes { get; set; }
