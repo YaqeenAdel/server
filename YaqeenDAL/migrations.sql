@@ -625,4 +625,11 @@ VALUES ('20231120204839_reorder-verificationstatus', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231130044407_hasura', '7.0.11');
+
+COMMIT;
+
 
