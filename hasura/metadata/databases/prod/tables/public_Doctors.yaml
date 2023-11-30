@@ -1,0 +1,78 @@
+table:
+  name: Doctors
+  schema: public
+object_relationships:
+  - name: User
+    using:
+      foreign_key_constraint_on: UserId
+array_relationships:
+  - name: Answers
+    using:
+      foreign_key_constraint_on:
+        column: DoctorId
+        table:
+          name: Answers
+          schema: public
+  - name: Bookmarks
+    using:
+      foreign_key_constraint_on:
+        column: UserId
+        table:
+          name: Bookmarks
+          schema: public
+  - name: InterestDoctors
+    using:
+      foreign_key_constraint_on:
+        column: DoctorId
+        table:
+          name: InterestDoctor
+          schema: public
+  - name: VerificationStatusEvents
+    using:
+      foreign_key_constraint_on:
+        column: TargetDoctorUserId
+        table:
+          name: VerificationStatusEvent
+          schema: public
+remote_relationships:
+  - definition:
+      to_remote_schema:
+        lhs_fields:
+          - CredentialsAttachments
+        remote_field:
+          file_get_batch:
+            arguments:
+              paths: $CredentialsAttachments
+        remote_schema: Self
+    name: DoctorCredentialsAttachments
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - CredentialsAttachments
+        - Degree
+        - DeletedAt
+        - MedicalField
+        - University
+        - UserId
+        - VerificationStatus
+      filter:
+        UserId:
+          _eq: X-Hasura-User-Id
+      limit: 1
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - Degree
+        - MedicalField
+        - University
+        - UserId
+      filter:
+        UserId:
+          _eq: X-Hasura-User-Id
+      check:
+        UserId:
+          _eq: X-Hasura-User-Id
+    comment: ""

@@ -1,0 +1,28 @@
+table:
+  name: ResourceLocalization
+  schema: public
+object_relationships:
+  - name: CancerStage
+    using:
+      foreign_key_constraint_on: CancerStageStageId
+  - name: CancerType
+    using:
+      foreign_key_constraint_on: CancerTypeCancerId
+  - name: Interest
+    using:
+      foreign_key_constraint_on: InterestId
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - Language
+        - Translation
+      filter: {}
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - Language
+        - Translation
+      filter: {}
+    comment: ""

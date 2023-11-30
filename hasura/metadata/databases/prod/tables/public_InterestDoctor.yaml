@@ -1,0 +1,10 @@
+table:
+  name: InterestDoctor
+  schema: public
+object_relationships:
+  - name: Doctor
+    using:
+      foreign_key_constraint_on: DoctorId
+  - name: Interest
+    using:
+      foreign_key_constraint_on: InterestId

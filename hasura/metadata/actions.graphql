@@ -1,0 +1,25 @@
+type Query {
+  file_get(
+    path: String!
+  ): FileGetOutput
+}
+
+type Query {
+  file_get_batch(
+    paths: [String!]!
+  ): FileGetBatchOutput
+}
+
+type FileGetOutput {
+  url: String!
+}
+
+type SignedUrl {
+  signed_url: String!
+  path: String!
+}
+
+type FileGetBatchOutput {
+  urls: [SignedUrl]
+}
+

@@ -1,0 +1,9 @@
+- name: prod
+  kind: postgres
+  configuration:
+    connection_info:
+      database_url:
+        from_env: HASURA_PG_CONNECTION_STRING
+      isolation_level: read-committed
+      use_prepared_statements: false
+  tables: "!include prod/tables/tables.yaml"

@@ -1,0 +1,344 @@
+- name: allowed-queries
+  definition:
+    queries:
+      - name: DeleteInterests
+        query: |
+          mutation DeleteInterests ($InterestId: Int!) {
+            delete_Interests_by_pk(InterestId: $InterestId) {
+              InterestId
+              Name
+            }
+          }
+      - name: InsertInterests
+        query: |
+          mutation InsertInterests ($object: Interests_insert_input!) {
+            insert_Interests_one(object: $object) {
+              Active
+              LogoURL
+              Name
+            }
+          }
+      - name: UpdateInterests
+        query: |
+          mutation UpdateInterests ($InterestId: Int!, $object: Interests_set_input!) {
+            update_Interests_by_pk(pk_columns: {InterestId:$InterestId}, _set: $object) {
+              Active
+              InterestId
+              LogoURL
+              Name
+            }
+          }
+      - name: insert_InterestDoctor_one
+        query: |
+          mutation insert_InterestDoctor_one ($object: InterestDoctor_insert_input!) {
+            insert_InterestDoctor_one(object: $object) {
+              DoctorId
+              InterestId
+            }
+          }
+      - name: InterestDoctor_delete
+        query: |
+          mutation delete_InterestDoctor_by_pk ($DoctorId: String!, $InterestId: Int!) {
+            delete_InterestDoctor_by_pk(DoctorId: $DoctorId, InterestId: $InterestId) {
+              DoctorId
+              InterestId
+            }
+          }
+      - name: delete_IntersPatient
+        query: |
+          mutation delete_IntersPatient_by_pk ($PatientId: String!, $InterestId: Int!) {
+            delete_IntersPatient_by_pk(PatientId: $PatientId, InterestId: $InterestId) {
+              PatientId
+              InterestId
+            }
+          }
+      - name: QuestionsbyId
+        query: |
+          query QuestionsbyId ($QuestionId: Int!) {
+            Questions_by_pk(QuestionId: $QuestionId) {
+              CreatedDate
+              QuestionId
+              Category
+              Description
+              Title
+              Patient {
+                User {
+                  FirstName
+                }
+              }
+              Answers {
+                AnswerId
+                Content
+                doctorByDoctorid {
+                  User {
+                    FirstName
+                    LastName
+                  }
+                  MedicalField
+                  Degree
+                }
+              }
+            }
+          }
+      - name: Questions
+        query: |
+          query Questions ($limit: Int = 10, $offset: Int = 0) @cached {
+            Questions(limit: $limit, offset: $offset) {
+              CreatedDate
+              QuestionId
+              Category
+              Description
+              Title
+              Patient {
+                User {
+                  FirstName
+                }
+              }
+              Answers {
+                AnswerId
+                Content
+                doctorByDoctorid {
+                  User {
+                    FirstName
+                    LastName
+                  }
+                  MedicalField
+                  Degree
+                }
+              }
+            }
+          }
+      - name: delete_Questions_one
+        query: |
+          mutation delete_Questions_one ($QuestionId: Int!) {
+            delete_Questions_by_pk(QuestionId: $QuestionId) {
+              QuestionId
+            }
+          }
+      - name: insert_Questions_one
+        query: |
+          mutation insert_Questions_one ($question: Questions_insert_input!) {
+            insert_Questions_one(object: $question) {
+              Active
+              Category
+              Description
+              PatientUserId
+              QuestionId
+              Title
+              UserId
+            }
+          }
+      - name: UpdateQuestion
+        query: |
+          mutation UpdateQuestion ($QuestionId: Int!, $question: Questions_set_input!) {
+            update_Questions_by_pk(pk_columns: {QuestionId:$QuestionId}, _set: $question) {
+              Category
+              Description
+              QuestionId
+              Title
+              User {
+                FirstName
+              }
+            }
+          }
+      - name: deleteAnswer
+        query: |
+          mutation deleteAnswer ($AnswerId: Int!) {
+            delete_Answers_by_pk(AnswerId: $AnswerId) {
+              AnswerId
+            }
+          }
+      - name: insert_IntersPatient_one
+        query: |
+          mutation insert_IntersPatient_one ($object: IntersPatient_insert_input!) {
+            insert_IntersPatient_one(object: $object) {
+              InterestId
+              PatientId
+            }
+          }
+      - name: UpdateUser
+        query: |
+          mutation UpdateUser ($user: Users_set_input, $patient: Patients_set_input, $doctor: Doctors_set_input) {
+            update_Users_many(updates: {where:{},_set:$user}) {
+              returning {
+                FirstName
+                Email
+                LastName
+                Gender
+              }
+            }
+            update_Patients_many(updates: {where:{},_set:$patient}) {
+              returning {
+                AgeGroup
+                CancerStageId
+                CancerTypeId
+              }
+            }
+            update_Doctors_many(updates: {where:{},_set:$doctor}) {
+              returning {
+                Degree
+                MedicalField
+                University
+              }
+            }
+          }
+      - name: SetUserInterests
+        query: |
+          mutation SetUserInterests ($interests: [InterestUser_insert_input!]!) {
+            delete_InterestUser(where: {}) {
+              affected_rows
+            }
+            insert_InterestUser(objects: $interests) {
+              affected_rows
+            }
+          }
+      - name: Resources
+        query: |
+          query Resources ($lang: String = "en") @cached {
+            CancerStages {
+              StageId
+              LogoURL
+              Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
+                Translation
+              }
+            }
+            CancerTypes {
+              CancerId
+              LogoURL
+              Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
+                Translation
+              }
+            }
+            PatientInterests: Interests(where: {TargetUserType:{_eq:0}}) {
+              InterestId
+              LogoURL
+              Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
+                Translation
+              }
+            }
+            DoctorInterests: Interests(where: {TargetUserType:{_eq:1}}) {
+              InterestId
+              LogoURL
+              Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
+                Translation
+              }
+            }
+            Photos {
+              PhotoURL
+              Usage
+            }
+          }
+      - name: CancerTypes
+        query: |
+          query CancerTypes ($lang: String = "en") @cached {
+            CancerTypes {
+              CancerId
+              CancerTypeName
+              Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
+                Translation
+              }
+            }
+          }
+      - name: cancer_stage
+        query: |
+          query cancer_stage ($lang: String = "en") @cached {
+            CancerStages {
+              StageName
+              StageId
+              Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
+                Translation
+              }
+            }
+          }
+      - name: InsertDoctor
+        query: |
+          mutation InsertDoctor ($doctor: Doctors_insert_input!) {
+            insert_Doctors_one(object: $doctor) {
+              Degree
+              University
+              MedicalField
+            }
+          }
+      - name: InsertPatient
+        query: |
+          mutation InsertPatient ($patient: Patients_insert_input!) {
+            insert_Patients_one(object: $patient) {
+              AgeGroup
+              CancerStageId
+              CancerTypeId
+            }
+          }
+      - name: InsertUser
+        query: |
+          mutation InsertUser ($doctor: Doctors_insert_input!, $patient: Patients_insert_input!) {
+            insert_Patients_one(object: $patient) {
+              AgeGroup
+              CancerStageId
+              CancerTypeId
+            }
+            insert_Doctors_one(object: $doctor) {
+              Degree
+              MedicalField
+              University
+            }
+          }
+      - name: countries
+        query: |
+          query Countries @cached {
+            Universities(distinct_on: CountryCode, order_by: {CountryCode:asc}) {
+              CountryName
+              CountryCode
+            }
+          }
+      - name: countryStates
+        query: |
+          query countryStates ($CountryCode: String!) @cached {
+            Universities(where: {CountryCode:{_eq:$CountryCode}}, distinct_on: StateCode, order_by: {StateCode:asc}) {
+              CountryName
+              StateCode
+              StateName
+            }
+          }
+      - name: Universities
+        query: |
+          query Universities ($CountryCode: String!, $StateCode: String = null) @cached {
+            Universities(where: {CountryCode:{_eq:$CountryCode},StateCode:{_eq:$StateCode}}) {
+              CountryName
+              StateCode
+              StateName
+              UniversityName
+              UniversityId
+            }
+          }
+      - name: UpdateDoctorStatus
+        query: |
+          mutation UpdateDoctorStatus ($userId: String!, $status: verification_status!, $time_now: timestamptz!) {
+            update_Doctors(where: {UserId:{_eq:$userId},VerificationStatus:{_lt:"approved"}}, _set: {VerificationStatus:$status,UpdatedAt:$time_now}) {
+              affected_rows
+            }
+          }
+      - name: Me
+        query: |
+          query Me {
+            Users(where: {Doctor:{DeletedAt:{_is_null:true}},Patient:{DeletedAt:{_is_null:true}}}) {
+              AgreedTerms
+              Email
+              FirstName
+              Gender
+              LastName
+              UserId
+              Doctor {
+                CredentialsAttachments
+                Degree
+                DeletedAt
+                MedicalField
+                University
+                VerificationStatus
+              }
+              Patient {
+                AgeGroup
+                CancerStageId
+                CancerTypeId
+              }
+            }
+          }

@@ -1,0 +1,11 @@
+- name: Self
+  definition:
+    url: https://yaqeen-neon.hasura.app/v1/graphql
+    timeout_seconds: 60
+    customization:
+      root_fields_namespace: remote_
+      type_names:
+        mapping: {}
+        prefix: remote_
+    forward_client_headers: true
+  comment: ""
