@@ -1,0 +1,38 @@
+table:
+  name: VerificationStatusEvent
+  schema: public
+object_relationships:
+  - name: Doctor
+    using:
+      foreign_key_constraint_on: TargetDoctorUserId
+  - name: User
+    using:
+      foreign_key_constraint_on: VerifierUserId
+event_triggers:
+  - name: verification_status_event
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    webhook: https://yaqeen-neon.hasura.app/api/rest/events/update_doctor_status
+    headers:
+      - name: x-hasura-admin-secret
+        value_from_env: TRIGGER_GRAPHQL_ADMIN_SECRET
+    request_transform:
+      body:
+        action: transform
+        template: |-
+          {
+            "userId": "{{$body.event.data.new.TargetDoctorUserId}}",
+            "status": "{{$body.event.data.new.Status}}",
+            "time_now": "{{$body.event.data.new.CreatedDate}}"
+          }
+      method: POST
+      query_params: {}
+      template_engine: Kriti
+      url: '{{$base_url}}/'
+      version: 2

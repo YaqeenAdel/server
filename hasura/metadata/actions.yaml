@@ -1,0 +1,49 @@
+actions:
+  - name: file_get
+    definition:
+      kind: ""
+      handler: https://filesystem.haytham-d6b.workers.dev
+      headers:
+        - name: X-Custom-Auth-Key
+          value_from_env: R2_AUTH_KEY
+      request_transform:
+        method: GET
+        query_params: ""
+        request_headers:
+          add_headers: {}
+          remove_headers:
+            - content-type
+        template_engine: Kriti
+        url: '{{$base_url}}/{{escapeUri($body.input.path)}}'
+        version: 2
+    permissions:
+      - role: user
+      - role: anonymous
+  - name: file_get_batch
+    definition:
+      kind: ""
+      handler: https://filesystem.haytham-d6b.workers.dev/api/files/batch/
+      forward_client_headers: true
+      headers:
+        - name: X-Custom-Auth-Key
+          value_from_env: R2_AUTH_KEY
+      request_transform:
+        body:
+          action: transform
+          template: |-
+            {
+              "paths": {{$body.input.paths}}
+            }
+        template_engine: Kriti
+        version: 2
+    permissions:
+      - role: user
+      - role: anonymous
+custom_types:
+  enums: []
+  input_objects: []
+  objects:
+    - name: FileGetOutput
+    - name: SignedUrl
+    - name: FileGetBatchOutput
+  scalars: []

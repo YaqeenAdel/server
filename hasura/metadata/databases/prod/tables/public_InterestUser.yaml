@@ -1,0 +1,37 @@
+table:
+  name: InterestUser
+  schema: public
+object_relationships:
+  - name: Interest
+    using:
+      foreign_key_constraint_on: InterestsInterestId
+  - name: User
+    using:
+      foreign_key_constraint_on: UsersUserId
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      set:
+        UsersUserId: x-hasura-User-Id
+      columns:
+        - InterestsInterestId
+        - UsersUserId
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - InterestsInterestId
+        - UsersUserId
+      filter:
+        UsersUserId:
+          _eq: X-Hasura-User-Id
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        UsersUserId:
+          _eq: X-Hasura-User-Id
+    comment: ""

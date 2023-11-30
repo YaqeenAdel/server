@@ -1,0 +1,259 @@
+- comment: |-
+    {
+
+          "DoctorId": "google-oauth2|111091113422066458127",
+          "InterestId":6
+      }
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: InterestDoctor_delete
+  methods:
+    - DELETE
+  name: InterestDoctor_delete
+  url: InterestDoctorDelete/:DoctorId/:InterestId
+- comment: |-
+    {
+      "object": {
+          "DoctorId": "google-oauth2|111091113422066458127",
+          "InterestId":12
+      }
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: insert_InterestDoctor_one
+  methods:
+    - POST
+  name: insert_InterestDoctor_one
+  url: InterestDoctor_insert
+- comment: |-
+    {
+          "PatientId": "2",
+          "InterestId":10
+      }
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: delete_IntersPatient
+  methods:
+    - DELETE
+  name: delete_IntersPatient
+  url: InterestPatientDelete/:PatientId/:InterestId
+- comment: |-
+    {
+          "object":{
+            "PatientId": "auth0|0123456789",
+            "InterestId":6
+          }
+      }
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: insert_IntersPatient_one
+  methods:
+    - POST
+  name: insert_IntersPatient_one
+  url: IntersPatient
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: deleteAnswer
+  methods:
+    - DELETE
+  name: deleteAnswer
+  url: answers/:AnswerId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: countries
+  methods:
+    - GET
+  name: countries
+  url: countries
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: UpdateDoctorStatus
+  methods:
+    - POST
+  name: UpdateDoctorStatus
+  url: events/update_doctor_status
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: UpdateUser
+  methods:
+    - PATCH
+  name: UpdateUser
+  url: me
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: InsertUser
+  methods:
+    - POST
+  name: InsertUser
+  url: me
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: Me
+  methods:
+    - GET
+  name: Me
+  url: me
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: InsertDoctor
+  methods:
+    - POST
+  name: InsertDoctor
+  url: me/doctor
+- comment: Sets user's interest. All interests must be passed in. No merging will happen.
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: SetUserInterests
+  methods:
+    - POST
+  name: SetUserInterests
+  url: me/interests
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: InsertPatient
+  methods:
+    - POST
+  name: InsertPatient
+  url: me/patient
+- comment: |-
+    {"question": { "Active": true,"UserId":"2","Id":2,"Category": "x","Description": "x","Title": "x"}
+    }
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: insert_Questions_one
+  methods:
+    - POST
+  name: insert_Questions_one
+  url: questions
+- comment: get question by id
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: QuestionsbyId
+  methods:
+    - GET
+  name: QuestionsbyId
+  url: questions/:QuestionId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: delete_Questions_one
+  methods:
+    - DELETE
+  name: delete_Questions_one
+  url: questions/:QuestionId
+- comment: |-
+    {"QuestionId":1,"question": {
+      "Category": 'c'
+    }}
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: UpdateQuestion
+  methods:
+    - PATCH
+  name: UpdateQuestion
+  url: questions/:QuestionId
+- comment: '{"offset":2, "limit": 1} required'
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: Questions
+  methods:
+    - GET
+  name: Questions
+  url: questions/:limit/:offset
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: Resources
+  methods:
+    - GET
+  name: Resources
+  url: resources
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: CancerTypes
+  methods:
+    - GET
+  name: CancerTypes
+  url: resources/CancerTypes
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: cancer_stage
+  methods:
+    - GET
+  name: cancer_stage
+  url: resources/cancer-stage
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: InsertInterests
+  methods:
+    - POST
+  name: InsertInterests
+  url: resources/interests
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: DeleteInterests
+  methods:
+    - DELETE
+  name: DeleteInterests
+  url: resources/interests/:InterestId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: UpdateInterests
+  methods:
+    - PATCH
+  name: UpdateInterests
+  url: resources/interests/:InterestId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: countryStates
+  methods:
+    - GET
+  name: countryStates
+  url: states/:CountryCode
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: Universities
+  methods:
+    - GET
+  name: Universities
+  url: universities/:CountryCode/:StateCode

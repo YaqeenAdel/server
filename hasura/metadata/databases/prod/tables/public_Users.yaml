@@ -1,0 +1,78 @@
+table:
+  name: Users
+  schema: public
+object_relationships:
+  - name: Doctor
+    using:
+      foreign_key_constraint_on:
+        column: UserId
+        table:
+          name: Doctors
+          schema: public
+  - name: Patient
+    using:
+      foreign_key_constraint_on:
+        column: UserId
+        table:
+          name: Patients
+          schema: public
+array_relationships:
+  - name: Contents
+    using:
+      foreign_key_constraint_on:
+        column: AuthorUserId
+        table:
+          name: Contents
+          schema: public
+  - name: InterestUsers
+    using:
+      foreign_key_constraint_on:
+        column: UsersUserId
+        table:
+          name: InterestUser
+          schema: public
+  - name: Questions
+    using:
+      foreign_key_constraint_on:
+        column: UserId
+        table:
+          name: Questions
+          schema: public
+  - name: VerificationStatusEvents
+    using:
+      foreign_key_constraint_on:
+        column: VerifierUserId
+        table:
+          name: VerificationStatusEvent
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - AgreedTerms
+        - Email
+        - FirstName
+        - Gender
+        - IsEmailVerified
+        - LastName
+        - UserId
+      filter:
+        UserId:
+          _eq: X-Hasura-User-Id
+      limit: 1
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - AgreedTerms
+        - FirstName
+        - Gender
+        - LastName
+      filter:
+        UserId:
+          _eq: X-Hasura-User-Id
+      check:
+        UserId:
+          _eq: X-Hasura-User-Id
+    comment: ""

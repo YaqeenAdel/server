@@ -1,0 +1,18 @@
+table:
+  name: Contents
+  schema: public
+object_relationships:
+  - name: Content
+    using:
+      foreign_key_constraint_on: ParentContentId
+  - name: User
+    using:
+      foreign_key_constraint_on: AuthorUserId
+array_relationships:
+  - name: Contents
+    using:
+      foreign_key_constraint_on:
+        column: ParentContentId
+        table:
+          name: Contents
+          schema: public

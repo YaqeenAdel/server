@@ -1,0 +1,40 @@
+table:
+  name: CancerTypes
+  schema: public
+array_relationships:
+  - name: Patients
+    using:
+      foreign_key_constraint_on:
+        column: CancerTypeId
+        table:
+          name: Patients
+          schema: public
+  - name: ResourceLocalizations
+    using:
+      foreign_key_constraint_on:
+        column: CancerTypeCancerId
+        table:
+          name: ResourceLocalization
+          schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - CancerId
+        - CancerTypeName
+        - LogoURL
+      filter:
+        Active:
+          _eq: true
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - CancerId
+        - CancerTypeName
+        - CreatedDate
+        - LogoURL
+      filter:
+        Active:
+          _eq: true
+    comment: ""

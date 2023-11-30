@@ -1,0 +1,11 @@
+table:
+  name: Countries
+  schema: public
+array_relationships:
+  - name: CountryStates
+    using:
+      foreign_key_constraint_on:
+        column: CountryId
+        table:
+          name: CountryStates
+          schema: public

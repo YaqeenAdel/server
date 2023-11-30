@@ -1,0 +1,10 @@
+table:
+  name: Answers
+  schema: public
+object_relationships:
+  - name: Question
+    using:
+      foreign_key_constraint_on: QuestionId
+  - name: doctorByDoctorid
+    using:
+      foreign_key_constraint_on: DoctorId
