@@ -209,14 +209,14 @@
                 Translation
               }
             }
-            PatientInterests: Interests(where: {TargetUserType:{_eq:0}}) {
+            PatientInterests: Interests(where: {TargetUserType:{_eq: "patient"}}) {
               InterestId
               LogoURL
               Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
                 Translation
               }
             }
-            DoctorInterests: Interests(where: {TargetUserType:{_eq:1}}) {
+            DoctorInterests: Interests(where: {TargetUserType:{_eq: "doctor"}}) {
               InterestId
               LogoURL
               Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
