@@ -632,4 +632,15 @@ VALUES ('20231203162515_fix-resources', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Contents" ALTER COLUMN "Tags" TYPE jsonb;
+
+ALTER TABLE "Contents" ALTER COLUMN "Attachments" TYPE jsonb;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231216171022_contents-updates', '7.0.11');
+
+COMMIT;
+
 
