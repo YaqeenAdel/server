@@ -37,7 +37,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("UsersUserId");
 
-                    b.ToTable("InterestUser", (string)null);
+                    b.ToTable("InterestUser");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Answer", b =>
@@ -78,7 +78,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answers", (string)null);
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Article", b =>
@@ -116,7 +116,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("ArticleId");
 
-                    b.ToTable("Articles", (string)null);
+                    b.ToTable("Articles");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Bookmark", b =>
@@ -157,7 +157,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookmarks", (string)null);
+                    b.ToTable("Bookmarks");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.CancerStage", b =>
@@ -190,7 +190,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("StageId");
 
-                    b.ToTable("CancerStages", (string)null);
+                    b.ToTable("CancerStages");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.CancerType", b =>
@@ -224,7 +224,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("CancerId");
 
-                    b.ToTable("CancerTypes", (string)null);
+                    b.ToTable("CancerTypes");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Content", b =>
@@ -291,7 +291,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("Type");
 
-                    b.ToTable("Contents", (string)null);
+                    b.ToTable("Contents");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Country", b =>
@@ -325,7 +325,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("CountryId");
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.CountryState", b =>
@@ -372,7 +372,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("CountryStates", (string)null);
+                    b.ToTable("CountryStates");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Doctor", b =>
@@ -414,7 +414,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Doctors", (string)null);
+                    b.ToTable("Doctors");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Interest", b =>
@@ -451,7 +451,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("InterestId");
 
-                    b.ToTable("Interests", (string)null);
+                    b.ToTable("Interests");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
@@ -487,7 +487,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("CancerTypeId");
 
-                    b.ToTable("Patients", (string)null);
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Photo", b =>
@@ -520,7 +520,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("PhotoId");
 
-                    b.ToTable("Photos", (string)null);
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Question", b =>
@@ -569,7 +569,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Questions", (string)null);
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.ResourceLocalization", b =>
@@ -605,7 +605,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("InterestId");
 
-                    b.ToTable("ResourceLocalization", (string)null);
+                    b.ToTable("ResourceLocalization");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.University", b =>
@@ -655,7 +655,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("CountryCode", "StateCode");
 
-                    b.ToTable("Universities", (string)null);
+                    b.ToTable("Universities");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.User", b =>
@@ -708,7 +708,7 @@ namespace YaqeenDAL.Migrations
                     b.HasIndex("MobileNumber")
                         .IsUnique();
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.VerificationStatusEvent", b =>
@@ -758,7 +758,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("VerifierUserId");
 
-                    b.ToTable("VerificationStatusEvent", (string)null);
+                    b.ToTable("VerificationStatusEvent");
                 });
 
             modelBuilder.Entity("InterestUser", b =>
