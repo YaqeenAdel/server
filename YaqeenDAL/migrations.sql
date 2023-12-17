@@ -634,12 +634,27 @@ COMMIT;
 
 START TRANSACTION;
 
-ALTER TABLE "Contents" ALTER COLUMN "Tags" TYPE jsonb;
+DROP INDEX "IX_Contents_Tags";
 
-ALTER TABLE "Contents" ALTER COLUMN "Attachments" TYPE jsonb;
+ALTER TABLE "Contents" DROP COLUMN "Attachments";
+
+ALTER TABLE "Contents" DROP COLUMN "Tags";
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20231216171022_contents-updates', '7.0.11');
+VALUES ('20231217030745_remove-tags-attachments', '7.0.11');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "Contents" ADD "Attachments" jsonb NOT NULL;
+
+ALTER TABLE "Contents" ADD "Tags" jsonb NOT NULL;
+
+CREATE INDEX "IX_Contents_Tags" ON "Contents" ("Tags");
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231217030811_add-tags-attachments', '7.0.11');
 
 COMMIT;
 

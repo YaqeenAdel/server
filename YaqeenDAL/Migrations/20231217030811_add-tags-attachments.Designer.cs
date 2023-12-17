@@ -13,8 +13,8 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231216171022_contents-updates")]
-    partial class contentsupdates
+    [Migration("20231217030811_add-tags-attachments")]
+    partial class addtagsattachments
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
