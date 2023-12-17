@@ -8,6 +8,7 @@ namespace YaqeenDAL.Model
         Category,
         Question,
         Answer,
+        BloodDonation,
     }
 
     public enum Phase {
@@ -18,6 +19,11 @@ namespace YaqeenDAL.Model
     public enum Visibility {
         Public,
         Private,
+    }
+
+    public class Attachment {
+        public string Name { get; set; }
+        public string Url { get; set; }
     }
 
     [Index(nameof(Tags), IsUnique = false)]
@@ -36,9 +42,11 @@ namespace YaqeenDAL.Model
         public string AuthorUserId { get; set; }
         public int? AssignedTo { get; set; }
         public Phase Phase { get; set; }
-        public string[] Tags { get; set; }
+        [Column(TypeName = "jsonb")]
+        public Dictionary<string, string> Tags { get; set; }
         public Visibility Visibility { get; set; }
-        public string[] Attachments { get; set; }
+        [Column(TypeName = "jsonb")]
+        public Attachment Attachments { get; set; }
 
         [ForeignKey(nameof(AuthorUserId))]
         public virtual User Author { get; set; }
