@@ -692,4 +692,27 @@ VALUES ('20231218020032_fix-migrations', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "ResourceLocalization" DROP CONSTRAINT "FK_ResourceLocalization_Interests_InterestId";
+
+ALTER TABLE "ResourceLocalization" DROP CONSTRAINT "PK_ResourceLocalization";
+
+DROP INDEX "IX_ResourceLocalization_InterestId";
+
+ALTER TABLE "ResourceLocalization" DROP COLUMN "InterestId";
+
+ALTER TABLE "ResourceLocalization" ALTER COLUMN "TranslationId" DROP IDENTITY;
+
+ALTER TABLE "Interests" ADD "TranslationId" integer NOT NULL DEFAULT 0;
+
+ALTER TABLE "ResourceLocalization" ADD CONSTRAINT "PK_ResourceLocalization" PRIMARY KEY ("TranslationId", "Language");
+
+ALTER TABLE "ResourceLocalization" ADD CONSTRAINT "FK_ResourceLocalization_Interests_TranslationId" FOREIGN KEY ("TranslationId") REFERENCES "Interests" ("InterestId") ON DELETE CASCADE;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231218040823_refactor-translations', '7.0.11');
+
+COMMIT;
+
 
