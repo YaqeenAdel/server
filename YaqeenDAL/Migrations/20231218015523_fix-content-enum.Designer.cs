@@ -13,8 +13,8 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231218015412_content-type-enums")]
-    partial class contenttypeenums
+    [Migration("20231218015523_fix-content-enum")]
+    partial class fixcontentenum
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

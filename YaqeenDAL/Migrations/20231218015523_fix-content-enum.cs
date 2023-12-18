@@ -6,7 +6,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     /// <inheritdoc />
-    public partial class contenttypeenums : Migration
+    public partial class fixcontentenum : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

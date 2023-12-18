@@ -684,7 +684,7 @@ ALTER TABLE "Contents" ADD "Visibility" visibility NOT NULL DEFAULT 'public'::vi
 CREATE INDEX "IX_Contents_Type" ON "Contents" ("Type");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20231218015412_content-type-enums', '7.0.11');
+VALUES ('20231218015523_fix-content-enum', '7.0.11');
 
 COMMIT;
 
