@@ -52,6 +52,9 @@ namespace YaqeenDAL.Model
 
             NpgsqlConnection.GlobalTypeMapper.MapEnum<VerificationStatus>();
             NpgsqlConnection.GlobalTypeMapper.MapEnum<UserType>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<Phase>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<Visibility>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<ContentType>();
             return new YaqeenDbContext(optionsBuilder.Options);
         }
     }
