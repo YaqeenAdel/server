@@ -6,11 +6,20 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     /// <inheritdoc />
-    public partial class fixcontentenum : Migration
+    public partial class fixmigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:Enum:content_type", "category,question,answer,blood_donation")
+                .Annotation("Npgsql:Enum:phase", "draft,published")
+                .Annotation("Npgsql:Enum:user_type", "patient,doctor")
+                .Annotation("Npgsql:Enum:verification_status", "pending,more_info_needed,approved,rejected")
+                .Annotation("Npgsql:Enum:visibility", "public,private")
+                .OldAnnotation("Npgsql:Enum:user_type", "patient,doctor")
+                .OldAnnotation("Npgsql:Enum:verification_status", "pending,more_info_needed,approved,rejected");
+
             migrationBuilder.AddColumn<Phase>(
                 name: "Phase",
                 table: "Contents",
@@ -56,6 +65,15 @@ namespace YaqeenDAL.Migrations
             migrationBuilder.DropColumn(
                 name: "Visibility",
                 table: "Contents");
+
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:Enum:user_type", "patient,doctor")
+                .Annotation("Npgsql:Enum:verification_status", "pending,more_info_needed,approved,rejected")
+                .OldAnnotation("Npgsql:Enum:content_type", "category,question,answer,blood_donation")
+                .OldAnnotation("Npgsql:Enum:phase", "draft,published")
+                .OldAnnotation("Npgsql:Enum:user_type", "patient,doctor")
+                .OldAnnotation("Npgsql:Enum:verification_status", "pending,more_info_needed,approved,rejected")
+                .OldAnnotation("Npgsql:Enum:visibility", "public,private");
         }
     }
 }

@@ -13,8 +13,8 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231218015523_fix-content-enum")]
-    partial class fixcontentenum
+    [Migration("20231218020032_fix-migrations")]
+    partial class fixmigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,8 +24,11 @@ namespace YaqeenDAL.Migrations
                 .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "content_type", new[] { "category", "question", "answer", "blood_donation" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "phase", new[] { "draft", "published" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "user_type", new[] { "patient", "doctor" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "verification_status", new[] { "pending", "more_info_needed", "approved", "rejected" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "visibility", new[] { "public", "private" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("InterestUser", b =>

@@ -675,6 +675,10 @@ COMMIT;
 
 START TRANSACTION;
 
+CREATE TYPE content_type AS ENUM ('category', 'question', 'answer', 'blood_donation');
+CREATE TYPE phase AS ENUM ('draft', 'published');
+CREATE TYPE visibility AS ENUM ('public', 'private');
+
 ALTER TABLE "Contents" ADD "Phase" phase NOT NULL DEFAULT 'draft'::phase;
 
 ALTER TABLE "Contents" ADD "Type" content_type NOT NULL DEFAULT 'category'::content_type;
@@ -684,7 +688,7 @@ ALTER TABLE "Contents" ADD "Visibility" visibility NOT NULL DEFAULT 'public'::vi
 CREATE INDEX "IX_Contents_Type" ON "Contents" ("Type");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20231218015523_fix-content-enum', '7.0.11');
+VALUES ('20231218020032_fix-migrations', '7.0.11');
 
 COMMIT;
 

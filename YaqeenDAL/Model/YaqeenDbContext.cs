@@ -164,6 +164,9 @@ namespace YaqeenDAL.Model
             //    .OwnsOne(r => r.VerificationStatus);
             modelBuilder.HasPostgresEnum<VerificationStatus>();
             modelBuilder.HasPostgresEnum<UserType>();
+            modelBuilder.HasPostgresEnum<Visibility>();
+            modelBuilder.HasPostgresEnum<Phase>();
+            modelBuilder.HasPostgresEnum<ContentType>();
             // modelBuilder.Entity<Doctor>()  
             //     .Property(b => b.VerificationStatus)
             //     .HasDefaultValue(VerificationStatus.Approved); 
