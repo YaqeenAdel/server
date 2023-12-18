@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using YaqeenDAL.Model;
@@ -12,9 +13,11 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    partial class YaqeenDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231218015327_remove-enum-from-contents")]
+    partial class removeenumfromcontents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -259,9 +262,6 @@ namespace YaqeenDAL.Migrations
                     b.Property<int?>("ParentContentId")
                         .HasColumnType("integer");
 
-                    b.Property<Phase>("Phase")
-                        .HasColumnType("phase");
-
                     b.Property<Dictionary<string, string>>("Raw")
                         .IsRequired()
                         .HasColumnType("jsonb");
@@ -270,14 +270,8 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("jsonb");
 
-                    b.Property<ContentType>("Type")
-                        .HasColumnType("content_type");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<Visibility>("Visibility")
-                        .HasColumnType("visibility");
 
                     b.HasKey("ContentId");
 
@@ -288,8 +282,6 @@ namespace YaqeenDAL.Migrations
                     b.HasIndex("ParentContentId");
 
                     b.HasIndex("Tags");
-
-                    b.HasIndex("Type");
 
                     b.ToTable("Contents");
                 });

@@ -658,4 +658,34 @@ VALUES ('20231217030811_add-tags-attachments', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+DROP INDEX "IX_Contents_Type";
+
+ALTER TABLE "Contents" DROP COLUMN "Phase";
+
+ALTER TABLE "Contents" DROP COLUMN "Type";
+
+ALTER TABLE "Contents" DROP COLUMN "Visibility";
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231218015327_remove-enum-from-contents', '7.0.11');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "Contents" ADD "Phase" phase NOT NULL DEFAULT 'draft'::phase;
+
+ALTER TABLE "Contents" ADD "Type" content_type NOT NULL DEFAULT 'category'::content_type;
+
+ALTER TABLE "Contents" ADD "Visibility" visibility NOT NULL DEFAULT 'public'::visibility;
+
+CREATE INDEX "IX_Contents_Type" ON "Contents" ("Type");
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231218015412_content-type-enums', '7.0.11');
+
+COMMIT;
+
 
