@@ -52,7 +52,8 @@ namespace YaqeenDAL.Model
         public virtual CancerStage? CancerStage { get; set; }
     }
 
-    public enum VerificationStatus {
+    public enum VerificationStatus
+    {
         Pending,
         MoreInfoNeeded,
         Approved,
@@ -68,10 +69,10 @@ namespace YaqeenDAL.Model
         public string MedicalField { get; set; }
         public string[] CredentialsAttachments { get; set; }
         public VerificationStatus VerificationStatus { get; set; }
-        
+
         [ForeignKey("UserId")]
         public virtual ICollection<VerificationStatusEvent>? VerificationStatusEvents { get; set; }
-        
+
         // Navigation Property
         public virtual ICollection<Answer>? Answers { get; set; }
         public virtual ICollection<Bookmark>? Bookmarks { get; set; }
@@ -89,7 +90,7 @@ namespace YaqeenDAL.Model
         public string Title { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
-        
+
         // Navigation Property
         public virtual ICollection<Answer> Answers { get; set; }
         [ForeignKey("UserId")]
@@ -189,7 +190,8 @@ namespace YaqeenDAL.Model
         public virtual ICollection<ResourceLocalization> Translations { get; set; }
     }
 
-    public enum UserType {
+    public enum UserType
+    {
         Patient,
         Doctor
     }
@@ -202,10 +204,10 @@ namespace YaqeenDAL.Model
         public string Name { get; set; }
         public string LogoURL { get; set; }
         public UserType TargetUserType { get; set; }
-        public int TranslationId {get; set;}
+        public int? TranslationId { get; set; }
 
         [ForeignKey("TranslationId")]
-        public virtual ICollection<ResourceLocalization> Translations { get; set; }
+        public virtual ICollection<ResourceLocalization>? Translations { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 
@@ -218,18 +220,18 @@ namespace YaqeenDAL.Model
         [Column(TypeName = "jsonb")]
         public Dictionary<string, string> Translation { get; set; }
     }
-    
+
     public class Country : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CountryId { get; set; }
-        public string Name { get; set; } 
+        public string Name { get; set; }
         public string AlphaCode { get; set; }
     }
-    
+
     //country state
-    public class CountryState: Entity
+    public class CountryState : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -239,23 +241,23 @@ namespace YaqeenDAL.Model
         public string StateCode { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
-               
+
         [ForeignKey("CountryId")]
         public virtual Country Country { get; set; }
     }
     //university
     [Index(nameof(CountryCode))]
     [Index(nameof(CountryCode), nameof(StateCode))]
-    public class University: Entity
+    public class University : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UniversityId { get; set; }
         public string CountryName { get; set; }
         public string CountryCode { get; set; }
-        public string StateCode { get; set; } 
-        public string StateName { get; set; } 
-        public string UniversityName { get; set; } 
+        public string StateCode { get; set; }
+        public string StateName { get; set; }
+        public string UniversityName { get; set; }
     }
 
 }
