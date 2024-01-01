@@ -40,8 +40,7 @@ namespace YaqeenDAL.Migrations
                 name: "TranslationId",
                 table: "Interests",
                 type: "integer",
-                nullable: false,
-                defaultValue: 0);
+                nullable: true);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_ResourceLocalization",

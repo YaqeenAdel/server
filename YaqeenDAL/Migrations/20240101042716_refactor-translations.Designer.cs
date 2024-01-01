@@ -13,7 +13,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20231218040823_refactor-translations")]
+    [Migration("20240101042716_refactor-translations")]
     partial class refactortranslations
     {
         /// <inheritdoc />
@@ -452,7 +452,7 @@ namespace YaqeenDAL.Migrations
                     b.Property<UserType>("TargetUserType")
                         .HasColumnType("user_type");
 
-                    b.Property<int>("TranslationId")
+                    b.Property<int?>("TranslationId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")

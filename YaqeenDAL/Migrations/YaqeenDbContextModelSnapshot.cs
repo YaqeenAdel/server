@@ -449,7 +449,7 @@ namespace YaqeenDAL.Migrations
                     b.Property<UserType>("TargetUserType")
                         .HasColumnType("user_type");
 
-                    b.Property<int>("TranslationId")
+                    b.Property<int?>("TranslationId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")
