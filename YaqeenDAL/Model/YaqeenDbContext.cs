@@ -12,7 +12,8 @@ namespace YaqeenDAL.Model
     {
         public static string ConvertToEfString(string postgresConnectionString)
         {
-            if (postgresConnectionString == null) {
+            if (postgresConnectionString == null)
+            {
                 return "";
             }
 
@@ -36,7 +37,7 @@ namespace YaqeenDAL.Model
 
             return efString.ToString();
         }
-        
+
         public YaqeenDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<YaqeenDbContext>();
@@ -76,12 +77,13 @@ namespace YaqeenDAL.Model
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Bookmark> Bookmarks { get; set; }
-        public DbSet<Photo> Photos { get; set;}
+        public DbSet<Photo> Photos { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<CountryState> CountryStates { get; set; }
         public DbSet<University> Universities { get; set; }
         public DbSet<Content> Contents { get; set; }
-     
+        public DbSet<ResourceLocalization> ResourceLocalizations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure the primary keys
