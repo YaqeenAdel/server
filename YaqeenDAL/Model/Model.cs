@@ -177,7 +177,7 @@ namespace YaqeenDAL.Model
         public string CancerTypeName { get; set; }
         public string LogoURL { get; set; }
 
-        public virtual ICollection<ResourceLocalization> Translations { get; set; }
+        public virtual ICollection<ResourceLocalization>? Translations { get; set; }
     }
 
     public class CancerStage : Entity
@@ -187,7 +187,7 @@ namespace YaqeenDAL.Model
         public int StageId { get; set; }
         public string StageName { get; set; }
         public string? LogoURL { get; set; }
-        public virtual ICollection<ResourceLocalization> Translations { get; set; }
+        public virtual ICollection<ResourceLocalization>? Translations { get; set; }
     }
 
     public enum UserType
@@ -204,9 +204,8 @@ namespace YaqeenDAL.Model
         public string Name { get; set; }
         public string LogoURL { get; set; }
         public UserType TargetUserType { get; set; }
-        public int? TranslationId { get; set; }
+        // public int? TranslationId { get; set; }
 
-        [ForeignKey("TranslationId")]
         public virtual ICollection<ResourceLocalization>? Translations { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
