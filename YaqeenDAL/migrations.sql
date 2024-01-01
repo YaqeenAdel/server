@@ -698,10 +698,12 @@ ALTER TABLE "ResourceLocalization" DROP CONSTRAINT "PK_ResourceLocalization";
 
 ALTER TABLE "ResourceLocalization" ALTER COLUMN "TranslationId" DROP IDENTITY;
 
+ALTER TABLE "Interests" ADD "TranslationId" integer NULL;
+
 ALTER TABLE "ResourceLocalization" ADD CONSTRAINT "PK_ResourceLocalization" PRIMARY KEY ("TranslationId", "Language");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20240101050826_refactor-translations', '7.0.11');
+VALUES ('20240101051706_refactor-translations', '7.0.11');
 
 COMMIT;
 

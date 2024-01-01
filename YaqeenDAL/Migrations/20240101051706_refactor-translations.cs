@@ -24,6 +24,12 @@ namespace YaqeenDAL.Migrations
                 oldType: "integer")
                 .OldAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+            migrationBuilder.AddColumn<int>(
+                name: "TranslationId",
+                table: "Interests",
+                type: "integer",
+                nullable: true);
+
             migrationBuilder.AddPrimaryKey(
                 name: "PK_ResourceLocalization",
                 table: "ResourceLocalization",
@@ -36,6 +42,10 @@ namespace YaqeenDAL.Migrations
             migrationBuilder.DropPrimaryKey(
                 name: "PK_ResourceLocalization",
                 table: "ResourceLocalization");
+
+            migrationBuilder.DropColumn(
+                name: "TranslationId",
+                table: "Interests");
 
             migrationBuilder.AlterColumn<int>(
                 name: "TranslationId",

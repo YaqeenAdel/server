@@ -449,6 +449,9 @@ namespace YaqeenDAL.Migrations
                     b.Property<UserType>("TargetUserType")
                         .HasColumnType("user_type");
 
+                    b.Property<int?>("TranslationId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
