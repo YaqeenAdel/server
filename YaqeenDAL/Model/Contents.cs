@@ -4,24 +4,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YaqeenDAL.Model
 {
-    public enum ContentType {
+    public enum ContentType
+    {
         Category,
         Question,
         Answer,
         BloodDonation,
     }
 
-    public enum Phase {
+    public enum Phase
+    {
         Draft,
         Published,
     }
 
-    public enum Visibility {
+    public enum Visibility
+    {
         Public,
         Private,
     }
 
-    public class Attachment {
+    public class Attachment
+    {
         public string Name { get; set; }
         public string Url { get; set; }
     }
@@ -53,5 +57,6 @@ namespace YaqeenDAL.Model
 
         [ForeignKey(nameof(ParentContentId))]
         public virtual Content? ParentContent { get; set; }
+        public int? TranslationId { get; set; }
     }
 }

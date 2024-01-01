@@ -1,3 +1,48 @@
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: Contents
+  methods:
+    - GET
+  name: Contents
+  url: Contents
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: insert_Contents_one
+  methods:
+    - POST
+  name: insert_Contents_one
+  url: Contents
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: Contents_by_pk
+  methods:
+    - GET
+  name: Contents_by_pk
+  url: Contents/:ContentId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: update_Contents_by_pk
+  methods:
+    - POST
+  name: update_Contents_by_pk
+  url: Contents/:ContentId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: delete_Contents_by_pk
+  methods:
+    - DELETE
+  name: delete_Contents_by_pk
+  url: Contents/:ContentId
 - comment: |-
     {
 
@@ -185,33 +230,6 @@
     - GET
   name: Questions
   url: questions/:limit/:offset
-- comment: ""
-  definition:
-    query:
-      collection_name: allowed-queries
-      query_name: Resources
-  methods:
-    - GET
-  name: Resources
-  url: resources
-- comment: ""
-  definition:
-    query:
-      collection_name: allowed-queries
-      query_name: CancerTypes
-  methods:
-    - GET
-  name: CancerTypes
-  url: resources/CancerTypes
-- comment: ""
-  definition:
-    query:
-      collection_name: allowed-queries
-      query_name: cancer_stage
-  methods:
-    - GET
-  name: cancer_stage
-  url: resources/cancer-stage
 - comment: ""
   definition:
     query:
