@@ -276,60 +276,72 @@
   name: Universities
   url: universities/:CountryCode/:StateCode
 - name: Resources
-  query: |
-    query Resources ($lang: String = "en") @cached {
-      CancerStages {
-        StageId
-        LogoURL
-        Translations(where: {Language:{_eq:$lang}}) {
-          Translation
+  url: resources
+  methods:
+    - GET
+  definition:
+    query: |
+      query Resources ($lang: String = "en") @cached {
+        CancerStages {
+          StageId
+          LogoURL
+          Translations(where: {Language:{_eq:$lang}}) {
+            Translation
+          }
+        }
+        CancerTypes {
+          CancerId
+          LogoURL
+          Translations(where: {Language:{_eq:$lang}}) {
+            Translation
+          }
+        }
+        PatientInterests: Interests(where: {TargetUserType:{_eq: "patient"}}) {
+          InterestId
+          LogoURL
+          Translations(where: {Language:{_eq:$lang}}) {
+            Translation
+          }
+        }
+        DoctorInterests: Interests(where: {TargetUserType:{_eq: "doctor"}}) {
+          InterestId
+          LogoURL
+          Translations(where: {Language:{_eq:$lang}}) {
+            Translation
+          }
+        }
+        Photos {
+          PhotoURL
+          Usage
         }
       }
-      CancerTypes {
-        CancerId
-        LogoURL
-        Translations(where: {Language:{_eq:$lang}}) {
-          Translation
-        }
-      }
-      PatientInterests: Interests(where: {TargetUserType:{_eq: "patient"}}) {
-        InterestId
-        LogoURL
-        Translations(where: {Language:{_eq:$lang}}) {
-          Translation
-        }
-      }
-      DoctorInterests: Interests(where: {TargetUserType:{_eq: "doctor"}}) {
-        InterestId
-        LogoURL
-        Translations(where: {Language:{_eq:$lang}}) {
-          Translation
-        }
-      }
-      Photos {
-        PhotoURL
-        Usage
-      }
-    }
 - name: CancerTypes
-  query: |
-    query CancerTypes ($lang: String = "en") @cached {
-      CancerTypes {
-        CancerId
-        CancerTypeName
-        Translations(where: {Language:{_eq:$lang}}) {
-          Translation
+  url: resources/cancer_types
+  methods:
+    - GET
+  definition:
+    query: |
+      query CancerTypes ($lang: String = "en") @cached {
+        CancerTypes {
+          CancerId
+          CancerTypeName
+          Translations(where: {Language:{_eq:$lang}}) {
+            Translation
+          }
         }
       }
-    }
 - name: cancer_stage
-  query: |
-    query cancer_stage ($lang: String = "en") @cached {
-      CancerStages {
-        StageName
-        StageId
-        Translations(where: {Language:{_eq:$lang}}) {
-          Translation
+  url: resources/cancer_stage
+  methods:
+    - GET
+  definition:
+    query: |
+      query cancer_stage ($lang: String = "en") @cached {
+        CancerStages {
+          StageName
+          StageId
+          Translations(where: {Language:{_eq:$lang}}) {
+            Translation
+          }
         }
       }
-    }
