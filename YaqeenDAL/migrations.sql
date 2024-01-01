@@ -731,4 +731,13 @@ VALUES ('20240101054052_refactor-translations', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Contents" ADD "TranslationId" integer NULL;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240101061450_content-translation', '7.0.11');
+
+COMMIT;
+
 
