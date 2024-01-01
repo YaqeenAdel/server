@@ -9,12 +9,14 @@ array_relationships:
         table:
           name: Patients
           schema: public
-  - name: ResourceLocalizations
+  - name: Translations
     using:
-      foreign_key_constraint_on:
-        column: CancerStageStageId
-        table:
-          name: ResourceLocalization
+      manual_configuration:
+        column_mapping:
+          TranslationId: TranslationId
+        insertion_order: null
+        remote_table:
+          name: ResourceLocalizations
           schema: public
 select_permissions:
   - role: anonymous

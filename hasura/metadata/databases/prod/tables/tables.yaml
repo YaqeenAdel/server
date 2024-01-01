@@ -14,7 +14,7 @@
 - "!include public_Patients.yaml"
 - "!include public_Photos.yaml"
 - "!include public_Questions.yaml"
-- "!include public_ResourceLocalization.yaml"
+- "!include public_ResourceLocalizations.yaml"
 - "!include public_Universities.yaml"
 - "!include public_Users.yaml"
 - "!include public_VerificationStatusEvent.yaml"

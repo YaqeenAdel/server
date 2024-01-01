@@ -1,0 +1,3 @@
+table:
+  name: ResourceLocalizations
+  schema: public
