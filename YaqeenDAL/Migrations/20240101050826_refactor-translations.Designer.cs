@@ -13,7 +13,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20240101042716_refactor-translations")]
+    [Migration("20240101050826_refactor-translations")]
     partial class refactortranslations
     {
         /// <inheritdoc />
@@ -452,9 +452,6 @@ namespace YaqeenDAL.Migrations
                     b.Property<UserType>("TargetUserType")
                         .HasColumnType("user_type");
 
-                    b.Property<int?>("TranslationId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -595,6 +592,9 @@ namespace YaqeenDAL.Migrations
                     b.Property<int?>("CancerTypeCancerId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("InterestId")
+                        .HasColumnType("integer");
+
                     b.Property<Dictionary<string, string>>("Translation")
                         .IsRequired()
                         .HasColumnType("jsonb");
@@ -604,6 +604,8 @@ namespace YaqeenDAL.Migrations
                     b.HasIndex("CancerStageStageId");
 
                     b.HasIndex("CancerTypeCancerId");
+
+                    b.HasIndex("InterestId");
 
                     b.ToTable("ResourceLocalization");
                 });
@@ -913,9 +915,7 @@ namespace YaqeenDAL.Migrations
 
                     b.HasOne("YaqeenDAL.Model.Interest", null)
                         .WithMany("Translations")
-                        .HasForeignKey("TranslationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("InterestId");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.VerificationStatusEvent", b =>
