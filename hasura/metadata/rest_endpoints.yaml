@@ -275,73 +275,30 @@
     - GET
   name: Universities
   url: universities/:CountryCode/:StateCode
-- name: Resources
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: Resources
+  methods:
+    - GET
+  name: Resources
   url: resources
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: CancerTypes
   methods:
     - GET
+  name: CancerTypes
+  url: resources/CancerTypes
+- comment: ""
   definition:
-    query: |
-      query Resources ($lang: String = "en") @cached {
-        CancerStages {
-          StageId
-          LogoURL
-          Translations(where: {Language:{_eq:$lang}}) {
-            Translation
-          }
-        }
-        CancerTypes {
-          CancerId
-          LogoURL
-          Translations(where: {Language:{_eq:$lang}}) {
-            Translation
-          }
-        }
-        PatientInterests: Interests(where: {TargetUserType:{_eq: "patient"}}) {
-          InterestId
-          LogoURL
-          Translations(where: {Language:{_eq:$lang}}) {
-            Translation
-          }
-        }
-        DoctorInterests: Interests(where: {TargetUserType:{_eq: "doctor"}}) {
-          InterestId
-          LogoURL
-          Translations(where: {Language:{_eq:$lang}}) {
-            Translation
-          }
-        }
-        Photos {
-          PhotoURL
-          Usage
-        }
-      }
-- name: CancerTypes
-  url: resources/cancer_types
+    query:
+      collection_name: allowed-queries
+      query_name: cancer_stage
   methods:
     - GET
-  definition:
-    query: |
-      query CancerTypes ($lang: String = "en") @cached {
-        CancerTypes {
-          CancerId
-          CancerTypeName
-          Translations(where: {Language:{_eq:$lang}}) {
-            Translation
-          }
-        }
-      }
-- name: cancer_stage
-  url: resources/cancer_stage
-  methods:
-    - GET
-  definition:
-    query: |
-      query cancer_stage ($lang: String = "en") @cached {
-        CancerStages {
-          StageName
-          StageId
-          Translations(where: {Language:{_eq:$lang}}) {
-            Translation
-          }
-        }
-      }
+  name: cancer_stage
+  url: resources/cancer-stage
