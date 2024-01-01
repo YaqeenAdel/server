@@ -188,6 +188,9 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("TranslationId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -221,6 +224,9 @@ namespace YaqeenDAL.Migrations
                     b.Property<string>("LogoURL")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int?>("TranslationId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -586,28 +592,13 @@ namespace YaqeenDAL.Migrations
                     b.Property<string>("Language")
                         .HasColumnType("text");
 
-                    b.Property<int?>("CancerStageStageId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("CancerTypeCancerId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("InterestId")
-                        .HasColumnType("integer");
-
                     b.Property<Dictionary<string, string>>("Translation")
                         .IsRequired()
                         .HasColumnType("jsonb");
 
                     b.HasKey("TranslationId", "Language");
 
-                    b.HasIndex("CancerStageStageId");
-
-                    b.HasIndex("CancerTypeCancerId");
-
-                    b.HasIndex("InterestId");
-
-                    b.ToTable("ResourceLocalization");
+                    b.ToTable("ResourceLocalizations");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.University", b =>
@@ -903,21 +894,6 @@ namespace YaqeenDAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("YaqeenDAL.Model.ResourceLocalization", b =>
-                {
-                    b.HasOne("YaqeenDAL.Model.CancerStage", null)
-                        .WithMany("Translations")
-                        .HasForeignKey("CancerStageStageId");
-
-                    b.HasOne("YaqeenDAL.Model.CancerType", null)
-                        .WithMany("Translations")
-                        .HasForeignKey("CancerTypeCancerId");
-
-                    b.HasOne("YaqeenDAL.Model.Interest", null)
-                        .WithMany("Translations")
-                        .HasForeignKey("InterestId");
-                });
-
             modelBuilder.Entity("YaqeenDAL.Model.VerificationStatusEvent", b =>
                 {
                     b.HasOne("YaqeenDAL.Model.Doctor", "TargetDoctor")
@@ -946,16 +922,6 @@ namespace YaqeenDAL.Migrations
                     b.Navigation("Bookmarks");
                 });
 
-            modelBuilder.Entity("YaqeenDAL.Model.CancerStage", b =>
-                {
-                    b.Navigation("Translations");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.CancerType", b =>
-                {
-                    b.Navigation("Translations");
-                });
-
             modelBuilder.Entity("YaqeenDAL.Model.Doctor", b =>
                 {
                     b.Navigation("Answers");
@@ -963,11 +929,6 @@ namespace YaqeenDAL.Migrations
                     b.Navigation("Bookmarks");
 
                     b.Navigation("VerificationStatusEvents");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.Interest", b =>
-                {
-                    b.Navigation("Translations");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>

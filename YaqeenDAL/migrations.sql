@@ -694,16 +694,40 @@ COMMIT;
 
 START TRANSACTION;
 
+ALTER TABLE "ResourceLocalization" DROP CONSTRAINT "FK_ResourceLocalization_CancerStages_CancerStageStageId";
+
+ALTER TABLE "ResourceLocalization" DROP CONSTRAINT "FK_ResourceLocalization_CancerTypes_CancerTypeCancerId";
+
+ALTER TABLE "ResourceLocalization" DROP CONSTRAINT "FK_ResourceLocalization_Interests_InterestId";
+
 ALTER TABLE "ResourceLocalization" DROP CONSTRAINT "PK_ResourceLocalization";
 
-ALTER TABLE "ResourceLocalization" ALTER COLUMN "TranslationId" DROP IDENTITY;
+DROP INDEX "IX_ResourceLocalization_CancerStageStageId";
+
+DROP INDEX "IX_ResourceLocalization_CancerTypeCancerId";
+
+DROP INDEX "IX_ResourceLocalization_InterestId";
+
+ALTER TABLE "ResourceLocalization" DROP COLUMN "CancerStageStageId";
+
+ALTER TABLE "ResourceLocalization" DROP COLUMN "CancerTypeCancerId";
+
+ALTER TABLE "ResourceLocalization" DROP COLUMN "InterestId";
+
+ALTER TABLE "ResourceLocalization" RENAME TO "ResourceLocalizations";
 
 ALTER TABLE "Interests" ADD "TranslationId" integer NULL;
 
-ALTER TABLE "ResourceLocalization" ADD CONSTRAINT "PK_ResourceLocalization" PRIMARY KEY ("TranslationId", "Language");
+ALTER TABLE "CancerTypes" ADD "TranslationId" integer NULL;
+
+ALTER TABLE "CancerStages" ADD "TranslationId" integer NULL;
+
+ALTER TABLE "ResourceLocalizations" ALTER COLUMN "TranslationId" DROP IDENTITY;
+
+ALTER TABLE "ResourceLocalizations" ADD CONSTRAINT "PK_ResourceLocalizations" PRIMARY KEY ("TranslationId", "Language");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20240101051706_refactor-translations', '7.0.11');
+VALUES ('20240101054052_refactor-translations', '7.0.11');
 
 COMMIT;
 
