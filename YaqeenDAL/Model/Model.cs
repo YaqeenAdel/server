@@ -204,7 +204,7 @@ namespace YaqeenDAL.Model
         public string Name { get; set; }
         public string LogoURL { get; set; }
         public UserType TargetUserType { get; set; }
-        // public int? TranslationId { get; set; }
+        public int? TranslationId { get; set; }
 
         public virtual ICollection<ResourceLocalization>? Translations { get; set; }
         public virtual ICollection<User> Users { get; set; }
