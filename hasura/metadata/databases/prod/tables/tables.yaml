@@ -7,6 +7,7 @@
 - "!include public_Countries.yaml"
 - "!include public_CountryStates.yaml"
 - "!include public_Doctors.yaml"
+- "!include public_FlattenedResourceLocalizations.yaml"
 - "!include public_InterestDoctor.yaml"
 - "!include public_InterestUser.yaml"
 - "!include public_Interests.yaml"
