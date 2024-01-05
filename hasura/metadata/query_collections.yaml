@@ -390,28 +390,28 @@
             CancerStages {
               StageId
               LogoURL
-              Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
+              Translations(where: {Language:{_eq:$lang}}) {
                 Translation
               }
             }
             CancerTypes {
               CancerId
               LogoURL
-              Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
+              Translations(where: {Language:{_eq:$lang}}) {
                 Translation
               }
             }
-            PatientInterests: Interests(where: {TargetUserType:{_eq: "patient"}}) {
+            PatientInterests: Interests(where: {TargetUserType:{_eq:"patient"}}) {
               InterestId
               LogoURL
-              Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
+              Translations(where: {Language:{_eq:$lang}}) {
                 Translation
               }
             }
-            DoctorInterests: Interests(where: {TargetUserType:{_eq: "doctor"}}) {
+            DoctorInterests: Interests(where: {TargetUserType:{_eq:"doctor"}}) {
               InterestId
               LogoURL
-              Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
+              Translations(where: {Language:{_eq:$lang}}) {
                 Translation
               }
             }
@@ -426,7 +426,7 @@
             CancerTypes {
               CancerId
               CancerTypeName
-              Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
+              Translations(where: {Language:{_eq:$lang}}) {
                 Translation
               }
             }
@@ -437,8 +437,38 @@
             CancerStages {
               StageName
               StageId
-              Translations: ResourceLocalizations(where: {Language:{_eq:$lang}}) {
+              Translations(where: {Language:{_eq:$lang}}) {
                 Translation
+              }
+            }
+          }
+      - name: Categories
+        query: |
+          query Categories ($lang: String = "en") @cached {
+            Categories: Contents(where: {Type:{_eq:"category"}}) {
+              Translations(where: {Language:{_eq:$lang}}) {
+                Translation
+                Language
+              }
+              ContentId
+            }
+          }
+      - name: Articles
+        query: |
+          query Articles ($categoryContentId: Int! = 1, $lang: String! = "en", $search: String = "%") @cached(ttl: 600) {
+            Articles: Contents(where: {ParentContentId:{_eq:$categoryContentId},Type:{_eq:"question"},FlattenedTranslations:{value:{_similar:$search}}}, order_by: {UpdatedAt:desc_nulls_last}) {
+              ContentId
+              AssignedTo
+              Attachments
+              AuthorUserId
+              CreatedDate
+              Phase
+              Tags
+              UpdatedAt
+              Visibility
+              Translations(where: {Language:{_eq:$lang}}) {
+                Translation
+                Language
               }
             }
           }

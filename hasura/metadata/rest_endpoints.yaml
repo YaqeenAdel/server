@@ -112,6 +112,24 @@
   definition:
     query:
       collection_name: allowed-queries
+      query_name: Articles
+  methods:
+    - GET
+  name: Articles
+  url: content/articles
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: Categories
+  methods:
+    - GET
+  name: Categories
+  url: content/categories
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
       query_name: countries
   methods:
     - GET
@@ -234,6 +252,33 @@
   definition:
     query:
       collection_name: allowed-queries
+      query_name: Resources
+  methods:
+    - GET
+  name: Resources
+  url: resources
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: CancerTypes
+  methods:
+    - GET
+  name: CancerTypes
+  url: resources/CancerTypes
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: cancer_stage
+  methods:
+    - GET
+  name: cancer_stage
+  url: resources/cancer-stage
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
       query_name: InsertInterests
   methods:
     - POST
@@ -275,30 +320,3 @@
     - GET
   name: Universities
   url: universities/:CountryCode/:StateCode
-- comment: ""
-  definition:
-    query:
-      collection_name: allowed-queries
-      query_name: Resources
-  methods:
-    - GET
-  name: Resources
-  url: resources
-- comment: ""
-  definition:
-    query:
-      collection_name: allowed-queries
-      query_name: CancerTypes
-  methods:
-    - GET
-  name: CancerTypes
-  url: resources/CancerTypes
-- comment: ""
-  definition:
-    query:
-      collection_name: allowed-queries
-      query_name: cancer_stage
-  methods:
-    - GET
-  name: cancer_stage
-  url: resources/cancer-stage

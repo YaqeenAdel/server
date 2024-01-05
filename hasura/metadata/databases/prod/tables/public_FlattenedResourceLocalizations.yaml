@@ -1,20 +1,16 @@
 table:
-  name: ResourceLocalizations
+  name: FlattenedResourceLocalizations
   schema: public
 select_permissions:
   - role: anonymous
     permission:
       columns:
-        - Language
-        - Translation
-        - TranslationId
+        - value
       filter: {}
     comment: ""
   - role: user
     permission:
       columns:
-        - Language
-        - Translation
-        - TranslationId
+        - value
       filter: {}
     comment: ""

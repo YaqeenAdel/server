@@ -16,6 +16,15 @@ array_relationships:
         table:
           name: Contents
           schema: public
+  - name: FlattenedTranslations
+    using:
+      manual_configuration:
+        column_mapping:
+          TranslationId: TranslationId
+        insertion_order: null
+        remote_table:
+          name: FlattenedResourceLocalizations
+          schema: public
   - name: Translations
     using:
       manual_configuration:
@@ -25,3 +34,58 @@ array_relationships:
         remote_table:
           name: ResourceLocalizations
           schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - Active
+        - AssignedTo
+        - Attachments
+        - AuthorUserId
+        - ContentId
+        - CreatedDate
+        - ParentContentId
+        - Phase
+        - Tags
+        - Type
+        - UpdatedAt
+        - Visibility
+      filter:
+        _and:
+          - Active:
+              _eq: true
+          - DeletedAt:
+              _is_null: true
+          - _or:
+              - Visibility:
+                  _eq: public
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - Active
+        - AssignedTo
+        - Attachments
+        - AuthorUserId
+        - ContentId
+        - CreatedDate
+        - ParentContentId
+        - Phase
+        - Tags
+        - Type
+        - UpdatedAt
+        - Visibility
+      filter:
+        _and:
+          - Active:
+              _eq: true
+          - DeletedAt:
+              _is_null: true
+          - _or:
+              - Visibility:
+                  _eq: public
+              - AssignedTo:
+                  _eq: X-Hasura-User-Id
+              - AuthorUserId:
+                  _eq: X-Hasura-User-Id
+    comment: ""
