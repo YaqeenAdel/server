@@ -740,4 +740,11 @@ VALUES ('20240101061450_content-translation', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240105054026_articles-views-flatten-search', '7.0.11');
+
+COMMIT;
+
 
