@@ -75,7 +75,6 @@ namespace YaqeenDAL.Model
         public DbSet<Interest> Interests { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
-        public DbSet<Article> Articles { get; set; }
         public DbSet<Bookmark> Bookmarks { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Country> Countries { get; set; }

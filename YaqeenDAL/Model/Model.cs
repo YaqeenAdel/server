@@ -27,6 +27,7 @@ namespace YaqeenDAL.Model
         // [ForeignKey("UserId")]
         // public virtual Doctor Doctor { get; set; }
         public virtual ICollection<Interest> Interests { get; set; }
+        public virtual ICollection<Bookmark>? Bookmarks { get; set; }
     }
 
     public class Patient : Entity
@@ -39,9 +40,6 @@ namespace YaqeenDAL.Model
 
         [ForeignKey("CancerStage")]
         public int CancerStageId { get; set; }
-
-        public ICollection<Question> Questions { get; set; }
-        public ICollection<Bookmark> Bookmarks { get; set; }
 
         // Navigation Property
         [ForeignKey("UserId")]
@@ -74,9 +72,6 @@ namespace YaqeenDAL.Model
         public virtual ICollection<VerificationStatusEvent>? VerificationStatusEvents { get; set; }
 
         // Navigation Property
-        public virtual ICollection<Answer>? Answers { get; set; }
-        public virtual ICollection<Bookmark>? Bookmarks { get; set; }
-
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
     }
@@ -112,32 +107,20 @@ namespace YaqeenDAL.Model
         public virtual Question Question { get; set; }
     }
 
-    public class Article : Entity
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ArticleId { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Category { get; set; }
-        public virtual ICollection<Bookmark> Bookmarks { get; set; }
-    }
-
+    [Index(nameof(UserId))]
+    [Index(nameof(UserId), nameof(ContentId))]
     public class Bookmark : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BookmarkId { get; set; }
+        public int ContentId { get; set; }
         public string UserId { get; set; }
-        public int? ArticleId { get; set; }
-        public string Type { get; set; } // Can be "Question" or "Article"
-
         // Navigation Properties
-        [ForeignKey("UserId")]
-        public virtual Patient Patient { get; set; }
-        [ForeignKey("UserId")]
-        public virtual Doctor Doctor { get; set; }
-        public virtual Article Article { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; }
+        [ForeignKey(nameof(ContentId))]
+        public virtual Content Content { get; set; }
     }
 
     [Index(nameof(TargetDoctorUserId))]

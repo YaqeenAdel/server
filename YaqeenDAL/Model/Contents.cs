@@ -58,5 +58,7 @@ namespace YaqeenDAL.Model
         [ForeignKey(nameof(ParentContentId))]
         public virtual Content? ParentContent { get; set; }
         public int? TranslationId { get; set; }
+
+        public virtual Bookmark? Bookmark { get; set; }
     }
 }
