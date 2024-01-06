@@ -105,12 +105,6 @@ namespace YaqeenDAL.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("DoctorUserId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PatientUserId")
-                        .HasColumnType("text");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -121,10 +115,6 @@ namespace YaqeenDAL.Migrations
 
                     b.HasIndex("ContentId")
                         .IsUnique();
-
-                    b.HasIndex("DoctorUserId");
-
-                    b.HasIndex("PatientUserId");
 
                     b.HasIndex("UserId");
 
@@ -532,9 +522,6 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("PatientUserId")
-                        .HasColumnType("text");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -547,8 +534,6 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("QuestionId");
-
-                    b.HasIndex("PatientUserId");
 
                     b.HasIndex("UserId");
 
@@ -743,7 +728,7 @@ namespace YaqeenDAL.Migrations
             modelBuilder.Entity("YaqeenDAL.Model.Answer", b =>
                 {
                     b.HasOne("YaqeenDAL.Model.Doctor", "Doctor")
-                        .WithMany("Answers")
+                        .WithMany()
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -767,16 +752,8 @@ namespace YaqeenDAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YaqeenDAL.Model.Doctor", null)
-                        .WithMany("Bookmarks")
-                        .HasForeignKey("DoctorUserId");
-
-                    b.HasOne("YaqeenDAL.Model.Patient", null)
-                        .WithMany("Bookmarks")
-                        .HasForeignKey("PatientUserId");
-
                     b.HasOne("YaqeenDAL.Model.User", "User")
-                        .WithMany()
+                        .WithMany("Bookmarks")
                         .HasForeignKey("UserId");
 
                     b.Navigation("Content");
@@ -852,10 +829,6 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("YaqeenDAL.Model.Question", b =>
                 {
-                    b.HasOne("YaqeenDAL.Model.Patient", null)
-                        .WithMany("Questions")
-                        .HasForeignKey("PatientUserId");
-
                     b.HasOne("YaqeenDAL.Model.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -895,23 +868,17 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("YaqeenDAL.Model.Doctor", b =>
                 {
-                    b.Navigation("Answers");
-
-                    b.Navigation("Bookmarks");
-
                     b.Navigation("VerificationStatusEvents");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
-                {
-                    b.Navigation("Bookmarks");
-
-                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Question", b =>
                 {
                     b.Navigation("Answers");
+                });
+
+            modelBuilder.Entity("YaqeenDAL.Model.User", b =>
+                {
+                    b.Navigation("Bookmarks");
                 });
 #pragma warning restore 612, 618
         }

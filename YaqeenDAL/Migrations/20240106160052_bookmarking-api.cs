@@ -24,12 +24,24 @@ namespace YaqeenDAL.Migrations
                 name: "FK_Bookmarks_Patients_UserId",
                 table: "Bookmarks");
 
+            migrationBuilder.DropForeignKey(
+                name: "FK_Questions_Patients_PatientUserId",
+                table: "Questions");
+
             migrationBuilder.DropTable(
                 name: "Articles");
 
             migrationBuilder.DropIndex(
+                name: "IX_Questions_PatientUserId",
+                table: "Questions");
+
+            migrationBuilder.DropIndex(
                 name: "IX_Bookmarks_ArticleId",
                 table: "Bookmarks");
+
+            migrationBuilder.DropColumn(
+                name: "PatientUserId",
+                table: "Questions");
 
             migrationBuilder.DropColumn(
                 name: "ArticleId",
@@ -54,33 +66,11 @@ namespace YaqeenDAL.Migrations
                 nullable: false,
                 defaultValue: 0);
 
-            migrationBuilder.AddColumn<string>(
-                name: "DoctorUserId",
-                table: "Bookmarks",
-                type: "text",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "PatientUserId",
-                table: "Bookmarks",
-                type: "text",
-                nullable: true);
-
             migrationBuilder.CreateIndex(
                 name: "IX_Bookmarks_ContentId",
                 table: "Bookmarks",
                 column: "ContentId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookmarks_DoctorUserId",
-                table: "Bookmarks",
-                column: "DoctorUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookmarks_PatientUserId",
-                table: "Bookmarks",
-                column: "PatientUserId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Bookmarks_Contents_ContentId",
@@ -89,20 +79,6 @@ namespace YaqeenDAL.Migrations
                 principalTable: "Contents",
                 principalColumn: "ContentId",
                 onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Bookmarks_Doctors_DoctorUserId",
-                table: "Bookmarks",
-                column: "DoctorUserId",
-                principalTable: "Doctors",
-                principalColumn: "UserId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Bookmarks_Patients_PatientUserId",
-                table: "Bookmarks",
-                column: "PatientUserId",
-                principalTable: "Patients",
-                principalColumn: "UserId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Bookmarks_Users_UserId",
@@ -120,14 +96,6 @@ namespace YaqeenDAL.Migrations
                 table: "Bookmarks");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Bookmarks_Doctors_DoctorUserId",
-                table: "Bookmarks");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Bookmarks_Patients_PatientUserId",
-                table: "Bookmarks");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_Bookmarks_Users_UserId",
                 table: "Bookmarks");
 
@@ -135,25 +103,15 @@ namespace YaqeenDAL.Migrations
                 name: "IX_Bookmarks_ContentId",
                 table: "Bookmarks");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Bookmarks_DoctorUserId",
-                table: "Bookmarks");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Bookmarks_PatientUserId",
-                table: "Bookmarks");
-
             migrationBuilder.DropColumn(
                 name: "ContentId",
                 table: "Bookmarks");
 
-            migrationBuilder.DropColumn(
-                name: "DoctorUserId",
-                table: "Bookmarks");
-
-            migrationBuilder.DropColumn(
+            migrationBuilder.AddColumn<string>(
                 name: "PatientUserId",
-                table: "Bookmarks");
+                table: "Questions",
+                type: "text",
+                nullable: true);
 
             migrationBuilder.AlterColumn<string>(
                 name: "UserId",
@@ -198,6 +156,11 @@ namespace YaqeenDAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Questions_PatientUserId",
+                table: "Questions",
+                column: "PatientUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Bookmarks_ArticleId",
                 table: "Bookmarks",
                 column: "ArticleId");
@@ -224,6 +187,13 @@ namespace YaqeenDAL.Migrations
                 principalTable: "Patients",
                 principalColumn: "UserId",
                 onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Questions_Patients_PatientUserId",
+                table: "Questions",
+                column: "PatientUserId",
+                principalTable: "Patients",
+                principalColumn: "UserId");
         }
     }
 }
