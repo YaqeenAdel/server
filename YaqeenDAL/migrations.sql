@@ -784,4 +784,19 @@ VALUES ('20240106160611_bookmarking-api', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+DROP INDEX "IX_Bookmarks_ContentId";
+
+DROP INDEX "IX_Bookmarks_UserId_ContentId";
+
+CREATE INDEX "IX_Bookmarks_ContentId" ON "Bookmarks" ("ContentId");
+
+CREATE UNIQUE INDEX "IX_Bookmarks_UserId_ContentId" ON "Bookmarks" ("UserId", "ContentId");
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240106170419_bookmark-api', '7.0.11');
+
+COMMIT;
+
 
