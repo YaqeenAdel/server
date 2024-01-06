@@ -112,32 +112,14 @@ namespace YaqeenDAL.Model
         public virtual Question Question { get; set; }
     }
 
-    public class Article : Entity
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ArticleId { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Category { get; set; }
-        public virtual ICollection<Bookmark> Bookmarks { get; set; }
-    }
-
     public class Bookmark : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BookmarkId { get; set; }
-        public string UserId { get; set; }
-        public int? ArticleId { get; set; }
-        public string Type { get; set; } // Can be "Question" or "Article"
-
         // Navigation Properties
-        [ForeignKey("UserId")]
-        public virtual Patient Patient { get; set; }
-        [ForeignKey("UserId")]
-        public virtual Doctor Doctor { get; set; }
-        public virtual Article Article { get; set; }
+        public virtual User User { get; set; }
+        public virtual Content Content { get; set; }
     }
 
     [Index(nameof(TargetDoctorUserId))]
