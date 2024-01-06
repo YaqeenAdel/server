@@ -107,13 +107,17 @@ namespace YaqeenDAL.Model
         public virtual Question Question { get; set; }
     }
 
+    [Index(nameof(UserId))]
+    [Index(nameof(UserId), nameof(ContentId))]
     public class Bookmark : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BookmarkId { get; set; }
         public int ContentId { get; set; }
+        public string UserId { get; set; }
         // Navigation Properties
+        [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
         [ForeignKey(nameof(ContentId))]
         public virtual Content Content { get; set; }
