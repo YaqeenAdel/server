@@ -13,7 +13,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20240106160052_bookmarking-api")]
+    [Migration("20240106160611_bookmarking-api")]
     partial class bookmarkingapi
     {
         /// <inheritdoc />
@@ -112,6 +112,7 @@ namespace YaqeenDAL.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("BookmarkId");
@@ -120,6 +121,8 @@ namespace YaqeenDAL.Migrations
                         .IsUnique();
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserId", "ContentId");
 
                     b.ToTable("Bookmarks");
                 });
@@ -757,7 +760,9 @@ namespace YaqeenDAL.Migrations
 
                     b.HasOne("YaqeenDAL.Model.User", "User")
                         .WithMany("Bookmarks")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Content");
 

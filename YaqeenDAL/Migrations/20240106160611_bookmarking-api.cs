@@ -51,14 +51,6 @@ namespace YaqeenDAL.Migrations
                 name: "Type",
                 table: "Bookmarks");
 
-            migrationBuilder.AlterColumn<string>(
-                name: "UserId",
-                table: "Bookmarks",
-                type: "text",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "text");
-
             migrationBuilder.AddColumn<int>(
                 name: "ContentId",
                 table: "Bookmarks",
@@ -71,6 +63,11 @@ namespace YaqeenDAL.Migrations
                 table: "Bookmarks",
                 column: "ContentId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookmarks_UserId_ContentId",
+                table: "Bookmarks",
+                columns: new[] { "UserId", "ContentId" });
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Bookmarks_Contents_ContentId",
@@ -85,7 +82,8 @@ namespace YaqeenDAL.Migrations
                 table: "Bookmarks",
                 column: "UserId",
                 principalTable: "Users",
-                principalColumn: "UserId");
+                principalColumn: "UserId",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
@@ -103,6 +101,10 @@ namespace YaqeenDAL.Migrations
                 name: "IX_Bookmarks_ContentId",
                 table: "Bookmarks");
 
+            migrationBuilder.DropIndex(
+                name: "IX_Bookmarks_UserId_ContentId",
+                table: "Bookmarks");
+
             migrationBuilder.DropColumn(
                 name: "ContentId",
                 table: "Bookmarks");
@@ -112,16 +114,6 @@ namespace YaqeenDAL.Migrations
                 table: "Questions",
                 type: "text",
                 nullable: true);
-
-            migrationBuilder.AlterColumn<string>(
-                name: "UserId",
-                table: "Bookmarks",
-                type: "text",
-                nullable: false,
-                defaultValue: "",
-                oldClrType: typeof(string),
-                oldType: "text",
-                oldNullable: true);
 
             migrationBuilder.AddColumn<int>(
                 name: "ArticleId",

@@ -769,18 +769,18 @@ ALTER TABLE "Bookmarks" DROP COLUMN "ArticleId";
 
 ALTER TABLE "Bookmarks" DROP COLUMN "Type";
 
-ALTER TABLE "Bookmarks" ALTER COLUMN "UserId" DROP NOT NULL;
-
 ALTER TABLE "Bookmarks" ADD "ContentId" integer NOT NULL DEFAULT 0;
 
 CREATE UNIQUE INDEX "IX_Bookmarks_ContentId" ON "Bookmarks" ("ContentId");
 
+CREATE INDEX "IX_Bookmarks_UserId_ContentId" ON "Bookmarks" ("UserId", "ContentId");
+
 ALTER TABLE "Bookmarks" ADD CONSTRAINT "FK_Bookmarks_Contents_ContentId" FOREIGN KEY ("ContentId") REFERENCES "Contents" ("ContentId") ON DELETE CASCADE;
 
-ALTER TABLE "Bookmarks" ADD CONSTRAINT "FK_Bookmarks_Users_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("UserId");
+ALTER TABLE "Bookmarks" ADD CONSTRAINT "FK_Bookmarks_Users_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("UserId") ON DELETE CASCADE;
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20240106160052_bookmarking-api', '7.0.11');
+VALUES ('20240106160611_bookmarking-api', '7.0.11');
 
 COMMIT;
 
