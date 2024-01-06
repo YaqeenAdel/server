@@ -747,4 +747,47 @@ VALUES ('20240105054026_articles-views-flatten-search', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Bookmarks" DROP CONSTRAINT "FK_Bookmarks_Articles_ArticleId";
+
+ALTER TABLE "Bookmarks" DROP CONSTRAINT "FK_Bookmarks_Doctors_UserId";
+
+ALTER TABLE "Bookmarks" DROP CONSTRAINT "FK_Bookmarks_Patients_UserId";
+
+DROP TABLE "Articles";
+
+DROP INDEX "IX_Bookmarks_ArticleId";
+
+ALTER TABLE "Bookmarks" DROP COLUMN "ArticleId";
+
+ALTER TABLE "Bookmarks" DROP COLUMN "Type";
+
+ALTER TABLE "Bookmarks" ALTER COLUMN "UserId" DROP NOT NULL;
+
+ALTER TABLE "Bookmarks" ADD "ContentId" integer NOT NULL DEFAULT 0;
+
+ALTER TABLE "Bookmarks" ADD "DoctorUserId" text NULL;
+
+ALTER TABLE "Bookmarks" ADD "PatientUserId" text NULL;
+
+CREATE UNIQUE INDEX "IX_Bookmarks_ContentId" ON "Bookmarks" ("ContentId");
+
+CREATE INDEX "IX_Bookmarks_DoctorUserId" ON "Bookmarks" ("DoctorUserId");
+
+CREATE INDEX "IX_Bookmarks_PatientUserId" ON "Bookmarks" ("PatientUserId");
+
+ALTER TABLE "Bookmarks" ADD CONSTRAINT "FK_Bookmarks_Contents_ContentId" FOREIGN KEY ("ContentId") REFERENCES "Contents" ("ContentId") ON DELETE CASCADE;
+
+ALTER TABLE "Bookmarks" ADD CONSTRAINT "FK_Bookmarks_Doctors_DoctorUserId" FOREIGN KEY ("DoctorUserId") REFERENCES "Doctors" ("UserId");
+
+ALTER TABLE "Bookmarks" ADD CONSTRAINT "FK_Bookmarks_Patients_PatientUserId" FOREIGN KEY ("PatientUserId") REFERENCES "Patients" ("UserId");
+
+ALTER TABLE "Bookmarks" ADD CONSTRAINT "FK_Bookmarks_Users_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("UserId");
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240106155643_bookmarking-api', '7.0.11');
+
+COMMIT;
+
 
