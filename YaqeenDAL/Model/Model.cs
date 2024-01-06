@@ -108,7 +108,8 @@ namespace YaqeenDAL.Model
     }
 
     [Index(nameof(UserId))]
-    [Index(nameof(UserId), nameof(ContentId))]
+    [Index(nameof(UserId), nameof(ContentId), IsUnique = true)]
+    [Index(nameof(ContentId), IsUnique = false)]
     public class Bookmark : Entity
     {
         [Key]
