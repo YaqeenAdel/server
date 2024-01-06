@@ -117,8 +117,10 @@ namespace YaqeenDAL.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BookmarkId { get; set; }
+        public int ContentId { get; set; }
         // Navigation Properties
         public virtual User User { get; set; }
+        [ForeignKey(nameof(ContentId))]
         public virtual Content Content { get; set; }
     }
 
