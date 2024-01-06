@@ -27,6 +27,7 @@ namespace YaqeenDAL.Model
         // [ForeignKey("UserId")]
         // public virtual Doctor Doctor { get; set; }
         public virtual ICollection<Interest> Interests { get; set; }
+        public virtual ICollection<Bookmark>? Bookmarks { get; set; }
     }
 
     public class Patient : Entity
@@ -39,9 +40,6 @@ namespace YaqeenDAL.Model
 
         [ForeignKey("CancerStage")]
         public int CancerStageId { get; set; }
-
-        public ICollection<Question> Questions { get; set; }
-        public ICollection<Bookmark> Bookmarks { get; set; }
 
         // Navigation Property
         [ForeignKey("UserId")]
@@ -74,9 +72,6 @@ namespace YaqeenDAL.Model
         public virtual ICollection<VerificationStatusEvent>? VerificationStatusEvents { get; set; }
 
         // Navigation Property
-        public virtual ICollection<Answer>? Answers { get; set; }
-        public virtual ICollection<Bookmark>? Bookmarks { get; set; }
-
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
     }
