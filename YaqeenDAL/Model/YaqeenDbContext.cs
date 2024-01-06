@@ -171,6 +171,8 @@ namespace YaqeenDAL.Model
             // modelBuilder.Entity<Doctor>()  
             //     .Property(b => b.VerificationStatus)
             //     .HasDefaultValue(VerificationStatus.Approved); 
+            modelBuilder.Entity<Bookmark>()
+                .HasAlternateKey(c => new { c.UserId, c.ContentId });
         }
     }
 }
