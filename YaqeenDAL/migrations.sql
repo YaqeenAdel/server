@@ -799,4 +799,13 @@ VALUES ('20240106170419_bookmark-api', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Bookmarks" ADD CONSTRAINT "AK_Bookmarks_UserId_ContentId" UNIQUE ("UserId", "ContentId");
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240106173825_bookmark-constraint', '7.0.11');
+
+COMMIT;
+
 
