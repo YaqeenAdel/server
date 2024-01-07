@@ -112,6 +112,33 @@
   definition:
     query:
       collection_name: allowed-queries
+      query_name: Bookmarks
+  methods:
+    - GET
+  name: Bookmarks
+  url: bookmarks
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: insert_Bookmarks_one
+  methods:
+    - POST
+  name: insert_Bookmarks_one
+  url: bookmarks
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: delete_Bookmarks_by_pk
+  methods:
+    - DELETE
+  name: delete_Bookmarks_by_pk
+  url: bookmarks/:BookmarkId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
       query_name: Articles
   methods:
     - GET
@@ -209,15 +236,6 @@
     - POST
   name: insert_Questions_one
   url: questions
-- comment: get question by id
-  definition:
-    query:
-      collection_name: allowed-queries
-      query_name: QuestionsbyId
-  methods:
-    - GET
-  name: QuestionsbyId
-  url: questions/:QuestionId
 - comment: ""
   definition:
     query:
@@ -238,6 +256,15 @@
   methods:
     - PATCH
   name: UpdateQuestion
+  url: questions/:QuestionId
+- comment: get question by id
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: QuestionsbyId
+  methods:
+    - GET
+  name: QuestionsbyId
   url: questions/:QuestionId
 - comment: '{"offset":2, "limit": 1} required'
   definition:

@@ -2,9 +2,6 @@ table:
   name: Questions
   schema: public
 object_relationships:
-  - name: Patient
-    using:
-      foreign_key_constraint_on: PatientUserId
   - name: User
     using:
       foreign_key_constraint_on: UserId
@@ -16,16 +13,3 @@ array_relationships:
         table:
           name: Answers
           schema: public
-select_permissions:
-  - role: anonymous
-    permission:
-      columns:
-        - Category
-        - CreatedDate
-        - Description
-        - PatientUserId
-        - QuestionId
-        - Title
-        - UserId
-      filter: {}
-    comment: ""

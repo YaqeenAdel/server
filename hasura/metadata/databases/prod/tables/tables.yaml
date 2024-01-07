@@ -1,5 +1,4 @@
 - "!include public_Answers.yaml"
-- "!include public_Articles.yaml"
 - "!include public_Bookmarks.yaml"
 - "!include public_CancerStages.yaml"
 - "!include public_CancerTypes.yaml"

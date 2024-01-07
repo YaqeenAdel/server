@@ -52,80 +52,11 @@
               InterestId
             }
           }
-      - name: QuestionsbyId
-        query: |
-          query QuestionsbyId ($QuestionId: Int!) {
-            Questions_by_pk(QuestionId: $QuestionId) {
-              CreatedDate
-              QuestionId
-              Category
-              Description
-              Title
-              Patient {
-                User {
-                  FirstName
-                }
-              }
-              Answers {
-                AnswerId
-                Content
-                doctorByDoctorid {
-                  User {
-                    FirstName
-                    LastName
-                  }
-                  MedicalField
-                  Degree
-                }
-              }
-            }
-          }
-      - name: Questions
-        query: |
-          query Questions ($limit: Int = 10, $offset: Int = 0) @cached {
-            Questions(limit: $limit, offset: $offset) {
-              CreatedDate
-              QuestionId
-              Category
-              Description
-              Title
-              Patient {
-                User {
-                  FirstName
-                }
-              }
-              Answers {
-                AnswerId
-                Content
-                doctorByDoctorid {
-                  User {
-                    FirstName
-                    LastName
-                  }
-                  MedicalField
-                  Degree
-                }
-              }
-            }
-          }
       - name: delete_Questions_one
         query: |
           mutation delete_Questions_one ($QuestionId: Int!) {
             delete_Questions_by_pk(QuestionId: $QuestionId) {
               QuestionId
-            }
-          }
-      - name: insert_Questions_one
-        query: |
-          mutation insert_Questions_one ($question: Questions_insert_input!) {
-            insert_Questions_one(object: $question) {
-              Active
-              Category
-              Description
-              PatientUserId
-              QuestionId
-              Title
-              UserId
             }
           }
       - name: UpdateQuestion
@@ -470,5 +401,100 @@
                 Translation
                 Language
               }
+            }
+          }
+      - name: QuestionsbyId
+        query: |
+          query QuestionsbyId ($QuestionId: Int!) {
+            Questions_by_pk(QuestionId: $QuestionId) {
+              CreatedDate
+              QuestionId
+              Category
+              Description
+              Title
+              Patient: User {
+                FirstName
+              }
+              Answers {
+                AnswerId
+                Content
+                doctorByDoctorid {
+                  User {
+                    FirstName
+                    LastName
+                  }
+                  MedicalField
+                  Degree
+                }
+              }
+            }
+          }
+      - name: Questions
+        query: |
+          query Questions ($limit: Int = 10, $offset: Int = 0) @cached {
+            Questions(limit: $limit, offset: $offset) {
+              CreatedDate
+              QuestionId
+              Category
+              Description
+              Title
+              Patient: User {
+                FirstName
+              }
+              Answers {
+                AnswerId
+                Content
+                doctorByDoctorid {
+                  User {
+                    FirstName
+                    LastName
+                  }
+                  MedicalField
+                  Degree
+                }
+              }
+            }
+          }
+      - name: insert_Questions_one
+        query: |
+          mutation insert_Questions_one ($question: Questions_insert_input!) {
+            insert_Questions_one(object: $question) {
+              Active
+              Category
+              Description
+              QuestionId
+              Title
+              UserId
+            }
+          }
+      - name: Bookmarks
+        query: |
+          query Bookmarks ($parentContentId: Int! = 1, $lang: String! = "en") {
+            Bookmarks(where: {Content:{ParentContentId:{_eq:$parentContentId}}}) {
+              BookmarkId
+              ContentId
+              CreatedDate
+              Content {
+                Translations(where: {Language:{_eq:$lang}}) {
+                  Translation
+                  Language
+                }
+              }
+            }
+          }
+      - name: delete_Bookmarks_by_pk
+        query: |
+          mutation delete_Bookmarks_by_pk ($bookmarkId: Int!) {
+            update_Bookmarks_by_pk(pk_columns: {BookmarkId:$bookmarkId}, _set: {DeletedAt:"now()"}) {
+              BookmarkId
+            }
+          }
+      - name: insert_Bookmarks_one
+        query: |
+          mutation insert_Bookmarks_one ($contentId: Int!) {
+            insert_Bookmarks_one(object: {ContentId:$contentId,CreatedDate:"now()",DeletedAt:null}, on_conflict: {constraint:AK_Bookmarks_UserId_ContentId,update_columns:DeletedAt}) {
+              ContentId
+              CreatedDate
+              BookmarkId
             }
           }
