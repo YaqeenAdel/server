@@ -808,4 +808,11 @@ VALUES ('20240106173825_bookmark-constraint', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240107191252_update-metadata', '7.0.11');
+
+COMMIT;
+
 
