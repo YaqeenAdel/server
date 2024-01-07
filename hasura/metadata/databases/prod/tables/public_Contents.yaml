@@ -2,6 +2,13 @@ table:
   name: Contents
   schema: public
 object_relationships:
+  - name: Bookmark
+    using:
+      foreign_key_constraint_on:
+        column: ContentId
+        table:
+          name: Bookmarks
+          schema: public
   - name: Content
     using:
       foreign_key_constraint_on: ParentContentId
@@ -84,8 +91,6 @@ select_permissions:
           - _or:
               - Visibility:
                   _eq: public
-              - AssignedTo:
-                  _eq: X-Hasura-User-Id
               - AuthorUserId:
                   _eq: X-Hasura-User-Id
     comment: ""

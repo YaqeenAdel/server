@@ -13,13 +13,6 @@ array_relationships:
         table:
           name: Answers
           schema: public
-  - name: Bookmarks
-    using:
-      foreign_key_constraint_on:
-        column: UserId
-        table:
-          name: Bookmarks
-          schema: public
   - name: InterestDoctors
     using:
       foreign_key_constraint_on:
