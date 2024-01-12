@@ -421,6 +421,10 @@ namespace YaqeenDAL.Migrations
                     b.Property<UserType>("TargetUserType")
                         .HasColumnType("user_type");
 
+                    b.Property<string>("Test")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int?>("TranslationId")
                         .HasColumnType("integer");
 

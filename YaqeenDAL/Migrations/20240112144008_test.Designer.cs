@@ -13,8 +13,8 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20240106173825_bookmark-constraint")]
-    partial class bookmarkconstraint
+    [Migration("20240112144008_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -423,6 +423,10 @@ namespace YaqeenDAL.Migrations
 
                     b.Property<UserType>("TargetUserType")
                         .HasColumnType("user_type");
+
+                    b.Property<string>("Test")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int?>("TranslationId")
                         .HasColumnType("integer");
