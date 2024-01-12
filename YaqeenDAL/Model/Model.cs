@@ -187,6 +187,7 @@ namespace YaqeenDAL.Model
         public int InterestId { get; set; }
         public string Name { get; set; }
         public string LogoURL { get; set; }
+        public string Test { get; set; }
         public UserType TargetUserType { get; set; }
         public int? TranslationId { get; set; }
 
