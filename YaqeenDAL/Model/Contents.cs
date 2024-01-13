@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YaqeenDAL.Model
 {
+    // Deprecated
     public enum ContentType
     {
         Category,

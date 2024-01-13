@@ -189,6 +189,8 @@ namespace YaqeenDAL.Model
         public string LogoURL { get; set; }
         public UserType TargetUserType { get; set; }
         public int? TranslationId { get; set; }
+        public string StyleBackgroundColorHex { get; set; }
+        public string StyleForegroundColorHex { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
     }
