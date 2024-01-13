@@ -808,4 +808,15 @@ VALUES ('20240106173825_bookmark-constraint', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Interests" ADD "StyleBackgroundColorHex" text NOT NULL DEFAULT '';
+
+ALTER TABLE "Interests" ADD "StyleForegroundColorHex" text NOT NULL DEFAULT '';
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240113163441_article-interest', '7.0.11');
+
+COMMIT;
+
 
