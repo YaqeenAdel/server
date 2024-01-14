@@ -819,4 +819,15 @@ VALUES ('20240113163441_article-interest', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+CREATE OR REPLACE PROCEDURE insert_content(parent_content_id INTEGER, author_user_id text, raw jsonb, OUT rows_inserted INTEGER) DECLARE generated_id integer; rows_inserted INTEGER; INSERT INTO public."ResourceLocalizations" ("TranslationId", "Language", "Translation") VALUES ((floor(random() * (100000000 - 1 + 1)) + 1), 'en', raw::jsonb) RETURNING "TranslationId" INTO generated_id; INSERT INTO public."Contents" ( "ParentContentId", "AuthorUserId", "Raw", "Active", "CreatedDate", "Phase", "TranslationId", "Attachments", "Tags" ) VALUES ( parent_content_id, author_user_id, raw::jsonb, TRUE, NOW(), 'published', generated_id, '[]'::jsonb, '[]'::jsonb ); GET DIAGNOSTICS rows_inserted = ROW_COUNT; END;
+
+CREATE OR REPLACE PROCEDURE insert_content(parent_content_id INTEGER, author_user_id text, raw jsonb, OUT rows_inserted INTEGER) LANGUAGE plpgsql; AS $$; DECLARE generated_id INTEGER; rows_inserted INTEGER; BEGIN INSERT INTO public."ResourceLocalizations" ("TranslationId", "Language", "Translation") VALUES ((floor(random() * (100000000 - 1 + 1)) + 1), 'en', raw::jsonb) RETURNING "TranslationId" INTO generated_id; INSERT INTO public."Contents" ( "ParentContentId", "AuthorUserId", "Raw", "Active", "CreatedDate", "Phase", "TranslationId", "Attachments", "Tags" ) VALUES ( parent_content_id, author_user_id, raw::jsonb, TRUE, NOW(), 'published', generated_id, '[]'::jsonb, '[]'::jsonb ); GET DIAGNOSTICS rows_inserted = ROW_COUNT; END;$$;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240113234928_create-contenttype-sp', '7.0.11');
+
+COMMIT;
+
 
