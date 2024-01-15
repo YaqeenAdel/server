@@ -848,4 +848,23 @@ VALUES ('20240115161342_interests-content', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Contents" DROP COLUMN "InterestIDs";
+
+CREATE TABLE "ContentInterest" (
+    "ContentsContentId" integer NOT NULL,
+    "InterestsInterestId" integer NOT NULL,
+    CONSTRAINT "PK_ContentInterest" PRIMARY KEY ("ContentsContentId", "InterestsInterestId"),
+    CONSTRAINT "FK_ContentInterest_Contents_ContentsContentId" FOREIGN KEY ("ContentsContentId") REFERENCES "Contents" ("ContentId") ON DELETE CASCADE,
+    CONSTRAINT "FK_ContentInterest_Interests_InterestsInterestId" FOREIGN KEY ("InterestsInterestId") REFERENCES "Interests" ("InterestId") ON DELETE CASCADE
+);
+
+CREATE INDEX "IX_ContentInterest_InterestsInterestId" ON "ContentInterest" ("InterestsInterestId");
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240115175819_content-interest-many-to-many', '7.0.11');
+
+COMMIT;
+
 

@@ -61,6 +61,6 @@ namespace YaqeenDAL.Model
         public int? TranslationId { get; set; }
 
         public virtual Bookmark? Bookmark { get; set; }
-        public int[]? InterestIDs { get; set; }
+        public virtual ICollection<Interest> Interests { get; set; }
     }
 }
