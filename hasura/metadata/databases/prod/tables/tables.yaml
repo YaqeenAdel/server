@@ -2,6 +2,7 @@
 - "!include public_Bookmarks.yaml"
 - "!include public_CancerStages.yaml"
 - "!include public_CancerTypes.yaml"
+- "!include public_ContentInterest.yaml"
 - "!include public_Contents.yaml"
 - "!include public_Countries.yaml"
 - "!include public_CountryStates.yaml"
