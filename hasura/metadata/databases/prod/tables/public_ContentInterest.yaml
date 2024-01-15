@@ -1,0 +1,39 @@
+table:
+  name: ContentInterest
+  schema: public
+object_relationships:
+  - name: Content
+    using:
+      foreign_key_constraint_on: ContentsContentId
+  - name: Interest
+    using:
+      foreign_key_constraint_on: InterestsInterestId
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - ContentsContentId
+        - InterestsInterestId
+      filter: {}
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - ContentsContentId
+        - InterestsInterestId
+      filter: {}
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - ContentsContentId
+        - InterestsInterestId
+      filter: {}
+      check: {}
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter: {}
+    comment: ""

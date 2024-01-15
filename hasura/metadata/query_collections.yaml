@@ -384,25 +384,6 @@
               ContentId
             }
           }
-      - name: Articles
-        query: |
-          query Articles ($categoryContentId: Int! = 1, $lang: String! = "en", $search: String = "%") @cached(ttl: 600) {
-            Articles: Contents(where: {ParentContentId:{_eq:$categoryContentId},Type:{_eq:"question"},FlattenedTranslations:{value:{_similar:$search}}}, order_by: {UpdatedAt:desc_nulls_last}) {
-              ContentId
-              AssignedTo
-              Attachments
-              AuthorUserId
-              CreatedDate
-              Phase
-              Tags
-              UpdatedAt
-              Visibility
-              Translations(where: {Language:{_eq:$lang}}) {
-                Translation
-                Language
-              }
-            }
-          }
       - name: QuestionsbyId
         query: |
           query QuestionsbyId ($QuestionId: Int!) {
@@ -482,19 +463,48 @@
               }
             }
           }
-      - name: delete_Bookmarks_by_pk
-        query: |
-          mutation delete_Bookmarks_by_pk ($bookmarkId: Int!) {
-            update_Bookmarks_by_pk(pk_columns: {BookmarkId:$bookmarkId}, _set: {DeletedAt:"now()"}) {
-              BookmarkId
-            }
-          }
       - name: insert_Bookmarks_one
         query: |
           mutation insert_Bookmarks_one ($contentId: Int!) {
             insert_Bookmarks_one(object: {ContentId:$contentId,CreatedDate:"now()",DeletedAt:null}, on_conflict: {constraint:AK_Bookmarks_UserId_ContentId,update_columns:DeletedAt}) {
               ContentId
               CreatedDate
+              BookmarkId
+            }
+          }
+      - name: Articles
+        query: |
+          query Articles ($categoryContentId: Int! = 1, $lang: String! = "en", $search: String = "%") @cached(ttl: 600) {
+            Articles: Contents(where: {ParentContentId:{_eq:$categoryContentId},Type:{_eq:"question"},FlattenedTranslations:{value:{_similar:$search}}}, order_by: {UpdatedAt:desc_nulls_last}) {
+              ContentId
+              AssignedTo
+              Attachments
+              AuthorUserId
+              CreatedDate
+              Phase
+              UpdatedAt
+              Visibility
+              Translations(where: {Language:{_eq:$lang}}) {
+                Translation
+                Language
+              }
+              Interests {
+                Interest {
+                  InterestId
+                  Translations(where: {Language:{_eq:$lang}}) {
+                    Language
+                    Translation
+                  }
+                  StyleBackgroundColorHex
+                  StyleForegroundColorHex
+                }
+              }
+            }
+          }
+      - name: delete_Bookmarks_by_pk
+        query: |
+          mutation delete_Bookmarks_by_pk ($BookmarkId: Int!) {
+            update_Bookmarks_by_pk(pk_columns: {BookmarkId:$BookmarkId}, _set: {DeletedAt:"now()"}) {
               BookmarkId
             }
           }

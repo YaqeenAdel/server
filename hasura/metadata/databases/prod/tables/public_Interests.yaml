@@ -2,6 +2,13 @@ table:
   name: Interests
   schema: public
 array_relationships:
+  - name: ContentInterests
+    using:
+      foreign_key_constraint_on:
+        column: InterestsInterestId
+        table:
+          name: ContentInterest
+          schema: public
   - name: InterestDoctors
     using:
       foreign_key_constraint_on:
@@ -39,6 +46,8 @@ select_permissions:
         - InterestId
         - LogoURL
         - Name
+        - StyleBackgroundColorHex
+        - StyleForegroundColorHex
         - TargetUserType
       filter: {}
     comment: ""
@@ -49,6 +58,8 @@ select_permissions:
         - InterestId
         - LogoURL
         - Name
+        - StyleBackgroundColorHex
+        - StyleForegroundColorHex
         - TargetUserType
       filter: {}
     comment: ""

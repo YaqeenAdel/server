@@ -32,6 +32,13 @@ array_relationships:
         remote_table:
           name: FlattenedResourceLocalizations
           schema: public
+  - name: Interests
+    using:
+      foreign_key_constraint_on:
+        column: ContentsContentId
+        table:
+          name: ContentInterest
+          schema: public
   - name: Translations
     using:
       manual_configuration:
