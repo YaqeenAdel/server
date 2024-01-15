@@ -193,6 +193,7 @@ namespace YaqeenDAL.Model
         public string StyleForegroundColorHex { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Content> Contents { get; set; }
     }
 
     [PrimaryKey(nameof(TranslationId), nameof(Language))]
