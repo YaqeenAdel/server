@@ -839,4 +839,13 @@ VALUES ('20240113234928_create-contenttype-sp', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Contents" ADD "InterestIDs" integer[] NULL;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240115161342_interests-content', '7.0.11');
+
+COMMIT;
+
 
