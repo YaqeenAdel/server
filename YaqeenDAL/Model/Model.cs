@@ -41,7 +41,6 @@ namespace YaqeenDAL.Model
         [ForeignKey("CancerStage")]
         public int CancerStageId { get; set; }
 
-        // Navigation Property
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
         [ForeignKey("CancerTypeId")]
