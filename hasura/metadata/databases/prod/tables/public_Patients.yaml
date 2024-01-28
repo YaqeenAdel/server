@@ -19,6 +19,20 @@ array_relationships:
         table:
           name: IntersPatient
           schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        UserId:
+          _eq: X-Hasura-User-Id
+      set:
+        Active: "true"
+        UserId: x-hasura-User-Id
+      columns:
+        - AgeGroup
+        - CancerStageId
+        - CancerTypeId
+    comment: ""
 select_permissions:
   - role: user
     permission:
