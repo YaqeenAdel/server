@@ -82,7 +82,10 @@ namespace YaqeenDAL.Model
         public DbSet<University> Universities { get; set; }
         public DbSet<Content> Contents { get; set; }
         public DbSet<ResourceLocalization> ResourceLocalizations { get; set; }
-        public DbSet<Medication> Medications { get; set; }
+        public DbSet<Symptom> Symptoms { get; set; }
+        public DbSet<SymptomLookup> SymptomLookups { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<ScheduleInstance> ScheduleInstances { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -169,6 +172,12 @@ namespace YaqeenDAL.Model
             modelBuilder.HasPostgresEnum<Visibility>();
             modelBuilder.HasPostgresEnum<Phase>();
             modelBuilder.HasPostgresEnum<ContentType>();
+            modelBuilder.HasPostgresEnum<MedicationType>();
+            modelBuilder.HasPostgresEnum<ScheduleFrequency>();
+            modelBuilder.HasPostgresEnum<MedicationUnit>();
+            modelBuilder.HasPostgresEnum<DayOfTheWeek>();
+            modelBuilder.HasPostgresEnum<ScheduleEntityType>();
+            modelBuilder.HasPostgresEnum<FrequencyInterval>();
             // modelBuilder.Entity<Doctor>()  
             //     .Property(b => b.VerificationStatus)
             //     .HasDefaultValue(VerificationStatus.Approved); 
