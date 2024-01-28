@@ -42,6 +42,7 @@ namespace YaqeenDAL.Model
         public int CancerStageId { get; set; }
 
         // Navigation Property
+        public virtual ICollection<Medication> Medications { get; set; }
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
         [ForeignKey("CancerTypeId")]
@@ -194,6 +195,27 @@ namespace YaqeenDAL.Model
 
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Content> Contents { get; set; }
+    }
+
+    public class Medication : Entity 
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MedicationId { get; set; }
+        public string PatientId { get; set; }
+        public string MedicationType { get; set; }
+        public string MedicationName { get; set; }
+        public string? Photo { get; set; }
+        public int Dosage { get; set; }
+        public int Duration { get; set; }
+        public string Frequency { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+
+        // Navigation Properties
+        [ForeignKey("PatientId")]
+        public virtual Patient Patient { get; set; }
+
     }
 
     [PrimaryKey(nameof(TranslationId), nameof(Language))]

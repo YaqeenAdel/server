@@ -82,6 +82,7 @@ namespace YaqeenDAL.Model
         public DbSet<University> Universities { get; set; }
         public DbSet<Content> Contents { get; set; }
         public DbSet<ResourceLocalization> ResourceLocalizations { get; set; }
+        public DbSet<Medication> Medications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
