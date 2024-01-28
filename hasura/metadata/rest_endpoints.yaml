@@ -112,19 +112,19 @@
   definition:
     query:
       collection_name: allowed-queries
-      query_name: Bookmarks
+      query_name: insert_Bookmarks_one
   methods:
-    - GET
-  name: Bookmarks
+    - POST
+  name: insert_Bookmarks_one
   url: bookmarks
 - comment: ""
   definition:
     query:
       collection_name: allowed-queries
-      query_name: insert_Bookmarks_one
+      query_name: Bookmarks
   methods:
-    - POST
-  name: insert_Bookmarks_one
+    - GET
+  name: Bookmarks
   url: bookmarks
 - comment: ""
   definition:
@@ -175,19 +175,19 @@
   definition:
     query:
       collection_name: allowed-queries
-      query_name: UpdateUser
+      query_name: InsertUser
   methods:
-    - PATCH
-  name: UpdateUser
+    - POST
+  name: InsertUser
   url: me
 - comment: ""
   definition:
     query:
       collection_name: allowed-queries
-      query_name: InsertUser
+      query_name: UpdateUser
   methods:
-    - POST
-  name: InsertUser
+    - PATCH
+  name: UpdateUser
   url: me
 - comment: ""
   definition:
