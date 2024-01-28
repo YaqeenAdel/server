@@ -52,6 +52,24 @@ array_relationships:
         table:
           name: VerificationStatusEvent
           schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        UserId:
+          _eq: X-Hasura-User-Id
+      set:
+        Active: "true"
+        AgreedTerms: "true"
+        Email: dummy
+        IsEmailVerified: "true"
+        UserId: x-hasura-User-Id
+      columns:
+        - FirstName
+        - Gender
+        - LastName
+        - UserId
+    comment: ""
 select_permissions:
   - role: user
     permission:

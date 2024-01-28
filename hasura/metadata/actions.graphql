@@ -1,3 +1,9 @@
+type Mutation {
+  UpdateUserAsUser(
+    user: UpdateUserInput!
+  ): UpdateUserOutput
+}
+
 type Query {
   file_get(
     path: String!
@@ -8,6 +14,27 @@ type Query {
   file_get_batch(
     paths: [String!]!
   ): FileGetBatchOutput
+}
+
+input UpdateDoctorInput {
+  degree: String!
+  medicalField: String!
+  university: String!
+}
+
+input UpdatePatientInput {
+  ageGroup: Int!
+  cancerStageId: Int!
+  cancerTypeId: Int!
+}
+
+input UpdateUserInput {
+  firstName: String!
+  lastName: String!
+  gender: String!
+  interests: [Int!]
+  doctor: UpdateDoctorInput
+  patient: UpdatePatientInput
 }
 
 type FileGetOutput {
@@ -21,5 +48,9 @@ type SignedUrl {
 
 type FileGetBatchOutput {
   urls: [SignedUrl]
+}
+
+type UpdateUserOutput {
+  userId: String!
 }
 

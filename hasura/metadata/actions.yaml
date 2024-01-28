@@ -1,4 +1,28 @@
 actions:
+  - name: UpdateUserAsUser
+    definition:
+      kind: synchronous
+      handler: https://yaqeen-neon.hasura.app/v1/graphql
+      forward_client_headers: true
+      request_transform:
+        body:
+          action: transform
+          template: "{\n  \"query\": \"mutation UpdateUser($user: Users_insert_input!, $patient: Patients_insert_input!) { delete_InterestUser(where: {UsersUserId: {_eq: \\\"{{$body.session_variables.x-hasura-user-id}}\\\" } }) { affected_rows } insert_Users_one(object: $user, on_conflict: {constraint: PK_Users, update_columns: [FirstName, LastName, Gender]}) { UserId } insert_Patients_one(object: $patient, on_conflict: {constraint: PK_Patients, update_columns: [AgeGroup, CancerTypeId, CancerStageId]}) { UserId } }\",\n  \"variables\": {\n    \"user\": { \"FirstName\": {{$body.input.user.firstName}}, \"LastName\": {{$body.input.user.lastName}}, \"Gender\": {{$body.input.user.gender}}, \"InterestUsers\": { \"data\": {{ range _, x := $body.input.user.interests }} { \"InterestsInterestId\": {{x}} } {{ end }} } }, \n    \"patient\": { \"AgeGroup\": {{$body.input.user.patient.ageGroup}}, \"CancerTypeId\": {{$body.input.user.patient.cancerTypeId}}, \"CancerStageId\": {{$body.input.user.patient.cancerStageId}} }\n  }\n}"
+        method: POST
+        query_params: {}
+        template_engine: Kriti
+        version: 2
+      response_transform:
+        body:
+          action: transform
+          template: |-
+            {
+              "userId": {{$body.data.insert_Patients_one.UserId}}
+            }
+        template_engine: Kriti
+        version: 2
+    permissions:
+      - role: user
   - name: file_get
     definition:
       kind: ""
@@ -41,9 +65,13 @@ actions:
       - role: anonymous
 custom_types:
   enums: []
-  input_objects: []
+  input_objects:
+    - name: UpdateDoctorInput
+    - name: UpdatePatientInput
+    - name: UpdateUserInput
   objects:
     - name: FileGetOutput
     - name: SignedUrl
     - name: FileGetBatchOutput
+    - name: UpdateUserOutput
   scalars: []
