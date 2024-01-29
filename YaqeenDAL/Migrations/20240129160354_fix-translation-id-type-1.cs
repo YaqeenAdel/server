@@ -5,30 +5,25 @@
 namespace YaqeenDAL.Migrations
 {
     /// <inheritdoc />
-    public partial class changetranslationidtype : Migration
+    public partial class fixtranslationidtype1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
+            migrationBuilder.DropColumn(
                 name: "TranslationId",
-                table: "SymptomLookups",
-                type: "integer",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "text");
+                table: "SymptomLookups");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
+            migrationBuilder.AddColumn<string>(
                 name: "TranslationId",
                 table: "SymptomLookups",
                 type: "text",
                 nullable: false,
-                oldClrType: typeof(int),
-                oldType: "integer");
+                defaultValue: "");
         }
     }
 }

@@ -13,8 +13,8 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20240129155838_change-translation-id-type")]
-    partial class changetranslationidtype
+    [Migration("20240129160354_fix-translation-id-type-1")]
+    partial class fixtranslationidtype1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -771,9 +771,6 @@ namespace YaqeenDAL.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("TranslationId")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
