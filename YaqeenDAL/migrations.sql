@@ -988,4 +988,22 @@ VALUES ('20240128184040_reminders', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "SymptomLookups" ADD "TranslationId" text NOT NULL DEFAULT '';
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240129145834_symptom-lookup', '7.0.11');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "SymptomLookups" ALTER COLUMN "TranslationId" TYPE integer;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240129155838_change-translation-id-type', '7.0.11');
+
+COMMIT;
+
 
