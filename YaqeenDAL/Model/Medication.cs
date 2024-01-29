@@ -131,6 +131,7 @@ namespace YaqeenDAL.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SymptomLookupId { get; set; }
         public string Name { get; set; }
+        public string TranslationId { get; set; }
     }
 
     public class Symptom : Entity
