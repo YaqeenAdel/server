@@ -999,10 +999,19 @@ COMMIT;
 
 START TRANSACTION;
 
-ALTER TABLE "SymptomLookups" ALTER COLUMN "TranslationId" TYPE integer;
+ALTER TABLE "SymptomLookups" DROP COLUMN "TranslationId";
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20240129155838_change-translation-id-type', '7.0.11');
+VALUES ('20240129160354_fix-translation-id-type-1', '7.0.11');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "SymptomLookups" ADD "TranslationId" integer NOT NULL DEFAULT 0;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240129160409_fix-translation-id-type', '7.0.11');
 
 COMMIT;
 
