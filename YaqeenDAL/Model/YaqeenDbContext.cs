@@ -56,6 +56,13 @@ namespace YaqeenDAL.Model
             NpgsqlConnection.GlobalTypeMapper.MapEnum<Phase>();
             NpgsqlConnection.GlobalTypeMapper.MapEnum<Visibility>();
             NpgsqlConnection.GlobalTypeMapper.MapEnum<ContentType>();
+
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<MedicationType>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<ScheduleEntityType>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<MedicationUnit>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<DayOfTheWeek>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<ScheduleEntityType>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<FrequencyInterval>();
             return new YaqeenDbContext(optionsBuilder.Options);
         }
     }

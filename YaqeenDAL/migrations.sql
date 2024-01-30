@@ -1015,4 +1015,26 @@ VALUES ('20240129160409_fix-translation-id-type', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+DROP INDEX "IX_Schedules_EntityType_UserId";
+
+ALTER TABLE "Schedules" DROP COLUMN "EntityType";
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240130051249_fix-enum-types-1', '7.0.11');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "Schedules" ADD "EntityType" schedule_entity_type NOT NULL DEFAULT 'medication'::schedule_entity_type;
+
+CREATE INDEX "IX_Schedules_EntityType_UserId" ON "Schedules" ("EntityType", "UserId");
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240130051301_fix-enum-types', '7.0.11');
+
+COMMIT;
+
 
