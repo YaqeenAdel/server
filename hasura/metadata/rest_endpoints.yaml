@@ -103,6 +103,33 @@
   definition:
     query:
       collection_name: allowed-queries
+      query_name: ScheduleSymptom
+  methods:
+    - GET
+  name: ScheduleSymptom
+  url: ScheduleSymptom
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: insert_ScheduleSymptom_one
+  methods:
+    - POST
+  name: insert_ScheduleSymptom_one
+  url: ScheduleSymptom
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: delete_ScheduleSymptom_by_pk
+  methods:
+    - DELETE
+  name: delete_ScheduleSymptom_by_pk
+  url: ScheduleSymptom/:SchedulesScheduleId/:SymptomId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
       query_name: insert_Schedules_one
   methods:
     - POST
@@ -252,6 +279,15 @@
     - POST
   name: UpdateDoctorStatus
   url: events/update_doctor_status
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: future_schedules
+  methods:
+    - GET
+  name: future_schedules
+  url: future_schedules
 - comment: ""
   definition:
     query:

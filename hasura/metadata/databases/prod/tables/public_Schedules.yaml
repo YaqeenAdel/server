@@ -20,6 +20,17 @@ array_relationships:
         table:
           name: ScheduleSymptom
           schema: public
+remote_relationships:
+  - definition:
+      to_remote_schema:
+        lhs_fields:
+          - ScheduleId
+        remote_field:
+          getCronEvents:
+            arguments:
+              scheduleId: $ScheduleId
+        remote_schema: Self
+    name: ScheduledEvents
 insert_permissions:
   - role: user
     permission:
@@ -35,17 +46,6 @@ insert_permissions:
         - Entity
         - EntityType
     comment: ""
-remote_relationships:
-  - definition:
-      to_remote_schema:
-        lhs_fields:
-          - ScheduleId
-        remote_field:
-          getCronEvents:
-            arguments:
-              scheduleId: $ScheduleId
-        remote_schema: Self
-    name: ScheduledEvents
 select_permissions:
   - role: user
     permission:
@@ -107,8 +107,72 @@ event_triggers:
                   "name": "{{$body.event.data.new.ScheduleId}}",
                   "webhook": "https://httpbin.org/post",
                   "schedule":  "{{$body.event.data.new.CronExpression}}",
+                  "replace": true,
                   "payload": {},
                   "include_in_metadata": true,
+                  "comment":"{{$body.event.data.new.UserId}}"
+              }
+          }
+      method: POST
+      query_params: {}
+      template_engine: Kriti
+      version: 2
+  - name: schedule_delete
+    definition:
+      enable_manual: true
+      delete:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 2
+      timeout_sec: 60
+    webhook: https://yaqeen-neon.hasura.app/v1/metadata
+    headers:
+      - name: x-hasura-admin-secret
+        value: uX2ZGvqvwy67m4q
+    request_transform:
+      body:
+        action: transform
+        template: |-
+          {
+              "type" : "delete_cron_trigger",
+              "args" : {
+                  "name": "{{$body.event.data.old.ScheduleId}}"
+              }
+          }
+      method: POST
+      query_params: {}
+      template_engine: Kriti
+      version: 2
+  - name: schedule_update
+    definition:
+      enable_manual: true
+      update:
+        columns:
+          - ScheduleId
+          - CronExpression
+          - UserId
+    retry_conf:
+      interval_sec: 10
+      num_retries: 2
+      timeout_sec: 60
+    webhook: https://yaqeen-neon.hasura.app/v1/metadata
+    headers:
+      - name: x-hasura-admin-secret
+        value: uX2ZGvqvwy67m4q
+    request_transform:
+      body:
+        action: transform
+        template: |-
+          {
+              "type" : "create_cron_trigger",
+              "args" : {
+                  "name": "{{$body.event.data.old.ScheduleId}}",
+                  "webhook": "https://httpbin.org/post",
+                  "schedule":  "{{$body.event.data.new.CronExpression}}",
+                  "payload": {},
+                  "include_in_metadata": true,
+                  "replace": true,
                   "comment":"{{$body.event.data.new.UserId}}"
               }
           }
