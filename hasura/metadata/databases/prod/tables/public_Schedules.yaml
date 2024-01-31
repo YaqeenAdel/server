@@ -107,7 +107,6 @@ event_triggers:
                   "name": "{{$body.event.data.new.ScheduleId}}",
                   "webhook": "https://httpbin.org/post",
                   "schedule":  "{{$body.event.data.new.CronExpression}}",
-                  "replace": true,
                   "payload": {},
                   "include_in_metadata": true,
                   "comment":"{{$body.event.data.new.UserId}}"
