@@ -103,6 +103,87 @@
   definition:
     query:
       collection_name: allowed-queries
+      query_name: insert_Schedules_one
+  methods:
+    - POST
+  name: insert_Schedules_one
+  url: Schedules
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: delete_Schedules_by_pk
+  methods:
+    - DELETE
+  name: delete_Schedules_by_pk
+  url: Schedules/:ScheduleId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: update_Schedules_by_pk
+  methods:
+    - POST
+  name: update_Schedules_by_pk
+  url: Schedules/:ScheduleId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: Schedules
+  methods:
+    - GET
+  name: Schedules
+  url: Schedules/:entityType
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: insert_Symptoms_one
+  methods:
+    - POST
+  name: insert_Symptoms_one
+  url: Symptoms
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: Symptoms
+  methods:
+    - GET
+  name: Symptoms
+  url: Symptoms
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: Symptoms_by_pk
+  methods:
+    - GET
+  name: Symptoms_by_pk
+  url: Symptoms/:SymptomId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: delete_Symptoms_by_pk
+  methods:
+    - DELETE
+  name: delete_Symptoms_by_pk
+  url: Symptoms/:SymptomId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: update_Symptoms_by_pk
+  methods:
+    - POST
+  name: update_Symptoms_by_pk
+  url: Symptoms/:SymptomId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
       query_name: deleteAnswer
   methods:
     - DELETE

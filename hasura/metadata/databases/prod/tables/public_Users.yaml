@@ -45,6 +45,13 @@ array_relationships:
         table:
           name: Questions
           schema: public
+  - name: Schedules
+    using:
+      foreign_key_constraint_on:
+        column: UserId
+        table:
+          name: Schedules
+          schema: public
   - name: VerificationStatusEvents
     using:
       foreign_key_constraint_on:

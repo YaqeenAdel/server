@@ -16,6 +16,12 @@ type Query {
   ): FileGetBatchOutput
 }
 
+type Query {
+  getCronEvents(
+    scheduleId: Int!
+  ): CronTriggerOutput
+}
+
 input UpdateDoctorInput {
   degree: String!
   medicalField: String!
@@ -37,6 +43,11 @@ input UpdateUserInput {
   patient: UpdatePatientInput
 }
 
+input CronTriggerInput {
+  name: String!
+  cron: String!
+}
+
 type FileGetOutput {
   url: String!
 }
@@ -52,5 +63,13 @@ type FileGetBatchOutput {
 
 type UpdateUserOutput {
   userId: String!
+}
+
+type CronTriggerOutput {
+  events: [TriggerEvent!]!
+}
+
+type TriggerEvent {
+  scheduled_time: String!
 }
 

@@ -1,0 +1,10 @@
+table:
+  name: ScheduleSymptom
+  schema: public
+object_relationships:
+  - name: Schedule
+    using:
+      foreign_key_constraint_on: SchedulesScheduleId
+  - name: Symptom
+    using:
+      foreign_key_constraint_on: SymptomId

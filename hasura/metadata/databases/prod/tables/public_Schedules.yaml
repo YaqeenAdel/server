@@ -1,0 +1,107 @@
+table:
+  name: Schedules
+  schema: public
+object_relationships:
+  - name: User
+    using:
+      foreign_key_constraint_on: UserId
+array_relationships:
+  - name: ScheduleInstances
+    using:
+      foreign_key_constraint_on:
+        column: ScheduleId
+        table:
+          name: ScheduleInstances
+          schema: public
+  - name: ScheduleSymptoms
+    using:
+      foreign_key_constraint_on:
+        column: SchedulesScheduleId
+        table:
+          name: ScheduleSymptom
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        UserId:
+          _eq: X-Hasura-User-Id
+      set:
+        Active: "true"
+        CreatedDate: now()
+        UserId: x-hasura-User-Id
+      columns:
+        - CronExpression
+        - Entity
+        - EntityType
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - CronExpression
+        - Entity
+        - EntityType
+        - ScheduleId
+      filter:
+        UserId:
+          _eq: X-Hasura-User-Id
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - CronExpression
+        - Entity
+        - EntityType
+      filter:
+        UserId:
+          _eq: X-Hasura-User-Id
+      check:
+        UserId:
+          _eq: X-Hasura-User-Id
+      set:
+        Active: "true"
+        CreatedDate: now()
+        UserId: x-hasura-User-Id
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        UserId:
+          _eq: X-Hasura-User-Id
+    comment: ""
+event_triggers:
+  - name: schedule_create
+    definition:
+      enable_manual: true
+      insert:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 2
+      timeout_sec: 60
+    webhook: https://yaqeen-neon.hasura.app/v1/metadata
+    headers:
+      - name: x-hasura-admin-secret
+        value: uX2ZGvqvwy67m4q
+    request_transform:
+      body:
+        action: transform
+        template: |-
+          {
+              "type" : "create_cron_trigger",
+              "args" : {
+                  "name": "{{$body.event.data.new.ScheduleId}}",
+                  "webhook": "https://httpbin.org/post",
+                  "schedule":  "{{$body.event.data.new.CronExpression}}",
+                  "payload": {},
+                  "include_in_metadata": true,
+                  "comment":"{{$body.event.data.new.UserId}}"
+              }
+          }
+      method: POST
+      query_params: {}
+      template_engine: Kriti
+      version: 2
