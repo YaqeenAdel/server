@@ -1,0 +1,86 @@
+table:
+  name: Symptoms
+  schema: public
+object_relationships:
+  - name: Patient
+    using:
+      foreign_key_constraint_on: PatientUserId
+  - name: SymptomLookup
+    using:
+      foreign_key_constraint_on: SymptomLookupId
+array_relationships:
+  - name: ScheduleSymptoms
+    using:
+      foreign_key_constraint_on:
+        column: SymptomId
+        table:
+          name: ScheduleSymptom
+          schema: public
+remote_relationships:
+  - definition:
+      to_remote_schema:
+        lhs_fields:
+          - PhotoLink
+        remote_field:
+          file_get:
+            arguments:
+              path: $PhotoLink
+        remote_schema: Self
+    name: Symptom_File
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        PatientUserId:
+          _eq: X-Hasura-User-Id
+      set:
+        Active: "true"
+        CreatedDate: now()
+        PatientUserId: x-hasura-User-Id
+        Time: now()
+      columns:
+        - Details
+        - PhotoLink
+        - SymptomLookupId
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - CreatedDate
+        - Details
+        - PatientUserId
+        - PhotoLink
+        - SymptomLookupId
+        - Time
+        - UpdatedAt
+      filter:
+        PatientUserId:
+          _eq: X-Hasura-User-Id
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - Details
+        - PhotoLink
+        - SymptomLookupId
+        - Time
+      filter:
+        PatientUserId:
+          _eq: X-Hasura-User-Id
+      check:
+        PatientUserId:
+          _eq: X-Hasura-User-Id
+      set:
+        Active: "true"
+        CreatedDate: now()
+        PatientUserId: x-hasura-User-Id
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        PatientUserId:
+          _eq: X-Hasura-User-Id
+    comment: ""

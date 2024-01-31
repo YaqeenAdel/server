@@ -1,0 +1,20 @@
+table:
+  name: SymptomLookups
+  schema: public
+array_relationships:
+  - name: Symptoms
+    using:
+      foreign_key_constraint_on:
+        column: SymptomLookupId
+        table:
+          name: Symptoms
+          schema: public
+  - name: Translations
+    using:
+      manual_configuration:
+        column_mapping:
+          TranslationId: TranslationId
+        insertion_order: null
+        remote_table:
+          name: ResourceLocalizations
+          schema: public

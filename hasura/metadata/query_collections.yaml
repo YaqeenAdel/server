@@ -129,14 +129,6 @@
               University
             }
           }
-      - name: countries
-        query: |
-          query Countries @cached {
-            Universities(distinct_on: CountryCode, order_by: {CountryCode:asc}) {
-              CountryName
-              CountryCode
-            }
-          }
       - name: countryStates
         query: |
           query countryStates ($CountryCode: String!) @cached {
@@ -525,5 +517,130 @@
                   }
                 }
               }
+            }
+          }
+      - name: Symptoms_by_pk
+        query: |
+          query Symptoms_by_pk ($SymptomId: Int!) {
+            Symptoms_by_pk(SymptomId: $SymptomId) {
+              Active
+              CreatedDate
+              DeletedAt
+              Details
+              Notes
+              PatientUserId
+              PhotoLink
+              SymptomId
+              SymptomLookupId
+              Time
+              UpdatedAt
+            }
+          }
+      - name: delete_Symptoms_by_pk
+        query: |
+          mutation delete_Symptoms_by_pk ($SymptomId: Int!) {
+            delete_Symptoms_by_pk(SymptomId: $SymptomId) {
+              Active
+              CreatedDate
+              DeletedAt
+              Details
+              Notes
+              PatientUserId
+              PhotoLink
+              SymptomId
+              SymptomLookupId
+              Time
+              UpdatedAt
+            }
+          }
+      - name: insert_Symptoms_one
+        query: |
+          mutation insert_Symptoms_one ($symptom: Symptoms_insert_input!) {
+            insert_Symptoms_one(object: $symptom) {
+              SymptomId
+              PhotoDownloadLink: Symptom_File {
+                url
+              }
+            }
+          }
+      - name: Symptoms
+        query: |
+          query Symptoms ($lang: String! = "en") {
+            Symptoms(order_by: {Time:desc_nulls_first}) {
+              Details
+              PhotoLink
+              SymptomLookupId
+              UpdatedAt
+              SymptomLookup {
+                Translations(where: {Language:{_eq:$lang}}) {
+                  Translation
+                  Language
+                }
+              }
+            }
+          }
+      - name: countries
+        query: |
+          query Countries @cached(ttl: 600) {
+            Universities(distinct_on: CountryCode, order_by: {CountryCode:asc}) {
+              CountryName
+              CountryCode
+            }
+          }
+      - name: update_Symptoms_by_pk
+        query: |
+          mutation update_Symptoms_by_pk ($SymptomId: Int!, $symptom: Symptoms_set_input!) {
+            update_Symptoms_by_pk(pk_columns: {SymptomId:$SymptomId}, _set: $symptom) {
+              Details
+              Notes
+              Time
+              PhotoDownloadLink: Symptom_File {
+                url
+              }
+            }
+          }
+      - name: delete_Schedules_by_pk
+        query: |
+          mutation delete_Schedules_by_pk ($ScheduleId: Int!) {
+            delete_Schedules_by_pk(ScheduleId: $ScheduleId) {
+              Active
+              CreatedDate
+              CronExpression
+              DeletedAt
+              Entity
+              EntityType
+              ScheduleId
+              UpdatedAt
+              UserId
+            }
+          }
+      - name: insert_Schedules_one
+        query: |
+          mutation insert_Schedules_one ($schedule: Schedules_insert_input!) {
+            insert_Schedules_one(object: $schedule) {
+              CronExpression
+              Entity
+              EntityType
+              ScheduleId
+            }
+          }
+      - name: Schedules
+        query: |
+          query Schedules ($entityType: schedule_entity_type! = "medication") {
+            Schedules(where: {EntityType:{_eq:$entityType}}) {
+              CronExpression
+              Entity
+              EntityType
+              ScheduleId
+            }
+          }
+      - name: update_Schedules_by_pk
+        query: |
+          mutation update_Schedules_by_pk ($ScheduleId: Int!, $schedule: Schedules_set_input!) {
+            update_Schedules_by_pk(pk_columns: {ScheduleId:$ScheduleId}, _set: $schedule) {
+              CronExpression
+              Entity
+              EntityType
+              ScheduleId
             }
           }

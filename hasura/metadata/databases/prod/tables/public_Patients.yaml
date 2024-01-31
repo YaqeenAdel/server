@@ -19,6 +19,13 @@ array_relationships:
         table:
           name: IntersPatient
           schema: public
+  - name: Symptoms
+    using:
+      foreign_key_constraint_on:
+        column: PatientUserId
+        table:
+          name: Symptoms
+          schema: public
 insert_permissions:
   - role: user
     permission:

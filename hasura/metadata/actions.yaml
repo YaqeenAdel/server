@@ -63,15 +63,47 @@ actions:
     permissions:
       - role: user
       - role: anonymous
+  - name: getCronEvents
+    definition:
+      kind: ""
+      handler: https://yaqeen-neon.hasura.app/v1/metadata
+      headers:
+        - name: x-hasura-admin-secret
+          value: uX2ZGvqvwy67m4q
+      request_transform:
+        body:
+          action: transform
+          template: |-
+            {
+                "type": "get_scheduled_events",
+                "args": {
+                    "type": "cron",
+                    "trigger_name": "{{$body.input.scheduleId}}",
+                    "limit": 4,
+                    "offset": 0,
+                    "get_row_count": false,
+                    "status": ["scheduled"]
+                }
+            }
+        method: POST
+        query_params: {}
+        template_engine: Kriti
+        version: 2
+    permissions:
+      - role: user
+    comment: getCronEvents
 custom_types:
   enums: []
   input_objects:
     - name: UpdateDoctorInput
     - name: UpdatePatientInput
     - name: UpdateUserInput
+    - name: CronTriggerInput
   objects:
     - name: FileGetOutput
     - name: SignedUrl
     - name: FileGetBatchOutput
     - name: UpdateUserOutput
+    - name: CronTriggerOutput
+    - name: TriggerEvent
   scalars: []
