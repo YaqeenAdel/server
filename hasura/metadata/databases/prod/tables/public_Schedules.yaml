@@ -35,6 +35,17 @@ insert_permissions:
         - Entity
         - EntityType
     comment: ""
+remote_relationships:
+  - definition:
+      to_remote_schema:
+        lhs_fields:
+          - ScheduleId
+        remote_field:
+          getCronEvents:
+            arguments:
+              scheduleId: $ScheduleId
+        remote_schema: Self
+    name: ScheduledEvents
 select_permissions:
   - role: user
     permission:
