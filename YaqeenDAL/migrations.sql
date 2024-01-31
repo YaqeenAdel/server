@@ -1037,4 +1037,11 @@ VALUES ('20240130051301_fix-enum-types', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240131225218_triggers', '7.0.11');
+
+COMMIT;
+
 
