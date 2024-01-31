@@ -89,17 +89,6 @@ actions:
         query_params: {}
         template_engine: Kriti
         version: 2
-      response_transform:
-        body:
-          action: transform
-          template: |-
-            {
-              "response": {
-                "events": {{$body.events}}
-              }
-            }
-        template_engine: Kriti
-        version: 2
     permissions:
       - role: user
     comment: getCronEvents
