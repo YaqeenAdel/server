@@ -1,0 +1,11 @@
+table:
+  name: Articles
+  schema: public
+array_relationships:
+  - name: Bookmarks
+    using:
+      foreign_key_constraint_on:
+        column: ArticleId
+        table:
+          name: Bookmarks
+          schema: public

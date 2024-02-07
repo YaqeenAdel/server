@@ -27,6 +27,7 @@ namespace YaqeenDAL.Model
         // [ForeignKey("UserId")]
         // public virtual Doctor Doctor { get; set; }
         public virtual ICollection<Interest> Interests { get; set; }
+        public virtual ICollection<Bookmark>? Bookmarks { get; set; }
     }
 
     public class Patient : Entity
@@ -40,16 +41,20 @@ namespace YaqeenDAL.Model
         [ForeignKey("CancerStage")]
         public int CancerStageId { get; set; }
 
-        public ICollection<Question> Questions { get; set; }
-        public ICollection<Bookmark> Bookmarks { get; set; }
-
-        // Navigation Property
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
         [ForeignKey("CancerTypeId")]
         public virtual CancerType? CancerType { get; set; }
         [ForeignKey("CancerStageId")]
         public virtual CancerStage? CancerStage { get; set; }
+    }
+
+    public enum VerificationStatus
+    {
+        Pending,
+        MoreInfoNeeded,
+        Approved,
+        Rejected,
     }
 
     public class Doctor : Entity
@@ -59,16 +64,13 @@ namespace YaqeenDAL.Model
         public string University { get; set; }
         public string Degree { get; set; }
         public string MedicalField { get; set; }
-        public int? VerificationStatusId { get; set; }
         public string[] CredentialsAttachments { get; set; }
-        
-        [ForeignKey("VerificationStatusId")]
-        public virtual VerificationStatus? VerificationStatus { get; set; }
-        
-        // Navigation Property
-        public virtual ICollection<Answer>? Answers { get; set; }
-        public virtual ICollection<Bookmark>? Bookmarks { get; set; }
+        public VerificationStatus VerificationStatus { get; set; }
 
+        [ForeignKey("UserId")]
+        public virtual ICollection<VerificationStatusEvent>? VerificationStatusEvents { get; set; }
+
+        // Navigation Property
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
     }
@@ -82,7 +84,7 @@ namespace YaqeenDAL.Model
         public string Title { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
-        
+
         // Navigation Property
         public virtual ICollection<Answer> Answers { get; set; }
         [ForeignKey("UserId")]
@@ -104,45 +106,34 @@ namespace YaqeenDAL.Model
         public virtual Question Question { get; set; }
     }
 
-    public class Article : Entity
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ArticleId { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Category { get; set; }
-        public virtual ICollection<Bookmark> Bookmarks { get; set; }
-    }
-
+    [Index(nameof(UserId))]
+    [Index(nameof(UserId), nameof(ContentId), IsUnique = true)]
+    [Index(nameof(ContentId), IsUnique = false)]
     public class Bookmark : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BookmarkId { get; set; }
+        public int ContentId { get; set; }
         public string UserId { get; set; }
-        public int? ArticleId { get; set; }
-        public string Type { get; set; } // Can be "Question" or "Article"
-
         // Navigation Properties
-        [ForeignKey("UserId")]
-        public virtual Patient Patient { get; set; }
-        [ForeignKey("UserId")]
-        public virtual Doctor Doctor { get; set; }
-        public virtual Article Article { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; }
+        [ForeignKey(nameof(ContentId))]
+        public virtual Content Content { get; set; }
     }
 
-    public class VerificationStatus : Entity
+    [Index(nameof(TargetDoctorUserId))]
+    [Index(nameof(VerifierUserId))]
+    public class VerificationStatusEvent : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int VerificationId { get; set; }
-
+        public int EventId { get; set; }
         public string TargetDoctorUserId { get; set; }
         public string VerifierUserId { get; set; }
-        [Timestamp]
-        public byte[] RowVersion { get; set; }
         public string Notes { get; set; }
+        public VerificationStatus Status { get; set; }
 
         [ForeignKey("VerifierUserId")]
         public virtual User Verifier { get; set; }
@@ -169,7 +160,7 @@ namespace YaqeenDAL.Model
         public string CancerTypeName { get; set; }
         public string LogoURL { get; set; }
 
-        public virtual ICollection<ResourceLocalization> Translations { get; set; }
+        public int? TranslationId { get; set; }
     }
 
     public class CancerStage : Entity
@@ -179,10 +170,11 @@ namespace YaqeenDAL.Model
         public int StageId { get; set; }
         public string StageName { get; set; }
         public string? LogoURL { get; set; }
-        public virtual ICollection<ResourceLocalization> Translations { get; set; }
+        public int? TranslationId { get; set; }
     }
 
-    public enum UserType {
+    public enum UserType
+    {
         Patient,
         Doctor
     }
@@ -195,32 +187,35 @@ namespace YaqeenDAL.Model
         public string Name { get; set; }
         public string LogoURL { get; set; }
         public UserType TargetUserType { get; set; }
+        public int? TranslationId { get; set; }
+        public string StyleBackgroundColorHex { get; set; }
+        public string StyleForegroundColorHex { get; set; }
 
-        public virtual ICollection<ResourceLocalization> Translations { get; set; }
         public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Content> Contents { get; set; }
     }
 
+    [PrimaryKey(nameof(TranslationId), nameof(Language))]
     public class ResourceLocalization
     {
-        [Key]
         public int TranslationId { get; set; }
         public string Language { get; set; }
 
         [Column(TypeName = "jsonb")]
         public Dictionary<string, string> Translation { get; set; }
     }
-    
+
     public class Country : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CountryId { get; set; }
-        public string Name { get; set; } 
+        public string Name { get; set; }
         public string AlphaCode { get; set; }
     }
-    
+
     //country state
-    public class CountryState: Entity
+    public class CountryState : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -230,23 +225,23 @@ namespace YaqeenDAL.Model
         public string StateCode { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
-               
+
         [ForeignKey("CountryId")]
         public virtual Country Country { get; set; }
     }
     //university
     [Index(nameof(CountryCode))]
     [Index(nameof(CountryCode), nameof(StateCode))]
-    public class University: Entity
+    public class University : Entity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UniversityId { get; set; }
         public string CountryName { get; set; }
         public string CountryCode { get; set; }
-        public string StateCode { get; set; } 
-        public string StateName { get; set; } 
-        public string UniversityName { get; set; } 
+        public string StateCode { get; set; }
+        public string StateName { get; set; }
+        public string UniversityName { get; set; }
     }
 
 }

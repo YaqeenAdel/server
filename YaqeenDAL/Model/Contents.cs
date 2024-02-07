@@ -4,20 +4,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YaqeenDAL.Model
 {
-    public enum ContentType {
+    // Deprecated
+    public enum ContentType
+    {
         Category,
         Question,
         Answer,
+        BloodDonation,
     }
 
-    public enum Phase {
+    public enum Phase
+    {
         Draft,
         Published,
     }
 
-    public enum Visibility {
+    public enum Visibility
+    {
         Public,
         Private,
+    }
+
+    public class Attachment
+    {
+        public string Name { get; set; }
+        public string Url { get; set; }
     }
 
     [Index(nameof(Tags), IsUnique = false)]
@@ -36,14 +47,20 @@ namespace YaqeenDAL.Model
         public string AuthorUserId { get; set; }
         public int? AssignedTo { get; set; }
         public Phase Phase { get; set; }
-        public string[] Tags { get; set; }
+        [Column(TypeName = "jsonb")]
+        public Dictionary<string, string> Tags { get; set; }
         public Visibility Visibility { get; set; }
-        public string[] Attachments { get; set; }
+        [Column(TypeName = "jsonb")]
+        public Attachment Attachments { get; set; }
 
         [ForeignKey(nameof(AuthorUserId))]
         public virtual User Author { get; set; }
 
         [ForeignKey(nameof(ParentContentId))]
         public virtual Content? ParentContent { get; set; }
+        public int? TranslationId { get; set; }
+
+        public virtual Bookmark? Bookmark { get; set; }
+        public virtual ICollection<Interest> Interests { get; set; }
     }
 }

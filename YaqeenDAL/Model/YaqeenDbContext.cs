@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Npgsql;
 
 namespace YaqeenDAL.Model
 {
@@ -11,7 +12,8 @@ namespace YaqeenDAL.Model
     {
         public static string ConvertToEfString(string postgresConnectionString)
         {
-            if (postgresConnectionString == null) {
+            if (postgresConnectionString == null)
+            {
                 return "";
             }
 
@@ -35,12 +37,32 @@ namespace YaqeenDAL.Model
 
             return efString.ToString();
         }
-        
+
         public YaqeenDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<YaqeenDbContext>();
             string connectionString = Environment.GetEnvironmentVariable("NEON_CONNECTION_STRING");
             optionsBuilder.UseNpgsql(ConvertToEfString(connectionString));
+
+            // Call UseNodaTime() when building your data source:
+            // var dataSourceBuilder = new NpgsqlDataSourceBuilder(ConvertToEfString(connectionString));
+            // dataSourceBuilder.MapEnum<VerificationStatus>();
+            // var dataSource = dataSourceBuilder.Build();
+
+            // builder.Services.AddDbContext<YaqeenDbContext>(options => options.UseNpgsql(dataSource));
+
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<VerificationStatus>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<UserType>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<Phase>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<Visibility>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<ContentType>();
+
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<MedicationType>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<ScheduleEntityType>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<MedicationUnit>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<DayOfTheWeek>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<ScheduleEntityType>();
+            NpgsqlConnection.GlobalTypeMapper.MapEnum<FrequencyInterval>();
             return new YaqeenDbContext(optionsBuilder.Options);
         }
     }
@@ -60,14 +82,18 @@ namespace YaqeenDAL.Model
         public DbSet<Interest> Interests { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
-        public DbSet<Article> Articles { get; set; }
         public DbSet<Bookmark> Bookmarks { get; set; }
-        public DbSet<Photo> Photos { get; set;}
+        public DbSet<Photo> Photos { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<CountryState> CountryStates { get; set; }
         public DbSet<University> Universities { get; set; }
         public DbSet<Content> Contents { get; set; }
-     
+        public DbSet<ResourceLocalization> ResourceLocalizations { get; set; }
+        public DbSet<Symptom> Symptoms { get; set; }
+        public DbSet<SymptomLookup> SymptomLookups { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<ScheduleInstance> ScheduleInstances { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure the primary keys
@@ -148,6 +174,22 @@ namespace YaqeenDAL.Model
 
             // modelBuilder.Entity<Doctor>()
             //    .OwnsOne(r => r.VerificationStatus);
+            modelBuilder.HasPostgresEnum<VerificationStatus>();
+            modelBuilder.HasPostgresEnum<UserType>();
+            modelBuilder.HasPostgresEnum<Visibility>();
+            modelBuilder.HasPostgresEnum<Phase>();
+            modelBuilder.HasPostgresEnum<ContentType>();
+            modelBuilder.HasPostgresEnum<MedicationType>();
+            modelBuilder.HasPostgresEnum<ScheduleFrequency>();
+            modelBuilder.HasPostgresEnum<MedicationUnit>();
+            modelBuilder.HasPostgresEnum<DayOfTheWeek>();
+            modelBuilder.HasPostgresEnum<ScheduleEntityType>();
+            modelBuilder.HasPostgresEnum<FrequencyInterval>();
+            // modelBuilder.Entity<Doctor>()  
+            //     .Property(b => b.VerificationStatus)
+            //     .HasDefaultValue(VerificationStatus.Approved); 
+            modelBuilder.Entity<Bookmark>()
+                .HasAlternateKey(c => new { c.UserId, c.ContentId });
         }
     }
 }

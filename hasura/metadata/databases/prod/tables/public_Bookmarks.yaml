@@ -1,0 +1,54 @@
+table:
+  name: Bookmarks
+  schema: public
+object_relationships:
+  - name: Content
+    using:
+      foreign_key_constraint_on: ContentId
+  - name: User
+    using:
+      foreign_key_constraint_on: UserId
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        UserId:
+          _eq: X-Hasura-User-Id
+      set:
+        Active: "true"
+        UserId: x-hasura-User-Id
+      columns:
+        - ContentId
+        - CreatedDate
+        - DeletedAt
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - Active
+        - BookmarkId
+        - ContentId
+        - UserId
+        - CreatedDate
+        - DeletedAt
+        - UpdatedAt
+      filter:
+        _and:
+          - UserId:
+              _eq: X-Hasura-User-Id
+          - DeletedAt:
+              _is_null: true
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - DeletedAt
+      filter:
+        UserId:
+          _eq: X-Hasura-User-Id
+      check:
+        UserId:
+          _eq: X-Hasura-User-Id
+    comment: ""

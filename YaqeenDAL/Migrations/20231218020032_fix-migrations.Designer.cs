@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using YaqeenDAL.Model;
@@ -12,9 +13,11 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    partial class YaqeenDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231218020032_fix-migrations")]
+    partial class fixmigrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,32 +25,11 @@ namespace YaqeenDAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "content_type", new[] { "category", "question", "answer", "blood_donation" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "day_of_the_week", new[] { "sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "frequency_interval", new[] { "every_day", "every8hours", "every12hours", "every_other_day" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "medication_type", new[] { "tablet", "liquid_filled_capsule", "capsule", "cream", "device", "drops", "foam", "gel", "inhaler", "injection", "liquid", "lotion", "ointment", "patch", "powder", "spray", "suppository", "topical" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "medication_unit", new[] { "mg", "mcg", "g", "ml", "percentage" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "phase", new[] { "draft", "published" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "schedule_entity_type", new[] { "medication", "routine_test", "appointment" });
-            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "schedule_frequency", new[] { "regular_intervals", "specific_days", "as_needed" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "user_type", new[] { "patient", "doctor" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "verification_status", new[] { "pending", "more_info_needed", "approved", "rejected" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "visibility", new[] { "public", "private" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("ContentInterest", b =>
-                {
-                    b.Property<int>("ContentsContentId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("InterestsInterestId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ContentsContentId", "InterestsInterestId");
-
-                    b.HasIndex("InterestsInterestId");
-
-                    b.ToTable("ContentInterest");
-                });
 
             modelBuilder.Entity("InterestUser", b =>
                 {
@@ -62,21 +44,6 @@ namespace YaqeenDAL.Migrations
                     b.HasIndex("UsersUserId");
 
                     b.ToTable("InterestUser");
-                });
-
-            modelBuilder.Entity("ScheduleSymptom", b =>
-                {
-                    b.Property<int>("SchedulesScheduleId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SymptomId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("SchedulesScheduleId", "SymptomId");
-
-                    b.HasIndex("SymptomId");
-
-                    b.ToTable("ScheduleSymptom");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Answer", b =>
@@ -120,6 +87,44 @@ namespace YaqeenDAL.Migrations
                     b.ToTable("Answers");
                 });
 
+            modelBuilder.Entity("YaqeenDAL.Model.Article", b =>
+                {
+                    b.Property<int>("ArticleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ArticleId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("ArticleId");
+
+                    b.ToTable("Articles");
+                });
+
             modelBuilder.Entity("YaqeenDAL.Model.Bookmark", b =>
                 {
                     b.Property<int>("BookmarkId")
@@ -131,7 +136,7 @@ namespace YaqeenDAL.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("ContentId")
+                    b.Property<int?>("ArticleId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedDate")
@@ -140,6 +145,10 @@ namespace YaqeenDAL.Migrations
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -150,14 +159,9 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("BookmarkId");
 
-                    b.HasAlternateKey("UserId", "ContentId");
-
-                    b.HasIndex("ContentId");
+                    b.HasIndex("ArticleId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId", "ContentId")
-                        .IsUnique();
 
                     b.ToTable("Bookmarks");
                 });
@@ -186,9 +190,6 @@ namespace YaqeenDAL.Migrations
                     b.Property<string>("StageName")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int?>("TranslationId")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -223,9 +224,6 @@ namespace YaqeenDAL.Migrations
                     b.Property<string>("LogoURL")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int?>("TranslationId")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -277,9 +275,6 @@ namespace YaqeenDAL.Migrations
                     b.Property<Dictionary<string, string>>("Tags")
                         .IsRequired()
                         .HasColumnType("jsonb");
-
-                    b.Property<int?>("TranslationId")
-                        .HasColumnType("integer");
 
                     b.Property<ContentType>("Type")
                         .HasColumnType("content_type");
@@ -454,19 +449,8 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("StyleBackgroundColorHex")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("StyleForegroundColorHex")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<UserType>("TargetUserType")
                         .HasColumnType("user_type");
-
-                    b.Property<int?>("TranslationId")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -571,6 +555,9 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("PatientUserId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -584,6 +571,8 @@ namespace YaqeenDAL.Migrations
 
                     b.HasKey("QuestionId");
 
+                    b.HasIndex("PatientUserId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Questions");
@@ -592,195 +581,37 @@ namespace YaqeenDAL.Migrations
             modelBuilder.Entity("YaqeenDAL.Model.ResourceLocalization", b =>
                 {
                     b.Property<int>("TranslationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TranslationId"));
+
+                    b.Property<int?>("CancerStageStageId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CancerTypeCancerId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("InterestId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Language")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Dictionary<string, string>>("Translation")
                         .IsRequired()
                         .HasColumnType("jsonb");
 
-                    b.HasKey("TranslationId", "Language");
+                    b.HasKey("TranslationId");
 
-                    b.ToTable("ResourceLocalizations");
-                });
+                    b.HasIndex("CancerStageStageId");
 
-            modelBuilder.Entity("YaqeenDAL.Model.Schedule", b =>
-                {
-                    b.Property<int>("ScheduleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                    b.HasIndex("CancerTypeCancerId");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ScheduleId"));
+                    b.HasIndex("InterestId");
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CronExpression")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Dictionary<string, string>>("Entity")
-                        .IsRequired()
-                        .HasColumnType("jsonb");
-
-                    b.Property<ScheduleEntityType>("EntityType")
-                        .HasColumnType("schedule_entity_type");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("ScheduleId");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("EntityType", "UserId");
-
-                    b.ToTable("Schedules");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.ScheduleInstance", b =>
-                {
-                    b.Property<int>("ScheduleInstanceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ScheduleInstanceId"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool?>("Done")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool?>("Missed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
-
-                    b.Property<int>("ScheduleId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool?>("Skipped")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime?>("Time")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("ScheduleInstanceId");
-
-                    b.HasIndex("ScheduleId");
-
-                    b.ToTable("ScheduleInstances");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.Symptom", b =>
-                {
-                    b.Property<int>("SymptomId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SymptomId"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Details")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PatientUserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhotoLink")
-                        .HasColumnType("text");
-
-                    b.Property<int>("SymptomLookupId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("Time")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("SymptomId");
-
-                    b.HasIndex("PatientUserId");
-
-                    b.HasIndex("SymptomLookupId");
-
-                    b.ToTable("Symptoms");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.SymptomLookup", b =>
-                {
-                    b.Property<int>("SymptomLookupId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SymptomLookupId"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("TranslationId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("SymptomLookupId");
-
-                    b.ToTable("SymptomLookups");
+                    b.ToTable("ResourceLocalization");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.University", b =>
@@ -936,21 +767,6 @@ namespace YaqeenDAL.Migrations
                     b.ToTable("VerificationStatusEvent");
                 });
 
-            modelBuilder.Entity("ContentInterest", b =>
-                {
-                    b.HasOne("YaqeenDAL.Model.Content", null)
-                        .WithMany()
-                        .HasForeignKey("ContentsContentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YaqeenDAL.Model.Interest", null)
-                        .WithMany()
-                        .HasForeignKey("InterestsInterestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("InterestUser", b =>
                 {
                     b.HasOne("YaqeenDAL.Model.Interest", null)
@@ -966,25 +782,10 @@ namespace YaqeenDAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ScheduleSymptom", b =>
-                {
-                    b.HasOne("YaqeenDAL.Model.Schedule", null)
-                        .WithMany()
-                        .HasForeignKey("SchedulesScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YaqeenDAL.Model.Symptom", null)
-                        .WithMany()
-                        .HasForeignKey("SymptomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("YaqeenDAL.Model.Answer", b =>
                 {
                     b.HasOne("YaqeenDAL.Model.Doctor", "Doctor")
-                        .WithMany()
+                        .WithMany("Answers")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1002,21 +803,27 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("YaqeenDAL.Model.Bookmark", b =>
                 {
-                    b.HasOne("YaqeenDAL.Model.Content", "Content")
-                        .WithOne("Bookmark")
-                        .HasForeignKey("YaqeenDAL.Model.Bookmark", "ContentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("YaqeenDAL.Model.Article", "Article")
+                        .WithMany("Bookmarks")
+                        .HasForeignKey("ArticleId");
 
-                    b.HasOne("YaqeenDAL.Model.User", "User")
+                    b.HasOne("YaqeenDAL.Model.Doctor", "Doctor")
                         .WithMany("Bookmarks")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Content");
+                    b.HasOne("YaqeenDAL.Model.Patient", "Patient")
+                        .WithMany("Bookmarks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Article");
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Content", b =>
@@ -1087,6 +894,10 @@ namespace YaqeenDAL.Migrations
 
             modelBuilder.Entity("YaqeenDAL.Model.Question", b =>
                 {
+                    b.HasOne("YaqeenDAL.Model.Patient", null)
+                        .WithMany("Questions")
+                        .HasForeignKey("PatientUserId");
+
                     b.HasOne("YaqeenDAL.Model.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -1096,45 +907,19 @@ namespace YaqeenDAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("YaqeenDAL.Model.Schedule", b =>
+            modelBuilder.Entity("YaqeenDAL.Model.ResourceLocalization", b =>
                 {
-                    b.HasOne("YaqeenDAL.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("YaqeenDAL.Model.CancerStage", null)
+                        .WithMany("Translations")
+                        .HasForeignKey("CancerStageStageId");
 
-                    b.Navigation("User");
-                });
+                    b.HasOne("YaqeenDAL.Model.CancerType", null)
+                        .WithMany("Translations")
+                        .HasForeignKey("CancerTypeCancerId");
 
-            modelBuilder.Entity("YaqeenDAL.Model.ScheduleInstance", b =>
-                {
-                    b.HasOne("YaqeenDAL.Model.Schedule", "Schedule")
-                        .WithMany()
-                        .HasForeignKey("ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Schedule");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.Symptom", b =>
-                {
-                    b.HasOne("YaqeenDAL.Model.Patient", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("YaqeenDAL.Model.SymptomLookup", "SymptomLookup")
-                        .WithMany()
-                        .HasForeignKey("SymptomLookupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Patient");
-
-                    b.Navigation("SymptomLookup");
+                    b.HasOne("YaqeenDAL.Model.Interest", null)
+                        .WithMany("Translations")
+                        .HasForeignKey("InterestId");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.VerificationStatusEvent", b =>
@@ -1160,24 +945,45 @@ namespace YaqeenDAL.Migrations
                     b.Navigation("Verifier");
                 });
 
-            modelBuilder.Entity("YaqeenDAL.Model.Content", b =>
+            modelBuilder.Entity("YaqeenDAL.Model.Article", b =>
                 {
-                    b.Navigation("Bookmark");
+                    b.Navigation("Bookmarks");
+                });
+
+            modelBuilder.Entity("YaqeenDAL.Model.CancerStage", b =>
+                {
+                    b.Navigation("Translations");
+                });
+
+            modelBuilder.Entity("YaqeenDAL.Model.CancerType", b =>
+                {
+                    b.Navigation("Translations");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Doctor", b =>
                 {
+                    b.Navigation("Answers");
+
+                    b.Navigation("Bookmarks");
+
                     b.Navigation("VerificationStatusEvents");
+                });
+
+            modelBuilder.Entity("YaqeenDAL.Model.Interest", b =>
+                {
+                    b.Navigation("Translations");
+                });
+
+            modelBuilder.Entity("YaqeenDAL.Model.Patient", b =>
+                {
+                    b.Navigation("Bookmarks");
+
+                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("YaqeenDAL.Model.Question", b =>
                 {
                     b.Navigation("Answers");
-                });
-
-            modelBuilder.Entity("YaqeenDAL.Model.User", b =>
-                {
-                    b.Navigation("Bookmarks");
                 });
 #pragma warning restore 612, 618
         }

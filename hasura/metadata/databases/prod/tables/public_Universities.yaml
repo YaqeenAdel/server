@@ -1,0 +1,28 @@
+table:
+  name: Universities
+  schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - UniversityId
+        - CountryName
+        - CountryCode
+        - StateCode
+        - StateName
+        - UniversityName
+        - Active
+      filter: {}
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - UniversityId
+        - CountryName
+        - CountryCode
+        - StateCode
+        - StateName
+        - UniversityName
+        - Active
+      filter: {}
+    comment: ""

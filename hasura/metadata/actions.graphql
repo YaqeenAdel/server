@@ -1,0 +1,75 @@
+type Mutation {
+  UpdateUserAsUser(
+    user: UpdateUserInput!
+  ): UpdateUserOutput
+}
+
+type Query {
+  file_get(
+    path: String!
+  ): FileGetOutput
+}
+
+type Query {
+  file_get_batch(
+    paths: [String!]!
+  ): FileGetBatchOutput
+}
+
+type Query {
+  getCronEvents(
+    scheduleId: Int!
+  ): CronTriggerOutput
+}
+
+input UpdateDoctorInput {
+  degree: String!
+  medicalField: String!
+  university: String!
+}
+
+input UpdatePatientInput {
+  ageGroup: Int!
+  cancerStageId: Int!
+  cancerTypeId: Int!
+}
+
+input UpdateUserInput {
+  firstName: String!
+  lastName: String!
+  gender: String!
+  interests: [Int!]
+  doctor: UpdateDoctorInput
+  patient: UpdatePatientInput
+}
+
+input CronTriggerInput {
+  name: String!
+  cron: String!
+}
+
+type FileGetOutput {
+  url: String!
+}
+
+type SignedUrl {
+  signed_url: String!
+  path: String!
+}
+
+type FileGetBatchOutput {
+  urls: [SignedUrl]
+}
+
+type UpdateUserOutput {
+  userId: String!
+}
+
+type CronTriggerOutput {
+  events: [TriggerEvent!]!
+}
+
+type TriggerEvent {
+  scheduled_time: String!
+}
+

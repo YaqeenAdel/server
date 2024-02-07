@@ -1,0 +1,65 @@
+table:
+  name: Interests
+  schema: public
+array_relationships:
+  - name: ContentInterests
+    using:
+      foreign_key_constraint_on:
+        column: InterestsInterestId
+        table:
+          name: ContentInterest
+          schema: public
+  - name: InterestDoctors
+    using:
+      foreign_key_constraint_on:
+        column: InterestId
+        table:
+          name: InterestDoctor
+          schema: public
+  - name: InterestUsers
+    using:
+      foreign_key_constraint_on:
+        column: InterestsInterestId
+        table:
+          name: InterestUser
+          schema: public
+  - name: IntersPatients
+    using:
+      foreign_key_constraint_on:
+        column: InterestId
+        table:
+          name: IntersPatient
+          schema: public
+  - name: Translations
+    using:
+      manual_configuration:
+        column_mapping:
+          TranslationId: TranslationId
+        insertion_order: null
+        remote_table:
+          name: ResourceLocalizations
+          schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - InterestId
+        - LogoURL
+        - Name
+        - StyleBackgroundColorHex
+        - StyleForegroundColorHex
+        - TargetUserType
+      filter: {}
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - CreatedDate
+        - InterestId
+        - LogoURL
+        - Name
+        - StyleBackgroundColorHex
+        - StyleForegroundColorHex
+        - TargetUserType
+      filter: {}
+    comment: ""

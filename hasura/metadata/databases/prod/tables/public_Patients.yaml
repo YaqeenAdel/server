@@ -1,0 +1,70 @@
+table:
+  name: Patients
+  schema: public
+object_relationships:
+  - name: CancerStage
+    using:
+      foreign_key_constraint_on: CancerStageId
+  - name: CancerType
+    using:
+      foreign_key_constraint_on: CancerTypeId
+  - name: User
+    using:
+      foreign_key_constraint_on: UserId
+array_relationships:
+  - name: IntersPatients
+    using:
+      foreign_key_constraint_on:
+        column: PatientId
+        table:
+          name: IntersPatient
+          schema: public
+  - name: Symptoms
+    using:
+      foreign_key_constraint_on:
+        column: PatientUserId
+        table:
+          name: Symptoms
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        UserId:
+          _eq: X-Hasura-User-Id
+      set:
+        Active: "true"
+        UserId: x-hasura-User-Id
+      columns:
+        - AgeGroup
+        - CancerStageId
+        - CancerTypeId
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - AgeGroup
+        - CancerStageId
+        - CancerTypeId
+        - DeletedAt
+        - UserId
+      filter:
+        UserId:
+          _eq: X-Hasura-User-Id
+      limit: 1
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - AgeGroup
+        - CancerStageId
+        - CancerTypeId
+      filter:
+        UserId:
+          _eq: X-Hasura-User-Id
+      check:
+        UserId:
+          _eq: X-Hasura-User-Id
+    comment: ""

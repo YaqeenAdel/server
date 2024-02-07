@@ -1,0 +1,52 @@
+table:
+  name: ScheduleSymptom
+  schema: public
+object_relationships:
+  - name: Schedule
+    using:
+      foreign_key_constraint_on: SchedulesScheduleId
+  - name: Symptom
+    using:
+      foreign_key_constraint_on: SymptomId
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        _and:
+          - Schedule:
+              UserId:
+                _eq: X-Hasura-User-Id
+          - Symptom:
+              PatientUserId:
+                _eq: X-Hasura-User-Id
+      columns:
+        - SchedulesScheduleId
+        - SymptomId
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - SchedulesScheduleId
+        - SymptomId
+      filter:
+        _and:
+          - Schedule:
+              UserId:
+                _eq: X-Hasura-User-Id
+          - Symptom:
+              PatientUserId:
+                _eq: X-Hasura-User-Id
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        _and:
+          - Schedule:
+              UserId:
+                _eq: X-Hasura-User-Id
+          - Symptom:
+              PatientUserId:
+                _eq: X-Hasura-User-Id
+    comment: ""

@@ -1,0 +1,38 @@
+table:
+  name: CancerStages
+  schema: public
+array_relationships:
+  - name: Patients
+    using:
+      foreign_key_constraint_on:
+        column: CancerStageId
+        table:
+          name: Patients
+          schema: public
+  - name: Translations
+    using:
+      manual_configuration:
+        column_mapping:
+          TranslationId: TranslationId
+        insertion_order: null
+        remote_table:
+          name: ResourceLocalizations
+          schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - LogoURL
+        - StageId
+        - StageName
+      filter: {}
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - CreatedDate
+        - LogoURL
+        - StageId
+        - StageName
+      filter: {}
+    comment: ""

@@ -1,0 +1,16 @@
+table:
+  name: FlattenedResourceLocalizations
+  schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - value
+      filter: {}
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - value
+      filter: {}
+    comment: ""

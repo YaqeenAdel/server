@@ -1,0 +1,20 @@
+table:
+  name: ResourceLocalizations
+  schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - Language
+        - Translation
+        - TranslationId
+      filter: {}
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - Language
+        - Translation
+        - TranslationId
+      filter: {}
+    comment: ""
