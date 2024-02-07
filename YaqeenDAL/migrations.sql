@@ -1044,4 +1044,13 @@ VALUES ('20240131225218_triggers', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Schedules" ADD "StartDate" timestamp with time zone NOT NULL DEFAULT TIMESTAMPTZ '-infinity';
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240207044743_start-date', '7.0.11');
+
+COMMIT;
+
 

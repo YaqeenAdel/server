@@ -80,7 +80,7 @@ namespace YaqeenDAL.Model
         public ScheduleEntityType EntityType { get; set; }
         [Column(TypeName = "jsonb")]
         public Dictionary<string, string> Entity { get; set; }
-
+        public DateTime StartDate { get; set; }
 
         // Navigation Properties
         [ForeignKey("UserId")]
