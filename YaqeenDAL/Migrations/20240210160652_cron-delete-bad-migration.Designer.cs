@@ -13,8 +13,8 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20240210160213_cron-another-iteration")]
-    partial class cronanotheriteration
+    [Migration("20240210160652_cron-delete-bad-migration")]
+    partial class crondeletebadmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
