@@ -1062,4 +1062,15 @@ VALUES ('20240210160652_cron-delete-bad-migration', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Schedules" DROP CONSTRAINT "CronExpression";
+
+ALTER TABLE "Schedules" ADD CONSTRAINT "CronExpression" CHECK ("CronExpression" ~* '^(\*|[0-9]{1,2})(\/[0-9]{1,2})?\s+(\*|[0-9]{1,2})(\/[0-9]{1,2})?\s+(\*|[0-9]{1,2})(\/[0-9]{1,2})?\s+(\*|[0-9]{1,2})(\/[0-9]{1,2})?\s+(\*|[0-9]{1,2})(\/[0-9]{1,2})?$');
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240210161703_cron-update-regex', '7.0.11');
+
+COMMIT;
+
 
