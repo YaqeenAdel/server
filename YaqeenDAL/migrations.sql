@@ -1053,4 +1053,11 @@ VALUES ('20240207044743_start-date', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240210011334_fs-batch-api', '7.0.11');
+
+COMMIT;
+
 
