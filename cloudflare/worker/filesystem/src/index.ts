@@ -1,5 +1,6 @@
 import { OpenAPIRouter } from "@cloudflare/itty-router-openapi";
 import { FileGetSignedUrlBatch }  from "./endpoints/fileGetSignedUrlBatch";
+import { FilePutSignedUrl }  from "./endpoints/filePutSignedUrl";
 // import { TaskList } from "./endpoints/taskList";
 // import { TaskCreate } from "./endpoints/taskCreate";
 // import { TaskFetch } from "./endpoints/taskFetch";
@@ -10,6 +11,7 @@ export const router = OpenAPIRouter({
 });
 
 router.post("/api/files/batch/", FileGetSignedUrlBatch);
+router.put("/api/files/", FilePutSignedUrl);
 
 // router.get("/api/tasks/", TaskList);
 // router.post("/api/tasks/", TaskCreate);
