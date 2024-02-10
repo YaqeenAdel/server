@@ -96,6 +96,7 @@ namespace YaqeenDAL.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             // Configure the primary keys
             // modelBuilder.Entity<User>().HasKey(u => u.Id);
             // modelBuilder.Entity<Patient>().HasKey(p => p.Id);
@@ -190,6 +191,10 @@ namespace YaqeenDAL.Model
             //     .HasDefaultValue(VerificationStatus.Approved); 
             modelBuilder.Entity<Bookmark>()
                 .HasAlternateKey(c => new { c.UserId, c.ContentId });
+            modelBuilder.Entity<Schedule>(entity => entity
+                .ToTable(t => t
+                    .HasCheckConstraint("CronExpression",
+                        @"CronExpression ~* '/(@(annually|yearly|monthly|weekly|daily|hourly|reboot))|(@every (\d+(ns|us|µs|ms|s|m|h))+)|((((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*) ?){5})/'")));
         }
     }
 }

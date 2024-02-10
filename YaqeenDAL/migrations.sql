@@ -1053,4 +1053,13 @@ VALUES ('20240207044743_start-date', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Schedules" ADD CONSTRAINT "CronExpression" CHECK (CronExpression ~* '/(@(annually|yearly|monthly|weekly|daily|hourly|reboot))|(@every (\d+(ns|us|µs|ms|s|m|h))+)|((((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*) ?){5})/');
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240210151106_cron-validator', '7.0.11');
+
+COMMIT;
+
 
