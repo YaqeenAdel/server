@@ -1073,4 +1073,15 @@ VALUES ('20240210161703_cron-update-regex', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Schedules" DROP CONSTRAINT "CronExpression";
+
+ALTER TABLE "Schedules" ADD CONSTRAINT "CronExpression" CHECK ("CronExpression" ~* '^((\*|[0-5]?[0-9])(\/[0-5]?[0-9])?\s*){4}((\*|[0-5]?[0-9])|,)+$');
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240211190457_cron-fix-regex-2', '7.0.11');
+
+COMMIT;
+
 
