@@ -194,7 +194,7 @@ namespace YaqeenDAL.Model
             modelBuilder.Entity<Schedule>(entity => entity
                 .ToTable(t => t
                     .HasCheckConstraint("CronExpression",
-                        @"""CronExpression"" ~* '^(\*|[0-9]{1,2})(\/[0-9]{1,2})?\s+(\*|[0-9]{1,2})(\/[0-9]{1,2})?\s+(\*|[0-9]{1,2})(\/[0-9]{1,2})?\s+(\*|[0-9]{1,2})(\/[0-9]{1,2})?\s+(\*|[0-9]{1,2})(\/[0-9]{1,2})?$'")));
+                        @"""CronExpression"" ~* '^((\*|[0-5]?[0-9])(\/[0-5]?[0-9])?\s*){4}((\*|[0-5]?[0-9])|,)+$'")));
         }
     }
 }
