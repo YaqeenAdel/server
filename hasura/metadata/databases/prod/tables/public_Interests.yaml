@@ -39,6 +39,17 @@ array_relationships:
         remote_table:
           name: ResourceLocalizations
           schema: public
+remote_relationships:
+  - definition:
+      to_remote_schema:
+        lhs_fields:
+          - LogoURL
+        remote_field:
+          file_get:
+            arguments:
+              path: $LogoURL
+        remote_schema: Self
+    name: LogoDownloadURL
 select_permissions:
   - role: anonymous
     permission:

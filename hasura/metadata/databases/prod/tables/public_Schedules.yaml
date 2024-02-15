@@ -45,6 +45,7 @@ insert_permissions:
         - CronExpression
         - Entity
         - EntityType
+        - StartDate
     comment: ""
 select_permissions:
   - role: user
@@ -54,6 +55,7 @@ select_permissions:
         - Entity
         - EntityType
         - ScheduleId
+        - StartDate
       filter:
         UserId:
           _eq: X-Hasura-User-Id
@@ -65,6 +67,7 @@ update_permissions:
         - CronExpression
         - Entity
         - EntityType
+        - StartDate
       filter:
         UserId:
           _eq: X-Hasura-User-Id
@@ -118,9 +121,9 @@ event_triggers:
       version: 2
   - name: schedule_delete
     definition:
-      enable_manual: true
       delete:
         columns: '*'
+      enable_manual: true
     retry_conf:
       interval_sec: 10
       num_retries: 2

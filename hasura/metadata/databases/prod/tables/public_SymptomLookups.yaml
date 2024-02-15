@@ -18,3 +18,23 @@ array_relationships:
         remote_table:
           name: ResourceLocalizations
           schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - Active
+        - CreatedDate
+        - Name
+        - SymptomLookupId
+        - TranslationId
+      filter: {}
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - CreatedDate
+        - Name
+        - SymptomLookupId
+        - TranslationId
+      filter: {}
+    comment: ""
