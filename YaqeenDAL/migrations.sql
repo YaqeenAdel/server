@@ -1084,4 +1084,11 @@ VALUES ('20240211190457_cron-fix-regex-2', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240219165946_cancer-type-info', '7.0.11');
+
+COMMIT;
+
 
