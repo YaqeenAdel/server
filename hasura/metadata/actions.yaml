@@ -26,19 +26,31 @@ actions:
   - name: file_get
     definition:
       kind: ""
-      handler: https://filesystem.haytham-d6b.workers.dev
+      handler: https://filesystem.haytham-d6b.workers.dev/api/files/batch/
       headers:
         - name: X-Custom-Auth-Key
           value_from_env: R2_AUTH_KEY
       request_transform:
-        method: GET
-        query_params: ""
-        request_headers:
-          add_headers: {}
-          remove_headers:
-            - content-type
+        body:
+          action: transform
+          template: |-
+            {
+                "paths": [
+                    "{{escapeUri($body.input.path)}}"
+                ]
+            }
+        method: POST
+        query_params: {}
         template_engine: Kriti
-        url: '{{$base_url}}/{{escapeUri($body.input.path)}}'
+        version: 2
+      response_transform:
+        body:
+          action: transform
+          template: |-
+            {
+              "url": {{$body.urls[0].signed_url}}
+            }
+        template_engine: Kriti
         version: 2
     permissions:
       - role: user
@@ -92,6 +104,36 @@ actions:
     permissions:
       - role: user
     comment: getCronEvents
+  - name: getUploadUrl
+    definition:
+      kind: ""
+      handler: https://filesystem.haytham-d6b.workers.dev/api/files/
+      headers:
+        - name: X-Custom-Auth-Key
+          value_from_env: R2_AUTH_KEY
+      request_transform:
+        body:
+          action: transform
+          template: |-
+            {
+              "path": "{{concat([$body.session_variables.x-hasura-user-id, "/", $body.input.filePath])}}"
+            }
+        method: PUT
+        query_params: {}
+        template_engine: Kriti
+        version: 2
+      response_transform:
+        body:
+          action: transform
+          template: |-
+            {
+              "path": {{$body.path}},
+              "signedUrl": {{$body.signed_url}}
+            }
+        template_engine: Kriti
+        version: 2
+    permissions:
+      - role: user
 custom_types:
   enums: []
   input_objects:
@@ -106,4 +148,5 @@ custom_types:
     - name: UpdateUserOutput
     - name: CronTriggerOutput
     - name: TriggerEvent
+    - name: GetUploadUrlOutput
   scalars: []

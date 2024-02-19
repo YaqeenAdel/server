@@ -51,6 +51,7 @@ select_permissions:
         - Details
         - PatientUserId
         - PhotoLink
+        - SymptomId
         - SymptomLookupId
         - Time
         - UpdatedAt

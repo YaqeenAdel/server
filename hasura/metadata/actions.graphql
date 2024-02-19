@@ -22,6 +22,12 @@ type Query {
   ): CronTriggerOutput
 }
 
+type Query {
+  getUploadUrl(
+    filePath: String!
+  ): GetUploadUrlOutput
+}
+
 input UpdateDoctorInput {
   degree: String!
   medicalField: String!
@@ -71,5 +77,10 @@ type CronTriggerOutput {
 
 type TriggerEvent {
   scheduled_time: String!
+}
+
+type GetUploadUrlOutput {
+  path: String!
+  signedUrl: String!
 }
 
