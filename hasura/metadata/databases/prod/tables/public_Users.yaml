@@ -107,4 +107,7 @@ update_permissions:
       check:
         UserId:
           _eq: X-Hasura-User-Id
+      set:
+        Active: "true"
+        UserId: x-hasura-User-Id
     comment: ""

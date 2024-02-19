@@ -634,14 +634,6 @@
               }
             }
           }
-      - name: UploadUrl
-        query: |
-          query UploadUrl ($filePath: String!) {
-            getUploadUrl(filePath: $filePath) {
-              signedUrl
-              path
-            }
-          }
       - name: Symptoms
         query: |
           query Symptoms ($lang: String! = "en", $refresh: Boolean! = false) @cached(ttl: 600, refresh: $refresh) {
@@ -702,5 +694,13 @@
               ScheduleId
               Entity
               EntityType
+            }
+          }
+      - name: UploadUrl
+        query: |
+          query UploadUrl ($path: String!) {
+            getUploadUrl(filePath: $path) {
+              signedUrl
+              path
             }
           }
