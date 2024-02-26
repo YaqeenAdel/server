@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using YaqeenDAL.Model;
@@ -12,9 +13,11 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    partial class YaqeenDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240210161703_cron-update-regex")]
+    partial class cronupdateregex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -653,7 +656,7 @@ namespace YaqeenDAL.Migrations
 
                     b.ToTable("Schedules", t =>
                         {
-                            t.HasCheckConstraint("CronExpression", "\"CronExpression\" ~* '^((\\*|[0-5]?[0-9])(\\/[0-5]?[0-9])?\\s*){4}((\\*|[0-5]?[0-9])|,)+$'");
+                            t.HasCheckConstraint("CronExpression", "\"CronExpression\" ~* '^(\\*|[0-9]{1,2})(\\/[0-9]{1,2})?\\s+(\\*|[0-9]{1,2})(\\/[0-9]{1,2})?\\s+(\\*|[0-9]{1,2})(\\/[0-9]{1,2})?\\s+(\\*|[0-9]{1,2})(\\/[0-9]{1,2})?\\s+(\\*|[0-9]{1,2})(\\/[0-9]{1,2})?$'");
                         });
                 });
 

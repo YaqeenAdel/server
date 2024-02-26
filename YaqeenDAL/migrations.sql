@@ -1055,8 +1055,32 @@ COMMIT;
 
 START TRANSACTION;
 
+ALTER TABLE "Schedules" ADD CONSTRAINT "CronExpression" CHECK ("CronExpression" ~* '/(@(annually|yearly|monthly|weekly|daily|hourly|reboot))|(@every (\d+(ns|us|µs|ms|s|m|h))+)|((((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*) ?){5})/');
+
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20240210011334_fs-batch-api', '7.0.11');
+VALUES ('20240210160652_cron-delete-bad-migration', '7.0.11');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "Schedules" DROP CONSTRAINT "CronExpression";
+
+ALTER TABLE "Schedules" ADD CONSTRAINT "CronExpression" CHECK ("CronExpression" ~* '^(\*|[0-9]{1,2})(\/[0-9]{1,2})?\s+(\*|[0-9]{1,2})(\/[0-9]{1,2})?\s+(\*|[0-9]{1,2})(\/[0-9]{1,2})?\s+(\*|[0-9]{1,2})(\/[0-9]{1,2})?\s+(\*|[0-9]{1,2})(\/[0-9]{1,2})?$');
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240210161703_cron-update-regex', '7.0.11');
+
+COMMIT;
+
+START TRANSACTION;
+
+ALTER TABLE "Schedules" DROP CONSTRAINT "CronExpression";
+
+ALTER TABLE "Schedules" ADD CONSTRAINT "CronExpression" CHECK ("CronExpression" ~* '^((\*|[0-5]?[0-9])(\/[0-5]?[0-9])?\s*){4}((\*|[0-5]?[0-9])|,)+$');
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240211190457_cron-fix-regex-2', '7.0.11');
 
 COMMIT;
 

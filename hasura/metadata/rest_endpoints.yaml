@@ -450,6 +450,15 @@
   definition:
     query:
       collection_name: allowed-queries
+      query_name: SymptomLookups
+  methods:
+    - GET
+  name: SymptomLookups
+  url: resources/symptoms
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
       query_name: countryStates
   methods:
     - GET
@@ -464,3 +473,13 @@
     - GET
   name: Universities
   url: universities/:CountryCode/:StateCode
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: UploadUrl
+  methods:
+    - PUT
+    - POST
+  name: UploadUrl
+  url: upload_url
