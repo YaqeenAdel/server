@@ -14,19 +14,20 @@ const hasValidHeader = (
 	return request.headers.get('X-Custom-Auth-Key') === env.AUTH_KEY_SECRET;
 };
   
-export class FileGetSignedUrlBatch extends OpenAPIRoute {
+export class FilePutSignedUrl extends OpenAPIRoute {
 	static schema: OpenAPIRouteSchema = {
 		tags: ["Files"],
-		summary: "Get signed URLs for a batch of files",
+		summary: "Get signed URLs to upload a file",
 		requestBody: {
-			paths: [String]
+			path: String
 		},
 		responses: {
 			"200": {
-				description: "Returns a list of signed urls",
+				description: "Returns a signed url",
 				schema: {
 					result: {
-						urls: [JSON],
+						path: String,
+						signed_url: String,
 					},
 				},
 			},
@@ -40,7 +41,7 @@ export class FileGetSignedUrlBatch extends OpenAPIRoute {
 		data: Record<string, any>
 	) {
 		// Retrieve the validated parameters
-		const { paths } = data.body;
+		const { path } = data.body;
 
 		const r2 = new AwsClient({
 			accessKeyId: env.AWS_ACCESS_KEY_ID,
@@ -60,34 +61,21 @@ export class FileGetSignedUrlBatch extends OpenAPIRoute {
 
 		// convert forEach to an async one
 		let urls: any[] = [];
+		console.log(`Generating a signed url for ${path}`);
+		url.pathname = path;
 
-		console.log(`Generating signed urls for ${paths.length} paths`);
-
-		let expanded_paths = paths.flatMap((path: string) => {
-			return path.split(",");
-		});
-
-		for (const path of expanded_paths) {
-			console.log(`Generating a signed url for ${path}`);
-			url.pathname = path;
-
-			const signed = await r2.sign(
-				new Request(url, {
-					method: "GET",
-				}),
-				{
-					aws: { signQuery: true },
-				}
-			);
-
-			urls.push({ 
-				"path": path,
-				"signed_url": signed.url 
-			});
-		};
+		const signed = await r2.sign(
+			new Request(url, {
+				method: "PUT",
+			}),
+			{
+				aws: { signQuery: true },
+			}
+		);
 
 		return {
-			urls: urls,
+			path: path,
+			signed_url: signed.url 
 		};
 	}
 }
