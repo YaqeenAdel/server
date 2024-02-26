@@ -1084,4 +1084,13 @@ VALUES ('20240211190457_cron-fix-regex-2', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Symptoms" ADD "SymptomLookupIds" integer[] NULL;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240226053602_multiple-symptomids', '7.0.11');
+
+COMMIT;
+
 

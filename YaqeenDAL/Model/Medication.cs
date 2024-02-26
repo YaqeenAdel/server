@@ -140,6 +140,7 @@ namespace YaqeenDAL.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SymptomId { get; set; }
         public int SymptomLookupId { get; set; }
+        public List<int>? SymptomLookupIds { get; set; }
         public string PatientUserId { get; set; }
         public DateTime? Time { get; set; }
         public string Details { get; set; }
