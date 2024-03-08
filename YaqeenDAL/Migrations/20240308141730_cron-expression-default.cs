@@ -15,7 +15,7 @@ namespace YaqeenDAL.Migrations
                 table: "Schedules",
                 type: "text",
                 nullable: false,
-                defaultValue: "0 0 */100000 * *",
+                defaultValue: "0 0 1 */12 *",
                 oldClrType: typeof(string),
                 oldType: "text");
         }
@@ -30,7 +30,7 @@ namespace YaqeenDAL.Migrations
                 nullable: false,
                 oldClrType: typeof(string),
                 oldType: "text",
-                oldDefaultValue: "0 0 */100000 * *");
+                oldDefaultValue: "0 0 1 */12 *");
         }
     }
 }

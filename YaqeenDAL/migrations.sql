@@ -1095,10 +1095,10 @@ COMMIT;
 
 START TRANSACTION;
 
-ALTER TABLE "Schedules" ALTER COLUMN "CronExpression" SET DEFAULT '0 0 */100000 * *';
+ALTER TABLE "Schedules" ALTER COLUMN "CronExpression" SET DEFAULT '0 0 1 */12 *';
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20240308141401_cron-expression-default', '7.0.11');
+VALUES ('20240308141730_cron-expression-default', '7.0.11');
 
 COMMIT;
 
