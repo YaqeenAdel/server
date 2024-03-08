@@ -1093,4 +1093,13 @@ VALUES ('20240226053602_multiple-symptomids', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Schedules" ALTER COLUMN "CronExpression" SET DEFAULT '0 0 1 */12 *';
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240308141730_cron-expression-default', '7.0.11');
+
+COMMIT;
+
 
