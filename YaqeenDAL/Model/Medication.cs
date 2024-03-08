@@ -89,6 +89,26 @@ namespace YaqeenDAL.Model
         public virtual ICollection<Symptom>? Symptom { get; set; }
     }
 
+
+    [Index(nameof(UserId), IsUnique = false)]
+    [Index(nameof(EntityType), nameof(UserId), IsUnique = false)]
+    public class OneOffSchedule : Entity
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ScheduleId { get; set; }
+        public string UserId { get; set; }
+        public ScheduleEntityType EntityType { get; set; }
+        [Column(TypeName = "jsonb")]
+        public Dictionary<string, string> Entity { get; set; }
+        public DateTime StartDate { get; set; }
+
+        // Navigation Properties
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
+        public virtual ICollection<Symptom>? Symptom { get; set; }
+    }
+    
     // [Index(nameof(PatientUserId), IsUnique = false)]
     // public class Medication : Entity
     // {
