@@ -93,6 +93,7 @@ namespace YaqeenDAL.Model
         public DbSet<SymptomLookup> SymptomLookups { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<ScheduleInstance> ScheduleInstances { get; set; }
+        public DbSet<OneOffSchedule> OneOffSchedules { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
