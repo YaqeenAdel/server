@@ -13,7 +13,7 @@ using YaqeenDAL.Model;
 namespace YaqeenDAL.Migrations
 {
     [DbContext(typeof(YaqeenDbContext))]
-    [Migration("20240308141251_cron-expression-default")]
+    [Migration("20240308141401_cron-expression-default")]
     partial class cronexpressiondefault
     {
         /// <inheritdoc />
@@ -628,7 +628,7 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("text")
-                        .HasDefaultValue("0 0 */365 * *");
+                        .HasDefaultValue("0 0 */100000 * *");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");

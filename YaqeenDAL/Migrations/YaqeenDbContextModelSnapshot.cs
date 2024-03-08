@@ -625,7 +625,7 @@ namespace YaqeenDAL.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("text")
-                        .HasDefaultValue("0 0 */365 * *");
+                        .HasDefaultValue("0 0 */100000 * *");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");

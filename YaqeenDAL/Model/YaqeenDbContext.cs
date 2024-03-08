@@ -195,7 +195,7 @@ namespace YaqeenDAL.Model
                 .ToTable(t => t
                     .HasCheckConstraint("CronExpression",
                         @"""CronExpression"" ~* '^((\*|[0-5]?[0-9])(\/[0-5]?[0-9])?\s*){4}((\*|[0-5]?[0-9])|,)+$'")));
-            modelBuilder.Entity<Schedule>().Property(p => p.CronExpression).HasDefaultValue("0 0 */365 * *");
+            modelBuilder.Entity<Schedule>().Property(p => p.CronExpression).HasDefaultValue("0 0 */100000 * *");
         }
     }
 }
