@@ -38,6 +38,13 @@ array_relationships:
         table:
           name: InterestUser
           schema: public
+  - name: OneOffSchedules
+    using:
+      foreign_key_constraint_on:
+        column: UserId
+        table:
+          name: OneOffSchedules
+          schema: public
   - name: Questions
     using:
       foreign_key_constraint_on:

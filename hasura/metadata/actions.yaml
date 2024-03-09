@@ -104,6 +104,34 @@ actions:
     permissions:
       - role: user
     comment: getCronEvents
+  - name: getOneOffEvents
+    definition:
+      kind: ""
+      handler: https://yaqeen-neon.hasura.app/v1/metadata
+      headers:
+        - name: x-hasura-admin-secret
+          value: uX2ZGvqvwy67m4q
+      request_transform:
+        body:
+          action: transform
+          template: |-
+            {
+                "type": "get_scheduled_events",
+                "args": {
+                    "type": "one_off",
+                    "limit": 4,
+                    "offset": 0,
+                    "get_row_count": false,
+                    "status": ["scheduled"]
+                }
+            }
+        method: POST
+        query_params: {}
+        template_engine: Kriti
+        version: 2
+    permissions:
+      - role: user
+    comment: getOneOffEvents
   - name: getUploadUrl
     definition:
       kind: ""
