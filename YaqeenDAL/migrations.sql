@@ -1140,4 +1140,11 @@ VALUES ('20240308143207_track-oneofftable', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240309153330_hasura-metadata', '7.0.11');
+
+COMMIT;
+
 
