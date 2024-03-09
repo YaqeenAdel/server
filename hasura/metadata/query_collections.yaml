@@ -256,42 +256,6 @@
               Visibility
             }
           }
-      - name: Resources
-        query: |
-          query Resources ($lang: String = "en") @cached {
-            CancerStages {
-              StageId
-              LogoURL
-              Translations(where: {Language:{_eq:$lang}}) {
-                Translation
-              }
-            }
-            CancerTypes {
-              CancerId
-              LogoURL
-              Translations(where: {Language:{_eq:$lang}}) {
-                Translation
-              }
-            }
-            PatientInterests: Interests(where: {TargetUserType:{_eq:"patient"}}) {
-              InterestId
-              LogoURL
-              Translations(where: {Language:{_eq:$lang}}) {
-                Translation
-              }
-            }
-            DoctorInterests: Interests(where: {TargetUserType:{_eq:"doctor"}}) {
-              InterestId
-              LogoURL
-              Translations(where: {Language:{_eq:$lang}}) {
-                Translation
-              }
-            }
-            Photos {
-              PhotoURL
-              Usage
-            }
-          }
       - name: CancerTypes
         query: |
           query CancerTypes ($lang: String = "en") @cached {
@@ -507,23 +471,6 @@
               UpdatedAt
             }
           }
-      - name: delete_Symptoms_by_pk
-        query: |
-          mutation delete_Symptoms_by_pk ($SymptomId: Int!) {
-            delete_Symptoms_by_pk(SymptomId: $SymptomId) {
-              Active
-              CreatedDate
-              DeletedAt
-              Details
-              Notes
-              PatientUserId
-              PhotoLink
-              SymptomId
-              SymptomLookupId
-              Time
-              UpdatedAt
-            }
-          }
       - name: insert_Symptoms_one
         query: |
           mutation insert_Symptoms_one ($symptom: Symptoms_insert_input!) {
@@ -634,25 +581,6 @@
               }
             }
           }
-      - name: Symptoms
-        query: |
-          query Symptoms ($lang: String! = "en", $refresh: Boolean! = false) @cached(ttl: 600, refresh: $refresh) {
-            Symptoms(order_by: {Time:desc_nulls_first}) {
-              Details
-              SymptomLookupId
-              UpdatedAt
-              SymptomLookup {
-                Translations(where: {Language:{_eq:$lang}}) {
-                  Translation
-                  Language
-                }
-              }
-              PhotoLink
-              DownloadPhotoLink: Symptom_File {
-                url
-              }
-            }
-          }
       - name: Articles
         query: |
           query Articles ($categoryContentId: Int! = 1, $lang: String! = "en", $search: String = "%", $refresh: Boolean! = false) @cached(ttl: 600, refresh: $refresh) {
@@ -702,5 +630,146 @@
             getUploadUrl(filePath: $path) {
               signedUrl
               path
+            }
+          }
+      - name: Resources
+        query: |
+          query Resources ($lang: String = "en") @cached(ttl: 600) {
+            CancerStages {
+              StageId
+              LogoURL
+              Translations(where: {Language:{_eq:$lang}}) {
+                Translation
+              }
+            }
+            CancerTypes {
+              CancerId
+              LogoURL
+              Translations(where: {Language:{_eq:$lang}}) {
+                Translation
+              }
+            }
+            PatientInterests: Interests(where: {TargetUserType:{_eq:"patient"}}) {
+              InterestId
+              LogoURL
+              Translations(where: {Language:{_eq:$lang}}) {
+                Translation
+              }
+              StyleBackgroundColorHex
+              StyleForegroundColorHex
+            }
+            DoctorInterests: Interests(where: {TargetUserType:{_eq:"doctor"}}) {
+              InterestId
+              LogoURL
+              Translations(where: {Language:{_eq:$lang}}) {
+                Translation
+              }
+              StyleBackgroundColorHex
+              StyleForegroundColorHex
+            }
+            Photos {
+              PhotoURL
+              Usage
+            }
+          }
+      - name: Symptoms
+        query: |
+          query Symptoms ($lang: String! = "en", $refresh: Boolean! = false) @cached(ttl: 600, refresh: $refresh) {
+            Symptoms(order_by: {Time:desc_nulls_first}) {
+              Details
+              SymptomLookupId
+              UpdatedAt
+              SymptomLookup {
+                Translations(where: {Language:{_eq:$lang}}) {
+                  Translation
+                  Language
+                }
+              }
+              PhotoLink
+              DownloadPhotoLink: Symptom_File {
+                url
+              }
+              SymptomId
+              Notes
+              Time
+            }
+          }
+      - name: delete_Symptoms_by_pk
+        query: |
+          mutation delete_Symptoms_by_pk ($SymptomId: Int!) {
+            delete_Symptoms_by_pk(SymptomId: $SymptomId) {
+              SymptomId
+              SymptomLookupId
+            }
+          }
+      - name: OneOffSchedules_by_pk
+        query: |
+          query OneOffSchedules_by_pk ($ScheduleId: Int!) {
+            OneOffSchedules_by_pk(ScheduleId: $ScheduleId) {
+              Active
+              CreatedDate
+              DeletedAt
+              Entity
+              EntityType
+              ScheduleId
+              StartDate
+              UpdatedAt
+              UserId
+            }
+          }
+      - name: OneOffSchedules
+        query: |
+          query OneOffSchedules {
+            OneOffSchedules {
+              Active
+              CreatedDate
+              DeletedAt
+              Entity
+              EntityType
+              ScheduleId
+              StartDate
+              UpdatedAt
+              UserId
+            }
+          }
+      - name: update_OneOffSchedules_by_pk
+        query: |
+          mutation update_OneOffSchedules_by_pk ($ScheduleId: Int!, $object: OneOffSchedules_set_input!) {
+            update_OneOffSchedules_by_pk(pk_columns: {ScheduleId:$ScheduleId}, _set: $object) {
+              Active
+              CreatedDate
+              DeletedAt
+              Entity
+              EntityType
+              ScheduleId
+              StartDate
+              UpdatedAt
+              UserId
+            }
+          }
+      - name: delete_OneOffSchedules_by_pk
+        query: |
+          mutation delete_OneOffSchedules_by_pk ($ScheduleId: Int!) {
+            delete_OneOffSchedules_by_pk(ScheduleId: $ScheduleId) {
+              Active
+              CreatedDate
+              DeletedAt
+              Entity
+              EntityType
+              ScheduleId
+              StartDate
+              UpdatedAt
+              UserId
+            }
+          }
+      - name: insert_OneOffSchedules_one
+        query: |
+          mutation insert_OneOffSchedules_one ($object: OneOffSchedules_insert_input!) {
+            insert_OneOffSchedules_one(object: $object) {
+              CreatedDate
+              Entity
+              EntityType
+              ScheduleId
+              StartDate
             }
           }

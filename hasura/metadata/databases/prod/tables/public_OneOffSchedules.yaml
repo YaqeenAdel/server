@@ -1,0 +1,94 @@
+table:
+  name: OneOffSchedules
+  schema: public
+object_relationships:
+  - name: User
+    using:
+      foreign_key_constraint_on: UserId
+array_relationships:
+  - name: Symptoms
+    using:
+      foreign_key_constraint_on:
+        column: OneOffScheduleScheduleId
+        table:
+          name: Symptoms
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        UserId:
+          _eq: X-Hasura-User-Id
+      set:
+        Active: "true"
+        CreatedDate: now()
+        UserId: x-hasura-User-Id
+      columns:
+        - Entity
+        - EntityType
+        - StartDate
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - Entity
+        - EntityType
+        - ScheduleId
+        - StartDate
+      filter:
+        UserId:
+          _eq: X-Hasura-User-Id
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - Entity
+      filter:
+        UserId:
+          _eq: X-Hasura-User-Id
+      check:
+        UserId:
+          _eq: X-Hasura-User-Id
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        UserId:
+          _eq: X-Hasura-User-Id
+    comment: ""
+event_triggers:
+  - name: one_off_schedule_create
+    definition:
+      enable_manual: true
+      insert:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    webhook: https://yaqeen-neon.hasura.app/v1/metadata
+    headers:
+      - name: x-hasura-admin-secret
+        value: uX2ZGvqvwy67m4q
+    request_transform:
+      body:
+        action: transform
+        template: |-
+          {
+              "type" : "create_scheduled_event",
+              "args" : {
+                  "name": "{{$body.event.data.new.ScheduleId}}",
+                  "webhook": "https://httpbin.org/post",
+                  "schedule_at":  "{{$body.event.data.new.StartDate}}",
+                  "payload": {},
+                  "include_in_metadata": true,
+                  "comment":"{{$body.event.data.new.UserId}}"
+              }
+          }
+      method: POST
+      query_params: {}
+      template_engine: Kriti
+      version: 2

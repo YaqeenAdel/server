@@ -23,6 +23,12 @@ type Query {
 }
 
 type Query {
+  getOneOffEvents(
+    scheduleId: Int!
+  ): CronTriggerOutput
+}
+
+type Query {
   getUploadUrl(
     filePath: String!
   ): GetUploadUrlOutput

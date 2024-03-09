@@ -12,6 +12,7 @@
 - "!include public_InterestUser.yaml"
 - "!include public_Interests.yaml"
 - "!include public_IntersPatient.yaml"
+- "!include public_OneOffSchedules.yaml"
 - "!include public_Patients.yaml"
 - "!include public_Photos.yaml"
 - "!include public_Questions.yaml"

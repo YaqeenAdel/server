@@ -2,6 +2,9 @@ table:
   name: Symptoms
   schema: public
 object_relationships:
+  - name: OneOffSchedule
+    using:
+      foreign_key_constraint_on: OneOffScheduleScheduleId
   - name: Patient
     using:
       foreign_key_constraint_on: PatientUserId
@@ -15,6 +18,15 @@ array_relationships:
         column: SymptomId
         table:
           name: ScheduleSymptom
+          schema: public
+  - name: SymptomLookupsSymptoms
+    using:
+      manual_configuration:
+        column_mapping:
+          SymptomLookupIds: SymptomLookupId
+        insertion_order: null
+        remote_table:
+          name: SymptomLookups
           schema: public
 remote_relationships:
   - definition:
@@ -37,11 +49,13 @@ insert_permissions:
         Active: "true"
         CreatedDate: now()
         PatientUserId: x-hasura-User-Id
-        Time: now()
       columns:
         - Details
+        - Notes
         - PhotoLink
         - SymptomLookupId
+        - SymptomLookupIds
+        - Time
     comment: ""
 select_permissions:
   - role: user
@@ -49,10 +63,12 @@ select_permissions:
       columns:
         - CreatedDate
         - Details
+        - Notes
         - PatientUserId
         - PhotoLink
         - SymptomId
         - SymptomLookupId
+        - SymptomLookupIds
         - Time
         - UpdatedAt
       filter:
@@ -64,8 +80,10 @@ update_permissions:
     permission:
       columns:
         - Details
+        - Notes
         - PhotoLink
         - SymptomLookupId
+        - SymptomLookupIds
         - Time
       filter:
         PatientUserId:

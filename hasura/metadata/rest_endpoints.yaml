@@ -103,6 +103,51 @@
   definition:
     query:
       collection_name: allowed-queries
+      query_name: OneOffSchedules
+  methods:
+    - GET
+  name: OneOffSchedules
+  url: OneOffSchedules
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: insert_OneOffSchedules_one
+  methods:
+    - POST
+  name: insert_OneOffSchedules_one
+  url: OneOffSchedules
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: OneOffSchedules_by_pk
+  methods:
+    - GET
+  name: OneOffSchedules_by_pk
+  url: OneOffSchedules/:ScheduleId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: update_OneOffSchedules_by_pk
+  methods:
+    - POST
+  name: update_OneOffSchedules_by_pk
+  url: OneOffSchedules/:ScheduleId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: delete_OneOffSchedules_by_pk
+  methods:
+    - DELETE
+  name: delete_OneOffSchedules_by_pk
+  url: OneOffSchedules/:ScheduleId
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
       query_name: ScheduleSymptom
   methods:
     - GET
@@ -193,19 +238,19 @@
   definition:
     query:
       collection_name: allowed-queries
-      query_name: delete_Symptoms_by_pk
+      query_name: update_Symptoms_by_pk
   methods:
-    - DELETE
-  name: delete_Symptoms_by_pk
+    - POST
+  name: update_Symptoms_by_pk
   url: Symptoms/:SymptomId
 - comment: ""
   definition:
     query:
       collection_name: allowed-queries
-      query_name: update_Symptoms_by_pk
+      query_name: delete_Symptoms_by_pk
   methods:
-    - POST
-  name: update_Symptoms_by_pk
+    - DELETE
+  name: delete_Symptoms_by_pk
   url: Symptoms/:SymptomId
 - comment: ""
   definition:
