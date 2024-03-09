@@ -1147,4 +1147,13 @@ VALUES ('20240309153330_hasura-metadata', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+CREATE OR REPLACE VIEW public."SymptomSymptomLookups" AS SELECT "SymptomId", UNNEST("SymptomLookupIds") AS "SymptomLookupId" FROM public."Symptoms";
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240309162335_multiple-symptoms-view', '7.0.11');
+
+COMMIT;
+
 
