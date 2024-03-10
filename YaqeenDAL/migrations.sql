@@ -1156,4 +1156,15 @@ VALUES ('20240309162335_multiple-symptoms-view', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Schedules" ADD "PhotoLink" text NOT NULL DEFAULT '';
+
+ALTER TABLE "OneOffSchedules" ADD "PhotoLink" text NOT NULL DEFAULT '';
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240310001621_pics-in-schedules', '7.0.11');
+
+COMMIT;
+
 
