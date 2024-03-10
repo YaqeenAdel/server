@@ -82,6 +82,7 @@ namespace YaqeenDAL.Model
         [Column(TypeName = "jsonb")]
         public Dictionary<string, string> Entity { get; set; }
         public DateTime StartDate { get; set; }
+        public string PhotoLink { get; set; }
 
         // Navigation Properties
         [ForeignKey("UserId")]
@@ -103,12 +104,13 @@ namespace YaqeenDAL.Model
         public Dictionary<string, string> Entity { get; set; }
         public DateTime StartDate { get; set; }
 
+        public string PhotoLink { get; set; }
         // Navigation Properties
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
         public virtual ICollection<Symptom>? Symptom { get; set; }
     }
-    
+
     // [Index(nameof(PatientUserId), IsUnique = false)]
     // public class Medication : Entity
     // {
