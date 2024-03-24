@@ -1,0 +1,33 @@
+table:
+  name: SymptomSymptomLookups
+  schema: public
+object_relationships:
+  - name: SymptomLookupDetails
+    using:
+      manual_configuration:
+        column_mapping:
+          SymptomLookupId: SymptomLookupId
+        insertion_order: null
+        remote_table:
+          name: SymptomLookups
+          schema: public
+  - name: SymptomParent
+    using:
+      manual_configuration:
+        column_mapping:
+          SymptomId: SymptomId
+        insertion_order: null
+        remote_table:
+          name: Symptoms
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - SymptomId
+        - SymptomLookupId
+      filter:
+        SymptomParent:
+          PatientUserId:
+            _eq: X-Hasura-User-Id
+    comment: ""

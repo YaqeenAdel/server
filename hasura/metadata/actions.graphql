@@ -12,7 +12,7 @@ type Query {
 
 type Query {
   file_get_batch(
-    paths: [String!]!
+    paths: String!
   ): FileGetBatchOutput
 }
 
@@ -23,9 +23,7 @@ type Query {
 }
 
 type Query {
-  getOneOffEvents(
-    scheduleId: Int!
-  ): CronTriggerOutput
+  getOneOffEvents: OneOffScheduleOutput
 }
 
 type Query {
@@ -88,5 +86,14 @@ type TriggerEvent {
 type GetUploadUrlOutput {
   path: String!
   signedUrl: String!
+}
+
+type OneOffScheduleOutput {
+  events: [OneOffEvent!]!
+}
+
+type OneOffEvent {
+  scheduled_time: String!
+  payload: String!
 }
 

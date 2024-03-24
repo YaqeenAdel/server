@@ -13,6 +13,17 @@ array_relationships:
         table:
           name: Symptoms
           schema: public
+remote_relationships:
+  - definition:
+      to_remote_schema:
+        lhs_fields:
+          - PhotoLink
+        remote_field:
+          file_get_batch:
+            arguments:
+              paths: $PhotoLink
+        remote_schema: Self
+    name: DownloadPhotoLinks
 insert_permissions:
   - role: user
     permission:
@@ -34,6 +45,7 @@ select_permissions:
       columns:
         - Entity
         - EntityType
+        - PhotoLink
         - ScheduleId
         - StartDate
       filter:
@@ -45,6 +57,9 @@ update_permissions:
     permission:
       columns:
         - Entity
+        - EntityType
+        - PhotoLink
+        - StartDate
       filter:
         UserId:
           _eq: X-Hasura-User-Id
@@ -83,7 +98,7 @@ event_triggers:
                   "name": "{{$body.event.data.new.ScheduleId}}",
                   "webhook": "https://httpbin.org/post",
                   "schedule_at":  "{{$body.event.data.new.StartDate}}",
-                  "payload": {},
+                  "payload": "{{$body.event.data.new.ScheduleId}}",
                   "include_in_metadata": true,
                   "comment":"{{$body.event.data.new.UserId}}"
               }

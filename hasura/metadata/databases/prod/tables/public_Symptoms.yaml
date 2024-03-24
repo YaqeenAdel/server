@@ -19,14 +19,14 @@ array_relationships:
         table:
           name: ScheduleSymptom
           schema: public
-  - name: SymptomLookupsSymptoms
+  - name: SymptomSyptomLookup
     using:
       manual_configuration:
         column_mapping:
-          SymptomLookupIds: SymptomLookupId
+          SymptomId: SymptomId
         insertion_order: null
         remote_table:
-          name: SymptomLookups
+          name: SymptomSymptomLookups
           schema: public
 remote_relationships:
   - definition:
@@ -39,6 +39,16 @@ remote_relationships:
               path: $PhotoLink
         remote_schema: Self
     name: Symptom_File
+  - definition:
+      to_remote_schema:
+        lhs_fields:
+          - PhotoLink
+        remote_field:
+          file_get_batch:
+            arguments:
+              paths: $PhotoLink
+        remote_schema: Self
+    name: Symptom_File2
 insert_permissions:
   - role: user
     permission:
