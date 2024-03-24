@@ -12,7 +12,7 @@ namespace YaqeenDAL.Migrations
         {
             migrationBuilder.AlterColumn<int>(
                 name: "SymptomLookupId",
-                table: "Symptom",
+                table: "Symptoms",
                 type: "int",
                 nullable: true,
                 oldClrType: typeof(int),
@@ -24,7 +24,7 @@ namespace YaqeenDAL.Migrations
         {
             migrationBuilder.AlterColumn<int>(
                 name: "SymptomLookupId",
-                table: "Symptom",
+                table: "Symptoms",
                 type: "int",
                 nullable: false,
                 oldClrType: typeof(int),
