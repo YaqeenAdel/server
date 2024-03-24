@@ -1167,4 +1167,11 @@ VALUES ('20240310001621_pics-in-schedules', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240324180203_symptomlookupid-optional', '7.0.11');
+
+COMMIT;
+
 
