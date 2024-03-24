@@ -68,7 +68,7 @@ actions:
           action: transform
           template: |-
             {
-              "paths": {{$body.input.paths}}
+              "paths": [{{$body.input.paths}}]
             }
         template_engine: Kriti
         version: 2
@@ -177,4 +177,6 @@ custom_types:
     - name: CronTriggerOutput
     - name: TriggerEvent
     - name: GetUploadUrlOutput
+    - name: OneOffScheduleOutput
+    - name: OneOffEvent
   scalars: []

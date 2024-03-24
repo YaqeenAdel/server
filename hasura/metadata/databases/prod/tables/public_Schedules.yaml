@@ -24,6 +24,16 @@ remote_relationships:
   - definition:
       to_remote_schema:
         lhs_fields:
+          - PhotoLink
+        remote_field:
+          file_get_batch:
+            arguments:
+              paths: $PhotoLink
+        remote_schema: Self
+    name: DownloadPhotoLinks
+  - definition:
+      to_remote_schema:
+        lhs_fields:
           - ScheduleId
         remote_field:
           getCronEvents:
@@ -45,6 +55,7 @@ insert_permissions:
         - CronExpression
         - Entity
         - EntityType
+        - PhotoLink
         - StartDate
     comment: ""
 select_permissions:
@@ -54,6 +65,7 @@ select_permissions:
         - CronExpression
         - Entity
         - EntityType
+        - PhotoLink
         - ScheduleId
         - StartDate
       filter:
@@ -67,6 +79,7 @@ update_permissions:
         - CronExpression
         - Entity
         - EntityType
+        - PhotoLink
         - StartDate
       filter:
         UserId:

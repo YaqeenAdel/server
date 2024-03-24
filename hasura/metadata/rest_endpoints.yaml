@@ -184,19 +184,19 @@
   definition:
     query:
       collection_name: allowed-queries
-      query_name: delete_Schedules_by_pk
+      query_name: update_Schedules_by_pk
   methods:
-    - DELETE
-  name: delete_Schedules_by_pk
+    - POST
+  name: update_Schedules_by_pk
   url: Schedules/:ScheduleId
 - comment: ""
   definition:
     query:
       collection_name: allowed-queries
-      query_name: update_Schedules_by_pk
+      query_name: delete_Schedules_by_pk
   methods:
-    - POST
-  name: update_Schedules_by_pk
+    - DELETE
+  name: delete_Schedules_by_pk
   url: Schedules/:ScheduleId
 - comment: ""
   definition:
@@ -211,19 +211,19 @@
   definition:
     query:
       collection_name: allowed-queries
-      query_name: insert_Symptoms_one
+      query_name: Symptoms
   methods:
-    - POST
-  name: insert_Symptoms_one
+    - GET
+  name: Symptoms
   url: Symptoms
 - comment: ""
   definition:
     query:
       collection_name: allowed-queries
-      query_name: Symptoms
+      query_name: insert_Symptoms_one
   methods:
-    - GET
-  name: Symptoms
+    - POST
+  name: insert_Symptoms_one
   url: Symptoms
 - comment: ""
   definition:
@@ -238,19 +238,19 @@
   definition:
     query:
       collection_name: allowed-queries
-      query_name: update_Symptoms_by_pk
+      query_name: delete_Symptoms_by_pk
   methods:
-    - POST
-  name: update_Symptoms_by_pk
+    - DELETE
+  name: delete_Symptoms_by_pk
   url: Symptoms/:SymptomId
 - comment: ""
   definition:
     query:
       collection_name: allowed-queries
-      query_name: delete_Symptoms_by_pk
+      query_name: update_Symptoms_by_pk
   methods:
-    - DELETE
-  name: delete_Symptoms_by_pk
+    - POST
+  name: update_Symptoms_by_pk
   url: Symptoms/:SymptomId
 - comment: ""
   definition:

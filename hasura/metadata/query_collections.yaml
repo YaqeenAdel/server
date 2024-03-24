@@ -471,49 +471,12 @@
               UpdatedAt
             }
           }
-      - name: insert_Symptoms_one
-        query: |
-          mutation insert_Symptoms_one ($symptom: Symptoms_insert_input!) {
-            insert_Symptoms_one(object: $symptom) {
-              SymptomId
-              PhotoDownloadLink: Symptom_File {
-                url
-              }
-            }
-          }
       - name: countries
         query: |
           query Countries @cached(ttl: 600) {
             Universities(distinct_on: CountryCode, order_by: {CountryCode:asc}) {
               CountryName
               CountryCode
-            }
-          }
-      - name: update_Symptoms_by_pk
-        query: |
-          mutation update_Symptoms_by_pk ($SymptomId: Int!, $symptom: Symptoms_set_input!) {
-            update_Symptoms_by_pk(pk_columns: {SymptomId:$SymptomId}, _set: $symptom) {
-              Details
-              Notes
-              Time
-              PhotoDownloadLink: Symptom_File {
-                url
-              }
-            }
-          }
-      - name: delete_Schedules_by_pk
-        query: |
-          mutation delete_Schedules_by_pk ($ScheduleId: Int!) {
-            delete_Schedules_by_pk(ScheduleId: $ScheduleId) {
-              Active
-              CreatedDate
-              CronExpression
-              DeletedAt
-              Entity
-              EntityType
-              ScheduleId
-              UpdatedAt
-              UserId
             }
           }
       - name: insert_Schedules_one
@@ -550,14 +513,6 @@
         query: |
           query ScheduleSymptom {
             ScheduleSymptom {
-              SchedulesScheduleId
-              SymptomId
-            }
-          }
-      - name: insert_ScheduleSymptom_one
-        query: |
-          mutation insert_ScheduleSymptom_one ($object: ScheduleSymptom_insert_input!) {
-            insert_ScheduleSymptom_one(object: $object) {
               SchedulesScheduleId
               SymptomId
             }
@@ -632,9 +587,62 @@
               path
             }
           }
+      - name: delete_Symptoms_by_pk
+        query: |
+          mutation delete_Symptoms_by_pk ($SymptomId: Int!) {
+            delete_Symptoms_by_pk(SymptomId: $SymptomId) {
+              SymptomId
+              SymptomLookupId
+            }
+          }
+      - name: OneOffSchedules_by_pk
+        query: |
+          query OneOffSchedules_by_pk ($ScheduleId: Int!) {
+            OneOffSchedules_by_pk(ScheduleId: $ScheduleId) {
+              Active
+              CreatedDate
+              DeletedAt
+              Entity
+              EntityType
+              ScheduleId
+              StartDate
+              UpdatedAt
+              UserId
+            }
+          }
+      - name: update_OneOffSchedules_by_pk
+        query: |
+          mutation update_OneOffSchedules_by_pk ($ScheduleId: Int!, $object: OneOffSchedules_set_input!) {
+            update_OneOffSchedules_by_pk(pk_columns: {ScheduleId:$ScheduleId}, _set: $object) {
+              Active
+              CreatedDate
+              DeletedAt
+              Entity
+              EntityType
+              ScheduleId
+              StartDate
+              UpdatedAt
+              UserId
+            }
+          }
+      - name: delete_OneOffSchedules_by_pk
+        query: |
+          mutation delete_OneOffSchedules_by_pk ($ScheduleId: Int!) {
+            delete_OneOffSchedules_by_pk(ScheduleId: $ScheduleId) {
+              Active
+              CreatedDate
+              DeletedAt
+              Entity
+              EntityType
+              ScheduleId
+              StartDate
+              UpdatedAt
+              UserId
+            }
+          }
       - name: Resources
         query: |
-          query Resources ($lang: String = "en") @cached(ttl: 600) {
+          query Resources ($lang: String = "en", $refresh: Boolean! = true) @cached(ttl: 600, refresh: $refresh) {
             CancerStages {
               StageId
               LogoURL
@@ -689,77 +697,74 @@
               DownloadPhotoLink: Symptom_File {
                 url
               }
+              DownloadPhotoLinks: Symptom_File2 {
+                urls {
+                  signed_url
+                }
+              }
               SymptomId
               Notes
               Time
+              SymptomLookups: SymptomSyptomLookup {
+                Details: SymptomLookupDetails {
+                  Translations(where: {Language:{_eq:$lang}}) {
+                    Translation
+                    Language
+                  }
+                  SymptomLookupId
+                }
+              }
             }
           }
-      - name: delete_Symptoms_by_pk
+      - name: insert_Symptoms_one
         query: |
-          mutation delete_Symptoms_by_pk ($SymptomId: Int!) {
-            delete_Symptoms_by_pk(SymptomId: $SymptomId) {
+          mutation insert_Symptoms_one ($symptom: Symptoms_insert_input!) {
+            insert_Symptoms_one(object: $symptom) {
               SymptomId
-              SymptomLookupId
+              PhotoDownloadLink: Symptom_File {
+                url
+              }
+              PhotoDownloadLinks: Symptom_File2 {
+                urls {
+                  path
+                  signed_url
+                }
+              }
             }
           }
-      - name: OneOffSchedules_by_pk
+      - name: update_Symptoms_by_pk
         query: |
-          query OneOffSchedules_by_pk ($ScheduleId: Int!) {
-            OneOffSchedules_by_pk(ScheduleId: $ScheduleId) {
-              Active
-              CreatedDate
-              DeletedAt
-              Entity
-              EntityType
-              ScheduleId
-              StartDate
-              UpdatedAt
-              UserId
+          mutation update_Symptoms_by_pk ($SymptomId: Int!, $symptom: Symptoms_set_input!) {
+            update_Symptoms_by_pk(pk_columns: {SymptomId:$SymptomId}, _set: $symptom) {
+              Details
+              Notes
+              Time
+              PhotoDownloadLink: Symptom_File {
+                url
+              }
+              PhotoDownloadLinks: Symptom_File2 {
+                urls {
+                  path
+                  signed_url
+                }
+              }
             }
           }
       - name: OneOffSchedules
         query: |
           query OneOffSchedules {
             OneOffSchedules {
-              Active
-              CreatedDate
-              DeletedAt
               Entity
               EntityType
               ScheduleId
               StartDate
-              UpdatedAt
-              UserId
-            }
-          }
-      - name: update_OneOffSchedules_by_pk
-        query: |
-          mutation update_OneOffSchedules_by_pk ($ScheduleId: Int!, $object: OneOffSchedules_set_input!) {
-            update_OneOffSchedules_by_pk(pk_columns: {ScheduleId:$ScheduleId}, _set: $object) {
-              Active
-              CreatedDate
-              DeletedAt
-              Entity
-              EntityType
-              ScheduleId
-              StartDate
-              UpdatedAt
-              UserId
-            }
-          }
-      - name: delete_OneOffSchedules_by_pk
-        query: |
-          mutation delete_OneOffSchedules_by_pk ($ScheduleId: Int!) {
-            delete_OneOffSchedules_by_pk(ScheduleId: $ScheduleId) {
-              Active
-              CreatedDate
-              DeletedAt
-              Entity
-              EntityType
-              ScheduleId
-              StartDate
-              UpdatedAt
-              UserId
+              PhotoLink
+              DownloadPhotoLinks {
+                urls {
+                  path
+                  signed_url
+                }
+              }
             }
           }
       - name: insert_OneOffSchedules_one
@@ -771,5 +776,36 @@
               EntityType
               ScheduleId
               StartDate
+              PhotoLink
+              DownloadPhotoLinks {
+                urls {
+                  path
+                  signed_url
+                }
+              }
+            }
+          }
+      - name: delete_Schedules_by_pk
+        query: |
+          mutation delete_Schedules_by_pk ($ScheduleId: Int!) {
+            delete_Schedules_by_pk(ScheduleId: $ScheduleId) {
+              ScheduleId
+            }
+          }
+      - name: insert_ScheduleSymptom_one
+        query: |
+          mutation insert_Schedules_one ($object: Schedules_insert_input!) {
+            insert_Schedules_one(object: $object) {
+              CronExpression
+              Entity
+              EntityType
+              ScheduleId
+              PhotoLink
+              DownloadPhotoLinks {
+                urls {
+                  path
+                  signed_url
+                }
+              }
             }
           }
