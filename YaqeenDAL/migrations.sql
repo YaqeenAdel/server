@@ -1169,7 +1169,7 @@ COMMIT;
 
 START TRANSACTION;
 
-ALTER TABLE "Symptom" ALTER COLUMN "SymptomLookupId" DROP NOT NULL;
+ALTER TABLE "Symptoms" ALTER COLUMN "SymptomLookupId" DROP NOT NULL;
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20240324180203_symptomlookupid-optional', '7.0.11');
