@@ -794,18 +794,10 @@
           }
       - name: insert_ScheduleSymptom_one
         query: |
-          mutation insert_Schedules_one ($object: Schedules_insert_input!) {
-            insert_Schedules_one(object: $object) {
-              CronExpression
-              Entity
-              EntityType
-              ScheduleId
-              PhotoLink
-              DownloadPhotoLinks {
-                urls {
-                  path
-                  signed_url
-                }
-              }
+          mutation insert_ScheduleSymptom_one($object: ScheduleSymptom_insert_input!) {
+            insert_ScheduleSymptom_one(object: $object) {
+              SchedulesScheduleId
+              SymptomId
             }
           }
+
