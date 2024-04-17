@@ -68,6 +68,10 @@ export class FileGetSignedUrlBatch extends OpenAPIRoute {
 		});
 
 		for (const path of expanded_paths) {
+			if (path === "") {
+				continue;
+			}
+			
 			console.log(`Generating a signed url for ${path}`);
 			url.pathname = path;
 
