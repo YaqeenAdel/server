@@ -211,19 +211,19 @@
   definition:
     query:
       collection_name: allowed-queries
-      query_name: Symptoms
+      query_name: insert_Symptoms_one
   methods:
-    - GET
-  name: Symptoms
+    - POST
+  name: insert_Symptoms_one
   url: Symptoms
 - comment: ""
   definition:
     query:
       collection_name: allowed-queries
-      query_name: insert_Symptoms_one
+      query_name: Symptoms
   methods:
-    - POST
-  name: insert_Symptoms_one
+    - GET
+  name: Symptoms
   url: Symptoms
 - comment: ""
   definition:

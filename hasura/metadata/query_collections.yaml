@@ -489,16 +489,6 @@
               ScheduleId
             }
           }
-      - name: Schedules
-        query: |
-          query Schedules ($entityType: schedule_entity_type! = "medication") {
-            Schedules(where: {EntityType:{_eq:$entityType}}) {
-              CronExpression
-              Entity
-              EntityType
-              ScheduleId
-            }
-          }
       - name: update_Schedules_by_pk
         query: |
           mutation update_Schedules_by_pk ($ScheduleId: Int!, $schedule: Schedules_set_input!) {
@@ -680,42 +670,6 @@
               Usage
             }
           }
-      - name: Symptoms
-        query: |
-          query Symptoms ($lang: String! = "en", $refresh: Boolean! = false) @cached(ttl: 600, refresh: $refresh) {
-            Symptoms(order_by: {Time:desc_nulls_first}) {
-              Details
-              SymptomLookupId
-              UpdatedAt
-              SymptomLookup {
-                Translations(where: {Language:{_eq:$lang}}) {
-                  Translation
-                  Language
-                }
-              }
-              PhotoLink
-              DownloadPhotoLink: Symptom_File {
-                url
-              }
-              DownloadPhotoLinks: Symptom_File2 {
-                urls {
-                  signed_url
-                }
-              }
-              SymptomId
-              Notes
-              Time
-              SymptomLookups: SymptomSyptomLookup {
-                Details: SymptomLookupDetails {
-                  Translations(where: {Language:{_eq:$lang}}) {
-                    Translation
-                    Language
-                  }
-                  SymptomLookupId
-                }
-              }
-            }
-          }
       - name: insert_Symptoms_one
         query: |
           mutation insert_Symptoms_one ($symptom: Symptoms_insert_input!) {
@@ -794,10 +748,95 @@
           }
       - name: insert_ScheduleSymptom_one
         query: |
-          mutation insert_ScheduleSymptom_one($object: ScheduleSymptom_insert_input!) {
+          mutation insert_ScheduleSymptom_one ($object: ScheduleSymptom_insert_input!) {
             insert_ScheduleSymptom_one(object: $object) {
               SchedulesScheduleId
               SymptomId
             }
           }
-
+      - name: Schedules
+        query: |
+          query Schedules ($lang: String! = "en", $entityType: schedule_entity_type! = "medication") {
+            Schedules(where: {EntityType:{_eq:$entityType}}) {
+              CronExpression
+              Entity
+              EntityType
+              ScheduleId
+              StartDate
+              DownloadPhotoLinks {
+                urls {
+                  path
+                  signed_url
+                }
+              }
+              ScheduleSymptoms {
+                SymptomId
+                Symptom {
+                  Details
+                  SymptomLookupId
+                  UpdatedAt
+                  SymptomLookup {
+                    Translations(where: {Language:{_eq:$lang}}) {
+                      Translation
+                      Language
+                    }
+                  }
+                  PhotoLink
+                  DownloadPhotoLink: Symptom_File {
+                    url
+                  }
+                  DownloadPhotoLinks: Symptom_File2 {
+                    urls {
+                      signed_url
+                      path
+                    }
+                  }
+                  SymptomId
+                  Notes
+                  Time
+                  SymptomLookups: SymptomSyptomLookup {
+                    Details: SymptomLookupDetails {
+                      Translations(where: {Language:{_eq:$lang}}) {
+                        Translation
+                        Language
+                      }
+                      SymptomLookupId
+                    }
+                  }
+                }
+              }
+            }
+          }
+      - name: Symptoms
+        query: |
+          query Symptoms ($lang: String! = "en", $refresh: Boolean! = false) @cached(ttl: 600, refresh: $refresh) {
+            Symptoms(order_by: {Time:desc_nulls_first}) {
+              Details
+              SymptomLookupId
+              UpdatedAt
+              SymptomLookup {
+                Translations(where: {Language:{_eq:$lang}}) {
+                  Translation
+                  Language
+                }
+              }
+              PhotoLink
+              DownloadPhotoLinks: Symptom_File2 {
+                urls {
+                  signed_url
+                }
+              }
+              SymptomId
+              Notes
+              Time
+              SymptomLookups: SymptomSyptomLookup {
+                Details: SymptomLookupDetails {
+                  Translations(where: {Language:{_eq:$lang}}) {
+                    Translation
+                    Language
+                  }
+                  SymptomLookupId
+                }
+              }
+            }
+          }

@@ -1,1 +1,18 @@
-{}
+status: enabled
+data_types:
+  - traces
+  - metrics
+  - logs
+exporter_otlp:
+  headers:
+    - name: uptrace-dsn
+      value: https://41mcZ6v23IzBFnLrkVhSWA@api.uptrace.dev?grpc=4317
+  otlp_logs_endpoint: https://otlp.uptrace.dev/v1/logs
+  otlp_metrics_endpoint: https://otlp.uptrace.dev/v1/metrics
+  otlp_traces_endpoint: https://otlp.uptrace.dev/v1/traces
+  protocol: http/protobuf
+  resource_attributes: []
+  traces_propagators:
+    - tracecontext
+batch_span_processor:
+  max_export_batch_size: 512

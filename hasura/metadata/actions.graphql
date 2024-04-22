@@ -32,6 +32,12 @@ type Query {
   ): GetUploadUrlOutput
 }
 
+type Query {
+  postGetNextScheduledEvents(
+    apiFutureSchedulesInput: ApiFutureSchedulesInput
+  ): ApiFutureSchedules2
+}
+
 input UpdateDoctorInput {
   degree: String!
   medicalField: String!
@@ -56,6 +62,17 @@ input UpdateUserInput {
 input CronTriggerInput {
   name: String!
   cron: String!
+}
+
+input ApiFutureSchedulesInput {
+  nextCount: Float!
+  schedules: [SchedulesListItemInput]
+}
+
+input SchedulesListItemInput {
+  cronExpression: String!
+  scheduleId: Float!
+  startTime: String
 }
 
 type FileGetOutput {
@@ -96,4 +113,10 @@ type OneOffEvent {
   scheduled_time: String!
   payload: String!
 }
+
+type ApiFutureSchedules2 {
+  result: [JSON]!
+}
+
+scalar JSON
 
