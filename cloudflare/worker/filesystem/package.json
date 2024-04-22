@@ -9,13 +9,19 @@
   },
   "dependencies": {
     "@cloudflare/itty-router-openapi": "^1.0.1",
+    "@datasert/cronjs-matcher": "^1.4.0",
     "aws4fetch": "^1.0.17",
     "buffer": "^6.0.3"
   },
   "devDependencies": {
+    "@breejs/later": "github:breejs/later",
     "@cloudflare/workers-types": "^4.20230821.0",
+    "@datasert/cronjs-parser": "^1.4.0",
     "@types/node": "^20.5.7",
     "@types/service-worker-mock": "^2.0.1",
     "wrangler": "^3.0.0"
-  }
+  },
+  "bundleDependencies": [
+    "@datasert/cronjs-matcher"
+  ]
 }
