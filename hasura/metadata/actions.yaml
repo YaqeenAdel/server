@@ -162,6 +162,33 @@ actions:
         version: 2
     permissions:
       - role: user
+  - name: postGetNextScheduledEvents
+    definition:
+      kind: ""
+      handler: https://filesystem.haytham-d6b.workers.dev
+      forward_client_headers: true
+      headers:
+        - name: X-Custom-Auth-Key
+          value_from_env: R2_AUTH_KEY
+      request_transform:
+        body:
+          action: transform
+          template: |-
+            {
+              "schedules": {{if inverse(empty($body.input.apiFutureSchedulesInput?['schedules']))}} {{ range _, schedules := $body.input.apiFutureSchedulesInput?['schedules']}} {
+                "schedule_id": {{schedules?['scheduleId']}},
+                "cron_expression": {{schedules?['cronExpression']}},
+                "start_time": {{schedules?['startTime']}}
+                } {{end}} {{else}} null {{end}},
+              "next_count": {{if not empty($body.input.apiFutureSchedulesInput?['nextCount'])}} $body.input.apiFutureSchedulesInput?['nextCount'] {{else}} 15 {{end}}
+            }
+        method: POST
+        query_params: {}
+        template_engine: Kriti
+        url: '{{$base_url}}/api/future_schedules'
+        version: 2
+    permissions:
+      - role: user
 custom_types:
   enums: []
   input_objects:
@@ -169,6 +196,8 @@ custom_types:
     - name: UpdatePatientInput
     - name: UpdateUserInput
     - name: CronTriggerInput
+    - name: ApiFutureSchedulesInput
+    - name: SchedulesListItemInput
   objects:
     - name: FileGetOutput
     - name: SignedUrl
@@ -179,4 +208,6 @@ custom_types:
     - name: GetUploadUrlOutput
     - name: OneOffScheduleOutput
     - name: OneOffEvent
-  scalars: []
+    - name: ApiFutureSchedules2
+  scalars:
+    - name: JSON
