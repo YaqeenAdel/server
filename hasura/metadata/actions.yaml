@@ -175,11 +175,11 @@ actions:
           action: transform
           template: |-
             {
-              "schedules": {{if inverse(empty($body.input.apiFutureSchedulesInput?['schedules']))}} {{ range _, schedules := $body.input.apiFutureSchedulesInput?['schedules']}} {
-                "schedule_id": {{schedules?['scheduleId']}},
-                "cron_expression": {{schedules?['cronExpression']}},
-                "start_time": {{schedules?['startTime']}}
-                } {{end}} {{else}} null {{end}},
+              "schedules": [ {
+                "schedule_id": {{$body.input.apiFutureSchedulesInput?['scheduleId']}},
+                "cron_expression": {{$body.input.apiFutureSchedulesInput?['cronExpression']}},
+                "start_time": {{$body.input.apiFutureSchedulesInput?['startTime']}}
+              }],
               "next_count": {{if not empty($body.input.apiFutureSchedulesInput?['nextCount'])}} $body.input.apiFutureSchedulesInput?['nextCount'] {{else}} 15 {{end}}
             }
         method: POST
@@ -209,5 +209,6 @@ custom_types:
     - name: OneOffScheduleOutput
     - name: OneOffEvent
     - name: ApiFutureSchedules2
+    - name: ApiFutureSchedulesOutput
   scalars:
     - name: JSON

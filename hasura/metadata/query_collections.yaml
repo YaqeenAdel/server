@@ -840,3 +840,16 @@
               }
             }
           }
+      - name: future_schedules_2
+        query: |
+          query schedules ($refresh: Boolean = false) @cached(ttl: 600, refresh: $refresh) {
+            Schedules {
+              ScheduleId
+              Entity
+              EntityType
+              ScheduledEvents: FutureScheduledEvents(apiFutureSchedulesInput: {nextCount:5}) {
+                events
+              }
+              CronExpression
+            }
+          }

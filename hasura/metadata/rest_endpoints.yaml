@@ -337,6 +337,15 @@
   definition:
     query:
       collection_name: allowed-queries
+      query_name: future_schedules_2
+  methods:
+    - GET
+  name: future_schedules_2
+  url: future_schedules2
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
       query_name: InsertUser
   methods:
     - POST

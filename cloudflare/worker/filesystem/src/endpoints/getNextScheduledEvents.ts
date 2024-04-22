@@ -26,7 +26,7 @@ export class Schedule {
 
 export class Output {
 	schedule_id: number;
-	time: Date;
+	scheduled_time: Date;
 }
   
 export class GetNextScheduledEvents extends OpenAPIRoute {
@@ -45,7 +45,7 @@ export class GetNextScheduledEvents extends OpenAPIRoute {
 			"200": {
 				description: "Returns a list of next schedules",
 				schema: {
-					result: [JSON],
+					events: [JSON],
 				},
 			},
 		},
@@ -75,26 +75,33 @@ export class GetNextScheduledEvents extends OpenAPIRoute {
 			}
 
 			console.log("generating events for schedule: ", JSON.stringify(schedule));
-			const nextEvents = cronjsMatcher.getFutureMatches(schedule.cron_expression, 
-				{
-					startAt: schedule.start_time,
-					count: next_count
-				});
+			try {
+				let options: any = { count: next_count };
 
-			// Add the generated events to the allEvents array
-			for (let event of nextEvents) {
-				allEvents.push({
-					schedule_id: schedule.schedule_id, 
-					time: new Date(event)
-				});
+				// Check if start_time is a valid date
+				if (!isNaN(Date.parse(schedule.start_time))) {
+					options.startAt = new Date(schedule.start_time);
+				}
+		
+				const nextEvents = cronjsMatcher.getFutureMatches(schedule.cron_expression, options);
+		
+				// Add the generated events to the allEvents array
+				for (let event of nextEvents) {
+					allEvents.push({
+						schedule_id: schedule.schedule_id, 
+						scheduled_time: new Date(event)
+					});
+				}
+			} catch (e) {
+				console.log("Error generating events: ", e);
 			}
 		}
 
 		console.log("Generated events: ", allEvents)
-		allEvents.sort((a, b) => a.time.getTime() - b.time.getTime());
+		allEvents.sort((a, b) => a.scheduled_time.getTime() - b.scheduled_time.getTime());
 
 		return {
-			result: allEvents
+			events: allEvents
 		};
 	}
 }
