@@ -56,7 +56,9 @@ input CronTriggerInput {
 
 input ApiFutureSchedulesInput {
   nextCount: Float
-  schedules: [SchedulesListItemInput]
+  cronExpression: String
+  scheduleId: Float
+  startTime: String
 }
 
 input SchedulesListItemInput {
@@ -105,6 +107,10 @@ type OneOffEvent {
 }
 
 type ApiFutureSchedules2 {
+  events: [JSON]!
+}
+
+type ApiFutureSchedulesOutput {
   result: [JSON]!
 }
 

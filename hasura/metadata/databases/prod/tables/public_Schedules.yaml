@@ -35,6 +35,21 @@ remote_relationships:
       to_remote_schema:
         lhs_fields:
           - ScheduleId
+          - StartDate
+          - CronExpression
+        remote_field:
+          postGetNextScheduledEvents:
+            arguments:
+              apiFutureSchedulesInput:
+                cronExpression: $CronExpression
+                scheduleId: $ScheduleId
+                startTime: $StartDate
+        remote_schema: Self
+    name: FutureScheduledEvents
+  - definition:
+      to_remote_schema:
+        lhs_fields:
+          - ScheduleId
         remote_field:
           getCronEvents:
             arguments:
