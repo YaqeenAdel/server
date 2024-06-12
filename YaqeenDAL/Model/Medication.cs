@@ -172,7 +172,7 @@ namespace YaqeenDAL.Model
 
         // Navigation Properties
         [ForeignKey("PatientUserId")]
-        public virtual Patient Patient { get; set; }
+        public virtual User Patient { get; set; }
         [ForeignKey("SymptomLookupId")]
         public virtual SymptomLookup SymptomLookup { get; set; }
         public virtual ICollection<Schedule>? Schedules { get; set; }
