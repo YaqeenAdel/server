@@ -801,10 +801,12 @@ COMMIT;
 
 START TRANSACTION;
 
+ALTER TABLE "Interests" ADD "Test" text NOT NULL DEFAULT '';
+
 ALTER TABLE "Bookmarks" ADD CONSTRAINT "AK_Bookmarks_UserId_ContentId" UNIQUE ("UserId", "ContentId");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20240106173825_bookmark-constraint', '7.0.11');
+VALUES ('20240112144008_test', '7.0.11');
 
 COMMIT;
 
