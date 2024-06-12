@@ -1176,4 +1176,15 @@ VALUES ('20240324180203_symptomlookupid-optional', '7.0.11');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE "Symptoms" DROP CONSTRAINT "FK_Symptoms_Patients_PatientUserId";
+
+ALTER TABLE "Symptoms" ADD CONSTRAINT "FK_Symptoms_Users_PatientUserId" FOREIGN KEY ("PatientUserId") REFERENCES "Users" ("UserId") ON DELETE CASCADE;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20240612121503_symptoms-users-relationship', '7.0.11');
+
+COMMIT;
+
 
