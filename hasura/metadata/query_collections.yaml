@@ -555,20 +555,6 @@
               }
             }
           }
-      - name: future_schedules
-        query: |
-          query schedules {
-            Schedules {
-              ScheduledEvents {
-                events {
-                  scheduled_time
-                }
-              }
-              ScheduleId
-              Entity
-              EntityType
-            }
-          }
       - name: UploadUrl
         query: |
           query UploadUrl ($path: String!) {
@@ -670,40 +656,6 @@
               Usage
             }
           }
-      - name: insert_Symptoms_one
-        query: |
-          mutation insert_Symptoms_one ($symptom: Symptoms_insert_input!) {
-            insert_Symptoms_one(object: $symptom) {
-              SymptomId
-              PhotoDownloadLink: Symptom_File {
-                url
-              }
-              PhotoDownloadLinks: Symptom_File2 {
-                urls {
-                  path
-                  signed_url
-                }
-              }
-            }
-          }
-      - name: update_Symptoms_by_pk
-        query: |
-          mutation update_Symptoms_by_pk ($SymptomId: Int!, $symptom: Symptoms_set_input!) {
-            update_Symptoms_by_pk(pk_columns: {SymptomId:$SymptomId}, _set: $symptom) {
-              Details
-              Notes
-              Time
-              PhotoDownloadLink: Symptom_File {
-                url
-              }
-              PhotoDownloadLinks: Symptom_File2 {
-                urls {
-                  path
-                  signed_url
-                }
-              }
-            }
-          }
       - name: OneOffSchedules
         query: |
           query OneOffSchedules {
@@ -754,59 +706,6 @@
               SymptomId
             }
           }
-      - name: Schedules
-        query: |
-          query Schedules ($lang: String! = "en", $entityType: schedule_entity_type! = "medication") {
-            Schedules(where: {EntityType:{_eq:$entityType}}) {
-              CronExpression
-              Entity
-              EntityType
-              ScheduleId
-              StartDate
-              DownloadPhotoLinks {
-                urls {
-                  path
-                  signed_url
-                }
-              }
-              ScheduleSymptoms {
-                SymptomId
-                Symptom {
-                  Details
-                  SymptomLookupId
-                  UpdatedAt
-                  SymptomLookup {
-                    Translations(where: {Language:{_eq:$lang}}) {
-                      Translation
-                      Language
-                    }
-                  }
-                  PhotoLink
-                  DownloadPhotoLink: Symptom_File {
-                    url
-                  }
-                  DownloadPhotoLinks: Symptom_File2 {
-                    urls {
-                      signed_url
-                      path
-                    }
-                  }
-                  SymptomId
-                  Notes
-                  Time
-                  SymptomLookups: SymptomSyptomLookup {
-                    Details: SymptomLookupDetails {
-                      Translations(where: {Language:{_eq:$lang}}) {
-                        Translation
-                        Language
-                      }
-                      SymptomLookupId
-                    }
-                  }
-                }
-              }
-            }
-          }
       - name: Symptoms
         query: |
           query Symptoms ($lang: String! = "en", $refresh: Boolean! = false) @cached(ttl: 600, refresh: $refresh) {
@@ -840,7 +739,7 @@
               }
             }
           }
-      - name: future_schedules_2
+      - name: future_schedules
         query: |
           query schedules ($refresh: Boolean = false) @cached(ttl: 600, refresh: $refresh) {
             Schedules {
@@ -851,5 +750,83 @@
                 events
               }
               CronExpression
+            }
+          }
+      - name: Schedules
+        query: |
+          query Schedules ($lang: String! = "en", $entityType: schedule_entity_type! = "medication") {
+            Schedules(where: {EntityType:{_eq:$entityType}}) {
+              CronExpression
+              Entity
+              EntityType
+              ScheduleId
+              StartDate
+              DownloadPhotoLinks {
+                urls {
+                  path
+                  signed_url
+                }
+              }
+              ScheduleSymptoms {
+                SymptomId
+                Symptom {
+                  Details
+                  SymptomLookupId
+                  UpdatedAt
+                  SymptomLookup {
+                    Translations(where: {Language:{_eq:$lang}}) {
+                      Translation
+                      Language
+                    }
+                  }
+                  PhotoLink
+                  DownloadPhotoLinks: Symptom_File2 {
+                    urls {
+                      signed_url
+                      path
+                    }
+                  }
+                  SymptomId
+                  Notes
+                  Time
+                  SymptomLookups: SymptomSyptomLookup {
+                    Details: SymptomLookupDetails {
+                      Translations(where: {Language:{_eq:$lang}}) {
+                        Translation
+                        Language
+                      }
+                      SymptomLookupId
+                    }
+                  }
+                }
+              }
+            }
+          }
+      - name: insert_Symptoms_one
+        query: |
+          mutation insert_Symptoms_one ($symptom: Symptoms_insert_input!) {
+            insert_Symptoms_one(object: $symptom) {
+              SymptomId
+              PhotoDownloadLinks: Symptom_File2 {
+                urls {
+                  path
+                  signed_url
+                }
+              }
+            }
+          }
+      - name: update_Symptoms_by_pk
+        query: |
+          mutation update_Symptoms_by_pk ($SymptomId: Int!, $symptom: Symptoms_set_input!) {
+            update_Symptoms_by_pk(pk_columns: {SymptomId:$SymptomId}, _set: $symptom) {
+              Details
+              Notes
+              Time
+              PhotoDownloadLinks: Symptom_File2 {
+                urls {
+                  path
+                  signed_url
+                }
+              }
             }
           }

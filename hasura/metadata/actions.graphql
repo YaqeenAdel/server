@@ -1,17 +1,25 @@
 type Mutation {
-  UpdateUserAsUser(user: UpdateUserInput!): UpdateUserOutput
+  UpdateUserAsUser(
+    user: UpdateUserInput!
+  ): UpdateUserOutput
 }
 
 type Query {
-  file_get(path: String!): FileGetOutput
+  file_get(
+    path: String!
+  ): FileGetOutput
 }
 
 type Query {
-  file_get_batch(paths: String!): FileGetBatchOutput
+  file_get_batch(
+    paths: String!
+  ): FileGetBatchOutput
 }
 
 type Query {
-  getCronEvents(scheduleId: Int!): CronTriggerOutput
+  getCronEvents(
+    scheduleId: Int!
+  ): CronTriggerOutput
 }
 
 type Query {
@@ -19,7 +27,9 @@ type Query {
 }
 
 type Query {
-  getUploadUrl(filePath: String!): GetUploadUrlOutput
+  getUploadUrl(
+    filePath: String!
+  ): GetUploadUrlOutput
 }
 
 type Query {
@@ -115,3 +125,4 @@ type ApiFutureSchedulesOutput {
 }
 
 scalar JSON
+
